@@ -1,0 +1,115 @@
+entity PlantillaFeina {
+	numero Integer,
+    dia Dia,
+    horaInici Instant,
+    horaFinal Instant,
+    periodicitat Periodicitat,
+    tempsPrevist Duration,
+    facturacioAutomatica Boolean,
+    observacions String,
+    setmanaInicial LocalDate,
+    setmanaFinal LocalDate,
+    numeroControl Integer
+}
+
+entity Categoria{
+	nomCategoria String
+}
+
+enum Dia {
+	DILLUNS, DIMARTS, DIMECRES, DIJOUS, DIVENDRES, DISSABTE, DIUMENGE
+}
+
+entity RepeticioTascaSetmanal{
+	dia Dia,
+    activo Boolean
+}
+
+enum Periodicitat {
+ DIA, SETMANA, QUINZENAL, MES, ANY 
+}
+
+entity Ubicacio {
+	longitud Double,
+    latitud Double,
+    ubicacio String
+}
+
+entity Client{
+	numero Integer,
+    nom String,
+    direccio String,
+    localitat String,
+    telefon String,
+    email String,
+    nif String,
+    codiUbicacio String,
+    observacions String
+}
+
+entity Feina {
+	numero Integer,
+    nom String,
+    descripcio String,
+    setmana LocalDate,
+    tempsPrevist Duration,
+    tempsReal Duration,
+    estat Boolean,
+    intervalControl Integer,
+    facturacioAutomatica Boolean,
+    observacions String,
+    comentarisTreballador String
+}
+
+entity Control {
+	numero Integer,
+    setmana LocalDate,
+    causa String,
+    dataRevisio ZonedDateTime,
+    comentaris String
+}
+
+entity Marcatge {
+	numero Integer,
+    horaEntrada Instant,
+    horaSortida Instant,
+    desviacio Boolean
+}
+
+entity Treballador {
+	numero Integer,
+    nom String,
+    carregaHores Duration,
+    actiu Boolean,
+    controlQualitat Boolean
+}
+
+entity Venedor {
+	numero Integer,
+    nom String,
+    telefon String,
+    email String,
+    observacions String
+}
+
+relationship ManyToOne {
+	RepeticioTareaSetmanal{feina(numero)} to Feina{repeticio},
+    Client{venedor(numero)} to Venedor{client},
+    Feina{plantillaFeina(numero)} to PlantillaFeina{feina},
+    Feina{categoria(nom)} to Categoria{feina},
+    Marcatge{feina(nom)} to Feina{marcatge},
+    Marcatge{treballador(nom)} to Treballador{marcatge},
+    Feina{client(nom)} to Client{feina},
+    Control{revisor(nom)} to Treballador{revisionsFetes},
+    Control{feina(nom)} to Feina{revisionsRebudes}
+}
+
+relationship OneToOne {
+    Client{ubicacio(ubicacio)} to Ubicacio{client},
+    Venedor{ubicacio(ubicacio)} to Ubicacio{venedor},
+    Treballador{user(login)} to User
+}
+
+relationship ManyToMany {
+	Feina{treballador(nom)} to Treballador{feina}
+}
