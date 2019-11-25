@@ -28,7 +28,6 @@ describe('Service Tests', () => {
 
       elemDefault = new PlantillaFeina(
         0,
-        0,
         Dia.DILLUNS,
         currentDate,
         currentDate,
@@ -95,7 +94,6 @@ describe('Service Tests', () => {
       it('should update a PlantillaFeina', () => {
         const returnedFromService = Object.assign(
           {
-            numero: 1,
             dia: 'BBBBBB',
             horaInici: currentDate.format(DATE_TIME_FORMAT),
             horaFinal: currentDate.format(DATE_TIME_FORMAT),
@@ -131,7 +129,6 @@ describe('Service Tests', () => {
       it('should return a list of PlantillaFeina', () => {
         const returnedFromService = Object.assign(
           {
-            numero: 1,
             dia: 'BBBBBB',
             horaInici: currentDate.format(DATE_TIME_FORMAT),
             horaFinal: currentDate.format(DATE_TIME_FORMAT),

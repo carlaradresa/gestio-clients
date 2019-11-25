@@ -5,20 +5,12 @@ import { GestioClientsSharedModule } from 'app/shared/shared.module';
 import { MarcatgeComponent } from './marcatge.component';
 import { MarcatgeDetailComponent } from './marcatge-detail.component';
 import { MarcatgeUpdateComponent } from './marcatge-update.component';
-import { MarcatgeDeletePopupComponent, MarcatgeDeleteDialogComponent } from './marcatge-delete-dialog.component';
-import { marcatgeRoute, marcatgePopupRoute } from './marcatge.route';
-
-const ENTITY_STATES = [...marcatgeRoute, ...marcatgePopupRoute];
+import { MarcatgeDeleteDialogComponent } from './marcatge-delete-dialog.component';
+import { marcatgeRoute } from './marcatge.route';
 
 @NgModule({
-  imports: [GestioClientsSharedModule, RouterModule.forChild(ENTITY_STATES)],
-  declarations: [
-    MarcatgeComponent,
-    MarcatgeDetailComponent,
-    MarcatgeUpdateComponent,
-    MarcatgeDeleteDialogComponent,
-    MarcatgeDeletePopupComponent
-  ],
+  imports: [GestioClientsSharedModule, RouterModule.forChild(marcatgeRoute)],
+  declarations: [MarcatgeComponent, MarcatgeDetailComponent, MarcatgeUpdateComponent, MarcatgeDeleteDialogComponent],
   entryComponents: [MarcatgeDeleteDialogComponent]
 })
 export class GestioClientsMarcatgeModule {}

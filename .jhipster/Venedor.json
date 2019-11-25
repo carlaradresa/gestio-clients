@@ -2,10 +2,6 @@
     "name": "Venedor",
     "fields": [
         {
-            "fieldName": "numero",
-            "fieldType": "Integer"
-        },
-        {
             "fieldName": "nom",
             "fieldType": "String"
         },
@@ -30,12 +26,6 @@
             "relationshipName": "ubicacio",
             "otherEntityField": "ubicacio",
             "ownerSide": true
-        },
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "client",
-            "otherEntityRelationshipName": "venedor",
-            "relationshipName": "client"
         }
     ],
     "changelogDate": "20191029182934",

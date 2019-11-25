@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { filter, map } from 'rxjs/operators';
 import { JhiEventManager } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ITreballador } from 'app/shared/model/treballador.model';
-import { AccountService } from 'app/core/auth/account.service';
 import { TreballadorService } from './treballador.service';
+import { TreballadorDeleteDialogComponent } from './treballador-delete-dialog.component';
 
 @Component({
   selector: 'jhi-treballador',
@@ -15,32 +14,22 @@ import { TreballadorService } from './treballador.service';
 })
 export class TreballadorComponent implements OnInit, OnDestroy {
   treballadors: ITreballador[];
-  currentAccount: any;
   eventSubscriber: Subscription;
 
   constructor(
     protected treballadorService: TreballadorService,
     protected eventManager: JhiEventManager,
-    protected accountService: AccountService
+    protected modalService: NgbModal
   ) {}
 
   loadAll() {
-    this.treballadorService
-      .query()
-      .pipe(
-        filter((res: HttpResponse<ITreballador[]>) => res.ok),
-        map((res: HttpResponse<ITreballador[]>) => res.body)
-      )
-      .subscribe((res: ITreballador[]) => {
-        this.treballadors = res;
-      });
+    this.treballadorService.query().subscribe((res: HttpResponse<ITreballador[]>) => {
+      this.treballadors = res.body;
+    });
   }
 
   ngOnInit() {
     this.loadAll();
-    this.accountService.identity().subscribe(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInTreballadors();
   }
 
@@ -53,6 +42,11 @@ export class TreballadorComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInTreballadors() {
-    this.eventSubscriber = this.eventManager.subscribe('treballadorListModification', response => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('treballadorListModification', () => this.loadAll());
+  }
+
+  delete(treballador: ITreballador) {
+    const modalRef = this.modalService.open(TreballadorDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.treballador = treballador;
   }
 }

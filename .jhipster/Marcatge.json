@@ -2,10 +2,6 @@
     "name": "Marcatge",
     "fields": [
         {
-            "fieldName": "numero",
-            "fieldType": "Integer"
-        },
-        {
             "fieldName": "horaEntrada",
             "fieldType": "Instant"
         },

@@ -19,7 +19,6 @@
             <thead>
             <tr>
             <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-            <th scope="col" ><span jhiTranslate="gestioClientsApp.treballador.numero">Numero</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.treballador.nom">Nom</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.treballador.carregaHores">Carrega Hores</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.treballador.actiu">Actiu</span></th>
@@ -31,7 +30,6 @@
             <tbody>
             <tr *ngFor="let treballador of treballadors ;trackBy: trackId">
                 <td><a [routerLink]="['/treballador', treballador.id, 'view' ]">{{treballador.id}}</a></td>
-                <td>{{treballador.numero}}</td>
                 <td>{{treballador.nom}}</td>
                 <td>{{treballador.carregaHores}}</td>
                 <td>{{treballador.actiu}}</td>
@@ -53,10 +51,7 @@
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit"
-                                [routerLink]="['/treballador', { outlets: { popup: treballador.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
+                        <button type="submit" (click)="delete(treballador)"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>

@@ -35,9 +35,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = GestioClientsApp.class)
 public class MarcatgeResourceIT {
 
-    private static final Integer DEFAULT_NUMERO = 1;
-    private static final Integer UPDATED_NUMERO = 2;
-
     private static final Instant DEFAULT_HORA_ENTRADA = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_HORA_ENTRADA = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
@@ -89,7 +86,6 @@ public class MarcatgeResourceIT {
      */
     public static Marcatge createEntity(EntityManager em) {
         Marcatge marcatge = new Marcatge()
-            .numero(DEFAULT_NUMERO)
             .horaEntrada(DEFAULT_HORA_ENTRADA)
             .horaSortida(DEFAULT_HORA_SORTIDA)
             .desviacio(DEFAULT_DESVIACIO);
@@ -103,7 +99,6 @@ public class MarcatgeResourceIT {
      */
     public static Marcatge createUpdatedEntity(EntityManager em) {
         Marcatge marcatge = new Marcatge()
-            .numero(UPDATED_NUMERO)
             .horaEntrada(UPDATED_HORA_ENTRADA)
             .horaSortida(UPDATED_HORA_SORTIDA)
             .desviacio(UPDATED_DESVIACIO);
@@ -130,7 +125,6 @@ public class MarcatgeResourceIT {
         List<Marcatge> marcatgeList = marcatgeRepository.findAll();
         assertThat(marcatgeList).hasSize(databaseSizeBeforeCreate + 1);
         Marcatge testMarcatge = marcatgeList.get(marcatgeList.size() - 1);
-        assertThat(testMarcatge.getNumero()).isEqualTo(DEFAULT_NUMERO);
         assertThat(testMarcatge.getHoraEntrada()).isEqualTo(DEFAULT_HORA_ENTRADA);
         assertThat(testMarcatge.getHoraSortida()).isEqualTo(DEFAULT_HORA_SORTIDA);
         assertThat(testMarcatge.isDesviacio()).isEqualTo(DEFAULT_DESVIACIO);
@@ -167,7 +161,6 @@ public class MarcatgeResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(marcatge.getId().intValue())))
-            .andExpect(jsonPath("$.[*].numero").value(hasItem(DEFAULT_NUMERO)))
             .andExpect(jsonPath("$.[*].horaEntrada").value(hasItem(DEFAULT_HORA_ENTRADA.toString())))
             .andExpect(jsonPath("$.[*].horaSortida").value(hasItem(DEFAULT_HORA_SORTIDA.toString())))
             .andExpect(jsonPath("$.[*].desviacio").value(hasItem(DEFAULT_DESVIACIO.booleanValue())));
@@ -184,7 +177,6 @@ public class MarcatgeResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(marcatge.getId().intValue()))
-            .andExpect(jsonPath("$.numero").value(DEFAULT_NUMERO))
             .andExpect(jsonPath("$.horaEntrada").value(DEFAULT_HORA_ENTRADA.toString()))
             .andExpect(jsonPath("$.horaSortida").value(DEFAULT_HORA_SORTIDA.toString()))
             .andExpect(jsonPath("$.desviacio").value(DEFAULT_DESVIACIO.booleanValue()));
@@ -211,7 +203,6 @@ public class MarcatgeResourceIT {
         // Disconnect from session so that the updates on updatedMarcatge are not directly saved in db
         em.detach(updatedMarcatge);
         updatedMarcatge
-            .numero(UPDATED_NUMERO)
             .horaEntrada(UPDATED_HORA_ENTRADA)
             .horaSortida(UPDATED_HORA_SORTIDA)
             .desviacio(UPDATED_DESVIACIO);
@@ -225,7 +216,6 @@ public class MarcatgeResourceIT {
         List<Marcatge> marcatgeList = marcatgeRepository.findAll();
         assertThat(marcatgeList).hasSize(databaseSizeBeforeUpdate);
         Marcatge testMarcatge = marcatgeList.get(marcatgeList.size() - 1);
-        assertThat(testMarcatge.getNumero()).isEqualTo(UPDATED_NUMERO);
         assertThat(testMarcatge.getHoraEntrada()).isEqualTo(UPDATED_HORA_ENTRADA);
         assertThat(testMarcatge.getHoraSortida()).isEqualTo(UPDATED_HORA_SORTIDA);
         assertThat(testMarcatge.isDesviacio()).isEqualTo(UPDATED_DESVIACIO);
@@ -265,20 +255,5 @@ public class MarcatgeResourceIT {
         // Validate the database contains one less item
         List<Marcatge> marcatgeList = marcatgeRepository.findAll();
         assertThat(marcatgeList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Marcatge.class);
-        Marcatge marcatge1 = new Marcatge();
-        marcatge1.setId(1L);
-        Marcatge marcatge2 = new Marcatge();
-        marcatge2.setId(marcatge1.getId());
-        assertThat(marcatge1).isEqualTo(marcatge2);
-        marcatge2.setId(2L);
-        assertThat(marcatge1).isNotEqualTo(marcatge2);
-        marcatge1.setId(null);
-        assertThat(marcatge1).isNotEqualTo(marcatge2);
     }
 }
