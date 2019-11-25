@@ -280,19 +280,4 @@ public class ControlResourceIT {
         List<Control> controlList = controlRepository.findAll();
         assertThat(controlList).hasSize(databaseSizeBeforeDelete - 1);
     }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Control.class);
-        Control control1 = new Control();
-        control1.setId(1L);
-        Control control2 = new Control();
-        control2.setId(control1.getId());
-        assertThat(control1).isEqualTo(control2);
-        control2.setId(2L);
-        assertThat(control1).isNotEqualTo(control2);
-        control1.setId(null);
-        assertThat(control1).isNotEqualTo(control2);
-    }
 }

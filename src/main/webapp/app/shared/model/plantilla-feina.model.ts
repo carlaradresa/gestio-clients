@@ -1,5 +1,4 @@
 import { Moment } from 'moment';
-import { IFeina } from 'app/shared/model/feina.model';
 import { Dia } from 'app/shared/model/enumerations/dia.model';
 import { Periodicitat } from 'app/shared/model/enumerations/periodicitat.model';
 
@@ -16,7 +15,6 @@ export interface IPlantillaFeina {
   setmanaInicial?: Moment;
   setmanaFinal?: Moment;
   numeroControl?: number;
-  feinas?: IFeina[];
 }
 
 export class PlantillaFeina implements IPlantillaFeina {
@@ -32,8 +30,7 @@ export class PlantillaFeina implements IPlantillaFeina {
     public observacions?: string,
     public setmanaInicial?: Moment,
     public setmanaFinal?: Moment,
-    public numeroControl?: number,
-    public feinas?: IFeina[]
+    public numeroControl?: number
   ) {
     this.facturacioAutomatica = this.facturacioAutomatica || false;
   }

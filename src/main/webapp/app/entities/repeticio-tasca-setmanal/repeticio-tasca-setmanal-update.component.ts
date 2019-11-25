@@ -5,7 +5,6 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { IRepeticioTascaSetmanal, RepeticioTascaSetmanal } from 'app/shared/model/repeticio-tasca-setmanal.model';
 import { RepeticioTascaSetmanalService } from './repeticio-tasca-setmanal.service';
@@ -43,11 +42,7 @@ export class RepeticioTascaSetmanalUpdateComponent implements OnInit {
     });
     this.feinaService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IFeina[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IFeina[]>) => response.body)
-      )
-      .subscribe((res: IFeina[]) => (this.feinas = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<IFeina[]>) => (this.feinas = res.body), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(repeticioTascaSetmanal: IRepeticioTascaSetmanal) {

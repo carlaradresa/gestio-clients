@@ -1,6 +1,5 @@
 import { IUbicacio } from 'app/shared/model/ubicacio.model';
 import { IVenedor } from 'app/shared/model/venedor.model';
-import { IFeina } from 'app/shared/model/feina.model';
 
 export interface IClient {
   id?: number;
@@ -15,7 +14,6 @@ export interface IClient {
   observacions?: string;
   ubicacio?: IUbicacio;
   venedor?: IVenedor;
-  feinas?: IFeina[];
 }
 
 export class Client implements IClient {
@@ -31,7 +29,6 @@ export class Client implements IClient {
     public codiUbicacio?: string,
     public observacions?: string,
     public ubicacio?: IUbicacio,
-    public venedor?: IVenedor,
-    public feinas?: IFeina[]
+    public venedor?: IVenedor
   ) {}
 }

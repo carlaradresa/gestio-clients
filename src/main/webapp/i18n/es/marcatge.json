@@ -5,7 +5,7 @@
         "title": "Marcatges",
         "createLabel": "Crear nuevo Marcatge",
         "createOrEditLabel": "Crear o editar Marcatge",
-        "notFound": "No Marcatges found"
+        "notFound": "Ningún Marcatges encontrado"
       },
       "created": "Un nuevo Marcatge ha sido creado con el identificador {{ param }}",
       "updated": "Un Marcatge ha sido actualizado con el identificador {{ param }}",

@@ -1,28 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
 import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Marcatge } from 'app/shared/model/marcatge.model';
 import { MarcatgeService } from './marcatge.service';
 import { MarcatgeComponent } from './marcatge.component';
 import { MarcatgeDetailComponent } from './marcatge-detail.component';
 import { MarcatgeUpdateComponent } from './marcatge-update.component';
-import { MarcatgeDeletePopupComponent } from './marcatge-delete-dialog.component';
 import { IMarcatge } from 'app/shared/model/marcatge.model';
 
 @Injectable({ providedIn: 'root' })
 export class MarcatgeResolve implements Resolve<IMarcatge> {
   constructor(private service: MarcatgeService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IMarcatge> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IMarcatge> {
     const id = route.params['id'];
     if (id) {
-      return this.service.find(id).pipe(
-        filter((response: HttpResponse<Marcatge>) => response.ok),
-        map((marcatge: HttpResponse<Marcatge>) => marcatge.body)
-      );
+      return this.service.find(id).pipe(map((marcatge: HttpResponse<Marcatge>) => marcatge.body));
     }
     return of(new Marcatge());
   }
@@ -73,21 +69,5 @@ export const marcatgeRoute: Routes = [
       pageTitle: 'gestioClientsApp.marcatge.home.title'
     },
     canActivate: [UserRouteAccessService]
-  }
-];
-
-export const marcatgePopupRoute: Routes = [
-  {
-    path: ':id/delete',
-    component: MarcatgeDeletePopupComponent,
-    resolve: {
-      marcatge: MarcatgeResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'gestioClientsApp.marcatge.home.title'
-    },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
   }
 ];
