@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { filter, map } from 'rxjs/operators';
 import { JhiEventManager } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IClient } from 'app/shared/model/client.model';
-import { AccountService } from 'app/core/auth/account.service';
 import { ClientService } from './client.service';
+import { ClientDeleteDialogComponent } from './client-delete-dialog.component';
 
 @Component({
   selector: 'jhi-client',
@@ -15,28 +14,18 @@ import { ClientService } from './client.service';
 })
 export class ClientComponent implements OnInit, OnDestroy {
   clients: IClient[];
-  currentAccount: any;
   eventSubscriber: Subscription;
 
-  constructor(protected clientService: ClientService, protected eventManager: JhiEventManager, protected accountService: AccountService) {}
+  constructor(protected clientService: ClientService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {}
 
   loadAll() {
-    this.clientService
-      .query()
-      .pipe(
-        filter((res: HttpResponse<IClient[]>) => res.ok),
-        map((res: HttpResponse<IClient[]>) => res.body)
-      )
-      .subscribe((res: IClient[]) => {
-        this.clients = res;
-      });
+    this.clientService.query().subscribe((res: HttpResponse<IClient[]>) => {
+      this.clients = res.body;
+    });
   }
 
   ngOnInit() {
     this.loadAll();
-    this.accountService.identity().subscribe(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInClients();
   }
 
@@ -49,6 +38,11 @@ export class ClientComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInClients() {
-    this.eventSubscriber = this.eventManager.subscribe('clientListModification', response => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('clientListModification', () => this.loadAll());
+  }
+
+  delete(client: IClient) {
+    const modalRef = this.modalService.open(ClientDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.client = client;
   }
 }

@@ -41,9 +41,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = GestioClientsApp.class)
 public class FeinaResourceIT {
 
-    private static final Integer DEFAULT_NUMERO = 1;
-    private static final Integer UPDATED_NUMERO = 2;
-
     private static final String DEFAULT_NOM = "AAAAAAAAAA";
     private static final String UPDATED_NOM = "BBBBBBBBBB";
 
@@ -119,7 +116,6 @@ public class FeinaResourceIT {
      */
     public static Feina createEntity(EntityManager em) {
         Feina feina = new Feina()
-            .numero(DEFAULT_NUMERO)
             .nom(DEFAULT_NOM)
             .descripcio(DEFAULT_DESCRIPCIO)
             .setmana(DEFAULT_SETMANA)
@@ -140,7 +136,6 @@ public class FeinaResourceIT {
      */
     public static Feina createUpdatedEntity(EntityManager em) {
         Feina feina = new Feina()
-            .numero(UPDATED_NUMERO)
             .nom(UPDATED_NOM)
             .descripcio(UPDATED_DESCRIPCIO)
             .setmana(UPDATED_SETMANA)
@@ -174,7 +169,6 @@ public class FeinaResourceIT {
         List<Feina> feinaList = feinaRepository.findAll();
         assertThat(feinaList).hasSize(databaseSizeBeforeCreate + 1);
         Feina testFeina = feinaList.get(feinaList.size() - 1);
-        assertThat(testFeina.getNumero()).isEqualTo(DEFAULT_NUMERO);
         assertThat(testFeina.getNom()).isEqualTo(DEFAULT_NOM);
         assertThat(testFeina.getDescripcio()).isEqualTo(DEFAULT_DESCRIPCIO);
         assertThat(testFeina.getSetmana()).isEqualTo(DEFAULT_SETMANA);
@@ -218,7 +212,6 @@ public class FeinaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(feina.getId().intValue())))
-            .andExpect(jsonPath("$.[*].numero").value(hasItem(DEFAULT_NUMERO)))
             .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM)))
             .andExpect(jsonPath("$.[*].descripcio").value(hasItem(DEFAULT_DESCRIPCIO)))
             .andExpect(jsonPath("$.[*].setmana").value(hasItem(DEFAULT_SETMANA.toString())))
@@ -275,7 +268,6 @@ public class FeinaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(feina.getId().intValue()))
-            .andExpect(jsonPath("$.numero").value(DEFAULT_NUMERO))
             .andExpect(jsonPath("$.nom").value(DEFAULT_NOM))
             .andExpect(jsonPath("$.descripcio").value(DEFAULT_DESCRIPCIO))
             .andExpect(jsonPath("$.setmana").value(DEFAULT_SETMANA.toString()))
@@ -309,7 +301,6 @@ public class FeinaResourceIT {
         // Disconnect from session so that the updates on updatedFeina are not directly saved in db
         em.detach(updatedFeina);
         updatedFeina
-            .numero(UPDATED_NUMERO)
             .nom(UPDATED_NOM)
             .descripcio(UPDATED_DESCRIPCIO)
             .setmana(UPDATED_SETMANA)
@@ -330,7 +321,6 @@ public class FeinaResourceIT {
         List<Feina> feinaList = feinaRepository.findAll();
         assertThat(feinaList).hasSize(databaseSizeBeforeUpdate);
         Feina testFeina = feinaList.get(feinaList.size() - 1);
-        assertThat(testFeina.getNumero()).isEqualTo(UPDATED_NUMERO);
         assertThat(testFeina.getNom()).isEqualTo(UPDATED_NOM);
         assertThat(testFeina.getDescripcio()).isEqualTo(UPDATED_DESCRIPCIO);
         assertThat(testFeina.getSetmana()).isEqualTo(UPDATED_SETMANA);
@@ -377,20 +367,5 @@ public class FeinaResourceIT {
         // Validate the database contains one less item
         List<Feina> feinaList = feinaRepository.findAll();
         assertThat(feinaList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Feina.class);
-        Feina feina1 = new Feina();
-        feina1.setId(1L);
-        Feina feina2 = new Feina();
-        feina2.setId(feina1.getId());
-        assertThat(feina1).isEqualTo(feina2);
-        feina2.setId(2L);
-        assertThat(feina1).isNotEqualTo(feina2);
-        feina1.setId(null);
-        assertThat(feina1).isNotEqualTo(feina2);
     }
 }

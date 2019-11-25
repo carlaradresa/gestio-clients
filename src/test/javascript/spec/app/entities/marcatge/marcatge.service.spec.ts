@@ -24,7 +24,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Marcatge(0, 0, currentDate, currentDate, false);
+      elemDefault = new Marcatge(0, currentDate, currentDate, false);
     });
 
     describe('Service methods', () => {
@@ -74,7 +74,6 @@ describe('Service Tests', () => {
       it('should update a Marcatge', () => {
         const returnedFromService = Object.assign(
           {
-            numero: 1,
             horaEntrada: currentDate.format(DATE_TIME_FORMAT),
             horaSortida: currentDate.format(DATE_TIME_FORMAT),
             desviacio: true
@@ -101,7 +100,6 @@ describe('Service Tests', () => {
       it('should return a list of Marcatge', () => {
         const returnedFromService = Object.assign(
           {
-            numero: 1,
             horaEntrada: currentDate.format(DATE_TIME_FORMAT),
             horaSortida: currentDate.format(DATE_TIME_FORMAT),
             desviacio: true

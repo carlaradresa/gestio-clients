@@ -5,14 +5,12 @@ import { GestioClientsSharedModule } from 'app/shared/shared.module';
 import { FeinaComponent } from './feina.component';
 import { FeinaDetailComponent } from './feina-detail.component';
 import { FeinaUpdateComponent } from './feina-update.component';
-import { FeinaDeletePopupComponent, FeinaDeleteDialogComponent } from './feina-delete-dialog.component';
-import { feinaRoute, feinaPopupRoute } from './feina.route';
-
-const ENTITY_STATES = [...feinaRoute, ...feinaPopupRoute];
+import { FeinaDeleteDialogComponent } from './feina-delete-dialog.component';
+import { feinaRoute } from './feina.route';
 
 @NgModule({
-  imports: [GestioClientsSharedModule, RouterModule.forChild(ENTITY_STATES)],
-  declarations: [FeinaComponent, FeinaDetailComponent, FeinaUpdateComponent, FeinaDeleteDialogComponent, FeinaDeletePopupComponent],
+  imports: [GestioClientsSharedModule, RouterModule.forChild(feinaRoute)],
+  declarations: [FeinaComponent, FeinaDetailComponent, FeinaUpdateComponent, FeinaDeleteDialogComponent],
   entryComponents: [FeinaDeleteDialogComponent]
 })
 export class GestioClientsFeinaModule {}

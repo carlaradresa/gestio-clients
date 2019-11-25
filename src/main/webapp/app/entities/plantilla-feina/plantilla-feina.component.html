@@ -19,7 +19,6 @@
             <thead>
             <tr>
             <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-            <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.numero">Numero</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.dia">Dia</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.horaInici">Hora Inici</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.horaFinal">Hora Final</span></th>
@@ -36,7 +35,6 @@
             <tbody>
             <tr *ngFor="let plantillaFeina of plantillaFeinas ;trackBy: trackId">
                 <td><a [routerLink]="['/plantilla-feina', plantillaFeina.id, 'view' ]">{{plantillaFeina.id}}</a></td>
-                <td>{{plantillaFeina.numero}}</td>
                 <td jhiTranslate="{{'gestioClientsApp.Dia.' + plantillaFeina.dia}}">{{plantillaFeina.dia}}</td>
                 <td>{{plantillaFeina.horaInici | date:'medium'}}</td>
                 <td>{{plantillaFeina.horaFinal | date:'medium'}}</td>
@@ -61,10 +59,7 @@
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit"
-                                [routerLink]="['/plantilla-feina', { outlets: { popup: plantillaFeina.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
+                        <button type="submit" (click)="delete(plantillaFeina)"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>

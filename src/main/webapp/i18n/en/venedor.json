@@ -16,13 +16,11 @@
       "detail": {
         "title": "Venedor"
       },
-      "numero": "Numero",
       "nom": "Nom",
       "telefon": "Telefon",
       "email": "Email",
       "observacions": "Observacions",
-      "ubicacio": "Ubicacio",
-      "client": "Client"
+      "ubicacio": "Ubicacio"
     }
   }
 }
