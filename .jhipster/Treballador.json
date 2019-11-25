@@ -32,18 +32,6 @@
             "ownerSide": true
         },
         {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "marcatge",
-            "otherEntityRelationshipName": "treballador",
-            "relationshipName": "marcatge"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "control",
-            "otherEntityRelationshipName": "revisor",
-            "relationshipName": "revisionsFetes"
-        },
-        {
             "relationshipType": "many-to-many",
             "otherEntityName": "feina",
             "otherEntityRelationshipName": "treballador",

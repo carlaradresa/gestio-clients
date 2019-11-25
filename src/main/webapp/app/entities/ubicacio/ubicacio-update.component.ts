@@ -5,7 +5,6 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { IUbicacio, Ubicacio } from 'app/shared/model/ubicacio.model';
 import { UbicacioService } from './ubicacio.service';
@@ -48,18 +47,10 @@ export class UbicacioUpdateComponent implements OnInit {
     });
     this.clientService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IClient[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IClient[]>) => response.body)
-      )
-      .subscribe((res: IClient[]) => (this.clients = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<IClient[]>) => (this.clients = res.body), (res: HttpErrorResponse) => this.onError(res.message));
     this.venedorService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IVenedor[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IVenedor[]>) => response.body)
-      )
-      .subscribe((res: IVenedor[]) => (this.venedors = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<IVenedor[]>) => (this.venedors = res.body), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(ubicacio: IUbicacio) {

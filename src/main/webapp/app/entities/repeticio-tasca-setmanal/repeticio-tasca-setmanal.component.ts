@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { filter, map } from 'rxjs/operators';
 import { JhiEventManager } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IRepeticioTascaSetmanal } from 'app/shared/model/repeticio-tasca-setmanal.model';
-import { AccountService } from 'app/core/auth/account.service';
 import { RepeticioTascaSetmanalService } from './repeticio-tasca-setmanal.service';
+import { RepeticioTascaSetmanalDeleteDialogComponent } from './repeticio-tasca-setmanal-delete-dialog.component';
 
 @Component({
   selector: 'jhi-repeticio-tasca-setmanal',
@@ -15,32 +14,22 @@ import { RepeticioTascaSetmanalService } from './repeticio-tasca-setmanal.servic
 })
 export class RepeticioTascaSetmanalComponent implements OnInit, OnDestroy {
   repeticioTascaSetmanals: IRepeticioTascaSetmanal[];
-  currentAccount: any;
   eventSubscriber: Subscription;
 
   constructor(
     protected repeticioTascaSetmanalService: RepeticioTascaSetmanalService,
     protected eventManager: JhiEventManager,
-    protected accountService: AccountService
+    protected modalService: NgbModal
   ) {}
 
   loadAll() {
-    this.repeticioTascaSetmanalService
-      .query()
-      .pipe(
-        filter((res: HttpResponse<IRepeticioTascaSetmanal[]>) => res.ok),
-        map((res: HttpResponse<IRepeticioTascaSetmanal[]>) => res.body)
-      )
-      .subscribe((res: IRepeticioTascaSetmanal[]) => {
-        this.repeticioTascaSetmanals = res;
-      });
+    this.repeticioTascaSetmanalService.query().subscribe((res: HttpResponse<IRepeticioTascaSetmanal[]>) => {
+      this.repeticioTascaSetmanals = res.body;
+    });
   }
 
   ngOnInit() {
     this.loadAll();
-    this.accountService.identity().subscribe(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInRepeticioTascaSetmanals();
   }
 
@@ -53,6 +42,11 @@ export class RepeticioTascaSetmanalComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInRepeticioTascaSetmanals() {
-    this.eventSubscriber = this.eventManager.subscribe('repeticioTascaSetmanalListModification', response => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('repeticioTascaSetmanalListModification', () => this.loadAll());
+  }
+
+  delete(repeticioTascaSetmanal: IRepeticioTascaSetmanal) {
+    const modalRef = this.modalService.open(RepeticioTascaSetmanalDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.repeticioTascaSetmanal = repeticioTascaSetmanal;
   }
 }

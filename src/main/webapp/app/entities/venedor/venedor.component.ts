@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { filter, map } from 'rxjs/operators';
 import { JhiEventManager } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IVenedor } from 'app/shared/model/venedor.model';
-import { AccountService } from 'app/core/auth/account.service';
 import { VenedorService } from './venedor.service';
+import { VenedorDeleteDialogComponent } from './venedor-delete-dialog.component';
 
 @Component({
   selector: 'jhi-venedor',
@@ -15,32 +14,18 @@ import { VenedorService } from './venedor.service';
 })
 export class VenedorComponent implements OnInit, OnDestroy {
   venedors: IVenedor[];
-  currentAccount: any;
   eventSubscriber: Subscription;
 
-  constructor(
-    protected venedorService: VenedorService,
-    protected eventManager: JhiEventManager,
-    protected accountService: AccountService
-  ) {}
+  constructor(protected venedorService: VenedorService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {}
 
   loadAll() {
-    this.venedorService
-      .query()
-      .pipe(
-        filter((res: HttpResponse<IVenedor[]>) => res.ok),
-        map((res: HttpResponse<IVenedor[]>) => res.body)
-      )
-      .subscribe((res: IVenedor[]) => {
-        this.venedors = res;
-      });
+    this.venedorService.query().subscribe((res: HttpResponse<IVenedor[]>) => {
+      this.venedors = res.body;
+    });
   }
 
   ngOnInit() {
     this.loadAll();
-    this.accountService.identity().subscribe(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInVenedors();
   }
 
@@ -53,6 +38,11 @@ export class VenedorComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInVenedors() {
-    this.eventSubscriber = this.eventManager.subscribe('venedorListModification', response => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('venedorListModification', () => this.loadAll());
+  }
+
+  delete(venedor: IVenedor) {
+    const modalRef = this.modalService.open(VenedorDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.venedor = venedor;
   }
 }

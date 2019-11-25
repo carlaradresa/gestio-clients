@@ -274,19 +274,4 @@ public class VenedorResourceIT {
         List<Venedor> venedorList = venedorRepository.findAll();
         assertThat(venedorList).hasSize(databaseSizeBeforeDelete - 1);
     }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Venedor.class);
-        Venedor venedor1 = new Venedor();
-        venedor1.setId(1L);
-        Venedor venedor2 = new Venedor();
-        venedor2.setId(venedor1.getId());
-        assertThat(venedor1).isEqualTo(venedor2);
-        venedor2.setId(2L);
-        assertThat(venedor1).isNotEqualTo(venedor2);
-        venedor1.setId(null);
-        assertThat(venedor1).isNotEqualTo(venedor2);
-    }
 }

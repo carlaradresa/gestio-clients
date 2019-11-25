@@ -5,7 +5,7 @@
         "title": "Plantilla Feinas",
         "createLabel": "Crear nuevo Plantilla Feina",
         "createOrEditLabel": "Crear o editar Plantilla Feina",
-        "notFound": "No Plantilla Feinas found"
+        "notFound": "Ningún Plantilla Feinas encontrado"
       },
       "created": "Un nuevo Plantilla Feina ha sido creado con el identificador {{ param }}",
       "updated": "Un Plantilla Feina ha sido actualizado con el identificador {{ param }}",
@@ -26,8 +26,7 @@
       "observacions": "Observacions",
       "setmanaInicial": "Setmana Inicial",
       "setmanaFinal": "Setmana Final",
-      "numeroControl": "Numero Control",
-      "feina": "Feina"
+      "numeroControl": "Numero Control"
     }
   }
 }

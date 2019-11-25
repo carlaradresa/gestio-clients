@@ -53,12 +53,6 @@
             "otherEntityRelationshipName": "client",
             "relationshipName": "venedor",
             "otherEntityField": "numero"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "feina",
-            "otherEntityRelationshipName": "client",
-            "relationshipName": "feina"
         }
     ],
     "changelogDate": "20191029182929",

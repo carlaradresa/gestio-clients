@@ -43,14 +43,6 @@ public class Treballador implements Serializable {
     @JoinColumn(unique = true)
     private User user;
 
-    @OneToMany(mappedBy = "treballador")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Marcatge> marcatges = new HashSet<>();
-
-    @OneToMany(mappedBy = "revisor")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Control> revisionsFetes = new HashSet<>();
-
     @ManyToMany(mappedBy = "treballadors")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonIgnore
@@ -141,56 +133,6 @@ public class Treballador implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Set<Marcatge> getMarcatges() {
-        return marcatges;
-    }
-
-    public Treballador marcatges(Set<Marcatge> marcatges) {
-        this.marcatges = marcatges;
-        return this;
-    }
-
-    public Treballador addMarcatge(Marcatge marcatge) {
-        this.marcatges.add(marcatge);
-        marcatge.setTreballador(this);
-        return this;
-    }
-
-    public Treballador removeMarcatge(Marcatge marcatge) {
-        this.marcatges.remove(marcatge);
-        marcatge.setTreballador(null);
-        return this;
-    }
-
-    public void setMarcatges(Set<Marcatge> marcatges) {
-        this.marcatges = marcatges;
-    }
-
-    public Set<Control> getRevisionsFetes() {
-        return revisionsFetes;
-    }
-
-    public Treballador revisionsFetes(Set<Control> controls) {
-        this.revisionsFetes = controls;
-        return this;
-    }
-
-    public Treballador addRevisionsFetes(Control control) {
-        this.revisionsFetes.add(control);
-        control.setRevisor(this);
-        return this;
-    }
-
-    public Treballador removeRevisionsFetes(Control control) {
-        this.revisionsFetes.remove(control);
-        control.setRevisor(null);
-        return this;
-    }
-
-    public void setRevisionsFetes(Set<Control> controls) {
-        this.revisionsFetes = controls;
     }
 
     public Set<Feina> getFeinas() {

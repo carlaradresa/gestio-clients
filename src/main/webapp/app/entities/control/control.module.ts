@@ -5,20 +5,12 @@ import { GestioClientsSharedModule } from 'app/shared/shared.module';
 import { ControlComponent } from './control.component';
 import { ControlDetailComponent } from './control-detail.component';
 import { ControlUpdateComponent } from './control-update.component';
-import { ControlDeletePopupComponent, ControlDeleteDialogComponent } from './control-delete-dialog.component';
-import { controlRoute, controlPopupRoute } from './control.route';
-
-const ENTITY_STATES = [...controlRoute, ...controlPopupRoute];
+import { ControlDeleteDialogComponent } from './control-delete-dialog.component';
+import { controlRoute } from './control.route';
 
 @NgModule({
-  imports: [GestioClientsSharedModule, RouterModule.forChild(ENTITY_STATES)],
-  declarations: [
-    ControlComponent,
-    ControlDetailComponent,
-    ControlUpdateComponent,
-    ControlDeleteDialogComponent,
-    ControlDeletePopupComponent
-  ],
+  imports: [GestioClientsSharedModule, RouterModule.forChild(controlRoute)],
+  declarations: [ControlComponent, ControlDetailComponent, ControlUpdateComponent, ControlDeleteDialogComponent],
   entryComponents: [ControlDeleteDialogComponent]
 })
 export class GestioClientsControlModule {}

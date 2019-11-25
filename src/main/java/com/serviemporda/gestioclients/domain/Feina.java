@@ -77,18 +77,6 @@ public class Feina implements Serializable {
                inverseJoinColumns = @JoinColumn(name = "treballador_id", referencedColumnName = "id"))
     private Set<Treballador> treballadors = new HashSet<>();
 
-    @OneToMany(mappedBy = "feina")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<RepeticioTascaSetmanal> repeticios = new HashSet<>();
-
-    @OneToMany(mappedBy = "feina")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Marcatge> marcatges = new HashSet<>();
-
-    @OneToMany(mappedBy = "feina")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Control> revisionsRebudes = new HashSet<>();
-
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -303,81 +291,6 @@ public class Feina implements Serializable {
 
     public void setTreballadors(Set<Treballador> treballadors) {
         this.treballadors = treballadors;
-    }
-
-    public Set<RepeticioTascaSetmanal> getRepeticios() {
-        return repeticios;
-    }
-
-    public Feina repeticios(Set<RepeticioTascaSetmanal> repeticioTascaSetmanals) {
-        this.repeticios = repeticioTascaSetmanals;
-        return this;
-    }
-
-    public Feina addRepeticio(RepeticioTascaSetmanal repeticioTascaSetmanal) {
-        this.repeticios.add(repeticioTascaSetmanal);
-        repeticioTascaSetmanal.setFeina(this);
-        return this;
-    }
-
-    public Feina removeRepeticio(RepeticioTascaSetmanal repeticioTascaSetmanal) {
-        this.repeticios.remove(repeticioTascaSetmanal);
-        repeticioTascaSetmanal.setFeina(null);
-        return this;
-    }
-
-    public void setRepeticios(Set<RepeticioTascaSetmanal> repeticioTascaSetmanals) {
-        this.repeticios = repeticioTascaSetmanals;
-    }
-
-    public Set<Marcatge> getMarcatges() {
-        return marcatges;
-    }
-
-    public Feina marcatges(Set<Marcatge> marcatges) {
-        this.marcatges = marcatges;
-        return this;
-    }
-
-    public Feina addMarcatge(Marcatge marcatge) {
-        this.marcatges.add(marcatge);
-        marcatge.setFeina(this);
-        return this;
-    }
-
-    public Feina removeMarcatge(Marcatge marcatge) {
-        this.marcatges.remove(marcatge);
-        marcatge.setFeina(null);
-        return this;
-    }
-
-    public void setMarcatges(Set<Marcatge> marcatges) {
-        this.marcatges = marcatges;
-    }
-
-    public Set<Control> getRevisionsRebudes() {
-        return revisionsRebudes;
-    }
-
-    public Feina revisionsRebudes(Set<Control> controls) {
-        this.revisionsRebudes = controls;
-        return this;
-    }
-
-    public Feina addRevisionsRebudes(Control control) {
-        this.revisionsRebudes.add(control);
-        control.setFeina(this);
-        return this;
-    }
-
-    public Feina removeRevisionsRebudes(Control control) {
-        this.revisionsRebudes.remove(control);
-        control.setFeina(null);
-        return this;
-    }
-
-    public void setRevisionsRebudes(Set<Control> controls) {
-        this.revisionsRebudes = controls;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

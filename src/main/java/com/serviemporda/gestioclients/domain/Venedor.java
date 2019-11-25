@@ -5,8 +5,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * A Venedor.
@@ -40,10 +38,6 @@ public class Venedor implements Serializable {
     @OneToOne
     @JoinColumn(unique = true)
     private Ubicacio ubicacio;
-
-    @OneToMany(mappedBy = "venedor")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Client> clients = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -130,31 +124,6 @@ public class Venedor implements Serializable {
 
     public void setUbicacio(Ubicacio ubicacio) {
         this.ubicacio = ubicacio;
-    }
-
-    public Set<Client> getClients() {
-        return clients;
-    }
-
-    public Venedor clients(Set<Client> clients) {
-        this.clients = clients;
-        return this;
-    }
-
-    public Venedor addClient(Client client) {
-        this.clients.add(client);
-        client.setVenedor(this);
-        return this;
-    }
-
-    public Venedor removeClient(Client client) {
-        this.clients.remove(client);
-        client.setVenedor(null);
-        return this;
-    }
-
-    public void setClients(Set<Client> clients) {
-        this.clients = clients;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

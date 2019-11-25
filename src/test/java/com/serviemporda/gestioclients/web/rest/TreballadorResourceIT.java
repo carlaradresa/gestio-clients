@@ -275,19 +275,4 @@ public class TreballadorResourceIT {
         List<Treballador> treballadorList = treballadorRepository.findAll();
         assertThat(treballadorList).hasSize(databaseSizeBeforeDelete - 1);
     }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Treballador.class);
-        Treballador treballador1 = new Treballador();
-        treballador1.setId(1L);
-        Treballador treballador2 = new Treballador();
-        treballador2.setId(treballador1.getId());
-        assertThat(treballador1).isEqualTo(treballador2);
-        treballador2.setId(2L);
-        assertThat(treballador1).isNotEqualTo(treballador2);
-        treballador1.setId(null);
-        assertThat(treballador1).isNotEqualTo(treballador2);
-    }
 }

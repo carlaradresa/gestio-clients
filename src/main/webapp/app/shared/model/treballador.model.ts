@@ -1,6 +1,4 @@
 import { IUser } from 'app/core/user/user.model';
-import { IMarcatge } from 'app/shared/model/marcatge.model';
-import { IControl } from 'app/shared/model/control.model';
 import { IFeina } from 'app/shared/model/feina.model';
 
 export interface ITreballador {
@@ -11,8 +9,6 @@ export interface ITreballador {
   actiu?: boolean;
   controlQualitat?: boolean;
   user?: IUser;
-  marcatges?: IMarcatge[];
-  revisionsFetes?: IControl[];
   feinas?: IFeina[];
 }
 
@@ -25,8 +21,6 @@ export class Treballador implements ITreballador {
     public actiu?: boolean,
     public controlQualitat?: boolean,
     public user?: IUser,
-    public marcatges?: IMarcatge[],
-    public revisionsFetes?: IControl[],
     public feinas?: IFeina[]
   ) {
     this.actiu = this.actiu || false;
