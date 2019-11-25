@@ -266,19 +266,4 @@ public class MarcatgeResourceIT {
         List<Marcatge> marcatgeList = marcatgeRepository.findAll();
         assertThat(marcatgeList).hasSize(databaseSizeBeforeDelete - 1);
     }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Marcatge.class);
-        Marcatge marcatge1 = new Marcatge();
-        marcatge1.setId(1L);
-        Marcatge marcatge2 = new Marcatge();
-        marcatge2.setId(marcatge1.getId());
-        assertThat(marcatge1).isEqualTo(marcatge2);
-        marcatge2.setId(2L);
-        assertThat(marcatge1).isNotEqualTo(marcatge2);
-        marcatge1.setId(null);
-        assertThat(marcatge1).isNotEqualTo(marcatge2);
-    }
 }

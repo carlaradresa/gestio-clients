@@ -1,28 +1,24 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
 import { Observable, of } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Control } from 'app/shared/model/control.model';
 import { ControlService } from './control.service';
 import { ControlComponent } from './control.component';
 import { ControlDetailComponent } from './control-detail.component';
 import { ControlUpdateComponent } from './control-update.component';
-import { ControlDeletePopupComponent } from './control-delete-dialog.component';
 import { IControl } from 'app/shared/model/control.model';
 
 @Injectable({ providedIn: 'root' })
 export class ControlResolve implements Resolve<IControl> {
   constructor(private service: ControlService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IControl> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IControl> {
     const id = route.params['id'];
     if (id) {
-      return this.service.find(id).pipe(
-        filter((response: HttpResponse<Control>) => response.ok),
-        map((control: HttpResponse<Control>) => control.body)
-      );
+      return this.service.find(id).pipe(map((control: HttpResponse<Control>) => control.body));
     }
     return of(new Control());
   }
@@ -73,21 +69,5 @@ export const controlRoute: Routes = [
       pageTitle: 'gestioClientsApp.control.home.title'
     },
     canActivate: [UserRouteAccessService]
-  }
-];
-
-export const controlPopupRoute: Routes = [
-  {
-    path: ':id/delete',
-    component: ControlDeletePopupComponent,
-    resolve: {
-      control: ControlResolve
-    },
-    data: {
-      authorities: ['ROLE_USER'],
-      pageTitle: 'gestioClientsApp.control.home.title'
-    },
-    canActivate: [UserRouteAccessService],
-    outlet: 'popup'
   }
 ];

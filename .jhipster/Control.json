@@ -26,14 +26,14 @@
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "treballador",
-            "otherEntityRelationshipName": "revisionsFetes",
+            "otherEntityRelationshipName": "control",
             "relationshipName": "revisor",
             "otherEntityField": "nom"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "feina",
-            "otherEntityRelationshipName": "revisionsRebudes",
+            "otherEntityRelationshipName": "control",
             "relationshipName": "feina",
             "otherEntityField": "nom"
         }

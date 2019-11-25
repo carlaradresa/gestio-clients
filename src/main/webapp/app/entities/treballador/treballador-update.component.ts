@@ -5,7 +5,6 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { ITreballador, Treballador } from 'app/shared/model/treballador.model';
 import { TreballadorService } from './treballador.service';
@@ -51,18 +50,10 @@ export class TreballadorUpdateComponent implements OnInit {
     });
     this.userService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IUser[]>) => response.body)
-      )
-      .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body), (res: HttpErrorResponse) => this.onError(res.message));
     this.feinaService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IFeina[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IFeina[]>) => response.body)
-      )
-      .subscribe((res: IFeina[]) => (this.feinas = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<IFeina[]>) => (this.feinas = res.body), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(treballador: ITreballador) {

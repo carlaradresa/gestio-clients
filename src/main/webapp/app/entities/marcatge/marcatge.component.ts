@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { filter, map } from 'rxjs/operators';
 import { JhiEventManager } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IMarcatge } from 'app/shared/model/marcatge.model';
-import { AccountService } from 'app/core/auth/account.service';
 import { MarcatgeService } from './marcatge.service';
+import { MarcatgeDeleteDialogComponent } from './marcatge-delete-dialog.component';
 
 @Component({
   selector: 'jhi-marcatge',
@@ -15,32 +14,18 @@ import { MarcatgeService } from './marcatge.service';
 })
 export class MarcatgeComponent implements OnInit, OnDestroy {
   marcatges: IMarcatge[];
-  currentAccount: any;
   eventSubscriber: Subscription;
 
-  constructor(
-    protected marcatgeService: MarcatgeService,
-    protected eventManager: JhiEventManager,
-    protected accountService: AccountService
-  ) {}
+  constructor(protected marcatgeService: MarcatgeService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {}
 
   loadAll() {
-    this.marcatgeService
-      .query()
-      .pipe(
-        filter((res: HttpResponse<IMarcatge[]>) => res.ok),
-        map((res: HttpResponse<IMarcatge[]>) => res.body)
-      )
-      .subscribe((res: IMarcatge[]) => {
-        this.marcatges = res;
-      });
+    this.marcatgeService.query().subscribe((res: HttpResponse<IMarcatge[]>) => {
+      this.marcatges = res.body;
+    });
   }
 
   ngOnInit() {
     this.loadAll();
-    this.accountService.identity().subscribe(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInMarcatges();
   }
 
@@ -53,6 +38,11 @@ export class MarcatgeComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInMarcatges() {
-    this.eventSubscriber = this.eventManager.subscribe('marcatgeListModification', response => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('marcatgeListModification', () => this.loadAll());
+  }
+
+  delete(marcatge: IMarcatge) {
+    const modalRef = this.modalService.open(MarcatgeDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.marcatge = marcatge;
   }
 }
