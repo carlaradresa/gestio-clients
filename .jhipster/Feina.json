@@ -75,24 +75,6 @@
             "relationshipName": "treballador",
             "otherEntityField": "nom",
             "ownerSide": true
-        },
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "repeticioTascaSetmanal",
-            "otherEntityRelationshipName": "feina",
-            "relationshipName": "repeticio"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "marcatge",
-            "otherEntityRelationshipName": "feina",
-            "relationshipName": "marcatge"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "control",
-            "otherEntityRelationshipName": "feina",
-            "relationshipName": "revisionsRebudes"
         }
     ],
     "changelogDate": "20191029182930",

@@ -8,7 +8,7 @@
         {
             "fieldName": "dia",
             "fieldType": "Dia",
-            "fieldValues": "DILLUNS,DIMARTS,DIMECRES,DIJOUS,DIVENDRES,DISSABTE,DIUMENGE"
+            "fieldValues": "DILLUNS,DIMARTS,DIMECRES,DIJOUS,DIVENDRES,DISSABTE,DIUMENGE,QUALSEVOL"
         },
         {
             "fieldName": "horaInici",
@@ -48,14 +48,7 @@
             "fieldType": "Integer"
         }
     ],
-    "relationships": [
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "feina",
-            "otherEntityRelationshipName": "plantillaFeina",
-            "relationshipName": "feina"
-        }
-    ],
+    "relationships": [],
     "changelogDate": "20191029182925",
     "entityTableName": "plantilla_feina",
     "dto": "no",

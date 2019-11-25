@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { filter, map } from 'rxjs/operators';
 import { JhiEventManager } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IFeina } from 'app/shared/model/feina.model';
-import { AccountService } from 'app/core/auth/account.service';
 import { FeinaService } from './feina.service';
+import { FeinaDeleteDialogComponent } from './feina-delete-dialog.component';
 
 @Component({
   selector: 'jhi-feina',
@@ -15,28 +14,18 @@ import { FeinaService } from './feina.service';
 })
 export class FeinaComponent implements OnInit, OnDestroy {
   feinas: IFeina[];
-  currentAccount: any;
   eventSubscriber: Subscription;
 
-  constructor(protected feinaService: FeinaService, protected eventManager: JhiEventManager, protected accountService: AccountService) {}
+  constructor(protected feinaService: FeinaService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {}
 
   loadAll() {
-    this.feinaService
-      .query()
-      .pipe(
-        filter((res: HttpResponse<IFeina[]>) => res.ok),
-        map((res: HttpResponse<IFeina[]>) => res.body)
-      )
-      .subscribe((res: IFeina[]) => {
-        this.feinas = res;
-      });
+    this.feinaService.query().subscribe((res: HttpResponse<IFeina[]>) => {
+      this.feinas = res.body;
+    });
   }
 
   ngOnInit() {
     this.loadAll();
-    this.accountService.identity().subscribe(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInFeinas();
   }
 
@@ -49,6 +38,11 @@ export class FeinaComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInFeinas() {
-    this.eventSubscriber = this.eventManager.subscribe('feinaListModification', response => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('feinaListModification', () => this.loadAll());
+  }
+
+  delete(feina: IFeina) {
+    const modalRef = this.modalService.open(FeinaDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.feina = feina;
   }
 }

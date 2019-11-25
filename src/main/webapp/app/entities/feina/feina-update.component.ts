@@ -5,7 +5,6 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { JhiAlertService } from 'ng-jhipster';
 import { IFeina, Feina } from 'app/shared/model/feina.model';
@@ -72,32 +71,22 @@ export class FeinaUpdateComponent implements OnInit {
     });
     this.plantillaFeinaService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IPlantillaFeina[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IPlantillaFeina[]>) => response.body)
-      )
-      .subscribe((res: IPlantillaFeina[]) => (this.plantillafeinas = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe(
+        (res: HttpResponse<IPlantillaFeina[]>) => (this.plantillafeinas = res.body),
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
     this.categoriaService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<ICategoria[]>) => mayBeOk.ok),
-        map((response: HttpResponse<ICategoria[]>) => response.body)
-      )
-      .subscribe((res: ICategoria[]) => (this.categorias = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<ICategoria[]>) => (this.categorias = res.body), (res: HttpErrorResponse) => this.onError(res.message));
     this.clientService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IClient[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IClient[]>) => response.body)
-      )
-      .subscribe((res: IClient[]) => (this.clients = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<IClient[]>) => (this.clients = res.body), (res: HttpErrorResponse) => this.onError(res.message));
     this.treballadorService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<ITreballador[]>) => mayBeOk.ok),
-        map((response: HttpResponse<ITreballador[]>) => response.body)
-      )
-      .subscribe((res: ITreballador[]) => (this.treballadors = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe(
+        (res: HttpResponse<ITreballador[]>) => (this.treballadors = res.body),
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
   }
 
   updateForm(feina: IFeina) {

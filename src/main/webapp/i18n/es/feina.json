@@ -5,7 +5,7 @@
         "title": "Feinas",
         "createLabel": "Crear nuevo Feina",
         "createOrEditLabel": "Crear o editar Feina",
-        "notFound": "No Feinas found"
+        "notFound": "Ningún Feinas encontrado"
       },
       "created": "Un nuevo Feina ha sido creado con el identificador {{ param }}",
       "updated": "Un Feina ha sido actualizado con el identificador {{ param }}",
@@ -30,10 +30,7 @@
       "plantillaFeina": "Plantilla Feina",
       "categoria": "Categoria",
       "client": "Client",
-      "treballador": "Treballador",
-      "repeticio": "Repeticio",
-      "marcatge": "Marcatge",
-      "revisionsRebudes": "Revisions Rebudes"
+      "treballador": "Treballador"
     }
   }
 }

@@ -5,20 +5,12 @@ import { GestioClientsSharedModule } from 'app/shared/shared.module';
 import { UbicacioComponent } from './ubicacio.component';
 import { UbicacioDetailComponent } from './ubicacio-detail.component';
 import { UbicacioUpdateComponent } from './ubicacio-update.component';
-import { UbicacioDeletePopupComponent, UbicacioDeleteDialogComponent } from './ubicacio-delete-dialog.component';
-import { ubicacioRoute, ubicacioPopupRoute } from './ubicacio.route';
-
-const ENTITY_STATES = [...ubicacioRoute, ...ubicacioPopupRoute];
+import { UbicacioDeleteDialogComponent } from './ubicacio-delete-dialog.component';
+import { ubicacioRoute } from './ubicacio.route';
 
 @NgModule({
-  imports: [GestioClientsSharedModule, RouterModule.forChild(ENTITY_STATES)],
-  declarations: [
-    UbicacioComponent,
-    UbicacioDetailComponent,
-    UbicacioUpdateComponent,
-    UbicacioDeleteDialogComponent,
-    UbicacioDeletePopupComponent
-  ],
+  imports: [GestioClientsSharedModule, RouterModule.forChild(ubicacioRoute)],
+  declarations: [UbicacioComponent, UbicacioDetailComponent, UbicacioUpdateComponent, UbicacioDeleteDialogComponent],
   entryComponents: [UbicacioDeleteDialogComponent]
 })
 export class GestioClientsUbicacioModule {}
