@@ -17,7 +17,7 @@ entity Categoria{
 }
 
 enum Dia {
-	DILLUNS, DIMARTS, DIMECRES, DIJOUS, DIVENDRES, DISSABTE, DIUMENGE
+	DILLUNS, DIMARTS, DIMECRES, DIJOUS, DIVENDRES, DISSABTE, DIUMENGE, QUALSEVOL
 }
 
 entity RepeticioTascaSetmanal{
@@ -93,7 +93,7 @@ entity Venedor {
 }
 
 relationship ManyToOne {
-	RepeticioTascaSetmanal{feina(numero)} to Feina{repeticio},
+	RepeticioTascaSetmanal{feina(numero)} to Feina,
     Client{venedor(numero)} to Venedor{client},
     Feina{plantillaFeina(numero)} to PlantillaFeina{feina},
     Feina{categoria(nom)} to Categoria{feina},
