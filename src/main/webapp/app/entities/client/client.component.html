@@ -19,7 +19,6 @@
             <thead>
             <tr>
             <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-            <th scope="col" ><span jhiTranslate="gestioClientsApp.client.numero">Numero</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.client.nom">Nom</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.client.direccio">Direccio</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.client.localitat">Localitat</span></th>
@@ -36,7 +35,6 @@
             <tbody>
             <tr *ngFor="let client of clients ;trackBy: trackId">
                 <td><a [routerLink]="['/client', client.id, 'view' ]">{{client.id}}</a></td>
-                <td>{{client.numero}}</td>
                 <td>{{client.nom}}</td>
                 <td>{{client.direccio}}</td>
                 <td>{{client.localitat}}</td>
@@ -69,10 +67,7 @@
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit"
-                                [routerLink]="['/client', { outlets: { popup: client.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
+                        <button type="submit" (click)="delete(client)"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>

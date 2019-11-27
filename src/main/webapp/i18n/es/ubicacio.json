@@ -5,7 +5,7 @@
         "title": "Ubicacios",
         "createLabel": "Crear nuevo Ubicacio",
         "createOrEditLabel": "Crear o editar Ubicacio",
-        "notFound": "No Ubicacios found"
+        "notFound": "Ningún Ubicacios encontrado"
       },
       "created": "Un nuevo Ubicacio ha sido creado con el identificador {{ param }}",
       "updated": "Un Ubicacio ha sido actualizado con el identificador {{ param }}",

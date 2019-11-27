@@ -19,7 +19,6 @@
             <thead>
             <tr>
             <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-            <th scope="col" ><span jhiTranslate="gestioClientsApp.venedor.numero">Numero</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.venedor.nom">Nom</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.venedor.telefon">Telefon</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.venedor.email">Email</span></th>
@@ -31,7 +30,6 @@
             <tbody>
             <tr *ngFor="let venedor of venedors ;trackBy: trackId">
                 <td><a [routerLink]="['/venedor', venedor.id, 'view' ]">{{venedor.id}}</a></td>
-                <td>{{venedor.numero}}</td>
                 <td>{{venedor.nom}}</td>
                 <td>{{venedor.telefon}}</td>
                 <td>{{venedor.email}}</td>
@@ -55,10 +53,7 @@
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit"
-                                [routerLink]="['/venedor', { outlets: { popup: venedor.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
+                        <button type="submit" (click)="delete(venedor)"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>

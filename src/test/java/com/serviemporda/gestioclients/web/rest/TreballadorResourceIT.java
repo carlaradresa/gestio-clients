@@ -34,9 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = GestioClientsApp.class)
 public class TreballadorResourceIT {
 
-    private static final Integer DEFAULT_NUMERO = 1;
-    private static final Integer UPDATED_NUMERO = 2;
-
     private static final String DEFAULT_NOM = "AAAAAAAAAA";
     private static final String UPDATED_NOM = "BBBBBBBBBB";
 
@@ -91,7 +88,6 @@ public class TreballadorResourceIT {
      */
     public static Treballador createEntity(EntityManager em) {
         Treballador treballador = new Treballador()
-            .numero(DEFAULT_NUMERO)
             .nom(DEFAULT_NOM)
             .carregaHores(DEFAULT_CARREGA_HORES)
             .actiu(DEFAULT_ACTIU)
@@ -106,7 +102,6 @@ public class TreballadorResourceIT {
      */
     public static Treballador createUpdatedEntity(EntityManager em) {
         Treballador treballador = new Treballador()
-            .numero(UPDATED_NUMERO)
             .nom(UPDATED_NOM)
             .carregaHores(UPDATED_CARREGA_HORES)
             .actiu(UPDATED_ACTIU)
@@ -134,7 +129,6 @@ public class TreballadorResourceIT {
         List<Treballador> treballadorList = treballadorRepository.findAll();
         assertThat(treballadorList).hasSize(databaseSizeBeforeCreate + 1);
         Treballador testTreballador = treballadorList.get(treballadorList.size() - 1);
-        assertThat(testTreballador.getNumero()).isEqualTo(DEFAULT_NUMERO);
         assertThat(testTreballador.getNom()).isEqualTo(DEFAULT_NOM);
         assertThat(testTreballador.getCarregaHores()).isEqualTo(DEFAULT_CARREGA_HORES);
         assertThat(testTreballador.isActiu()).isEqualTo(DEFAULT_ACTIU);
@@ -172,7 +166,6 @@ public class TreballadorResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(treballador.getId().intValue())))
-            .andExpect(jsonPath("$.[*].numero").value(hasItem(DEFAULT_NUMERO)))
             .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM)))
             .andExpect(jsonPath("$.[*].carregaHores").value(hasItem(DEFAULT_CARREGA_HORES.toString())))
             .andExpect(jsonPath("$.[*].actiu").value(hasItem(DEFAULT_ACTIU.booleanValue())))
@@ -190,7 +183,6 @@ public class TreballadorResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(treballador.getId().intValue()))
-            .andExpect(jsonPath("$.numero").value(DEFAULT_NUMERO))
             .andExpect(jsonPath("$.nom").value(DEFAULT_NOM))
             .andExpect(jsonPath("$.carregaHores").value(DEFAULT_CARREGA_HORES.toString()))
             .andExpect(jsonPath("$.actiu").value(DEFAULT_ACTIU.booleanValue()))
@@ -218,7 +210,6 @@ public class TreballadorResourceIT {
         // Disconnect from session so that the updates on updatedTreballador are not directly saved in db
         em.detach(updatedTreballador);
         updatedTreballador
-            .numero(UPDATED_NUMERO)
             .nom(UPDATED_NOM)
             .carregaHores(UPDATED_CARREGA_HORES)
             .actiu(UPDATED_ACTIU)
@@ -233,7 +224,6 @@ public class TreballadorResourceIT {
         List<Treballador> treballadorList = treballadorRepository.findAll();
         assertThat(treballadorList).hasSize(databaseSizeBeforeUpdate);
         Treballador testTreballador = treballadorList.get(treballadorList.size() - 1);
-        assertThat(testTreballador.getNumero()).isEqualTo(UPDATED_NUMERO);
         assertThat(testTreballador.getNom()).isEqualTo(UPDATED_NOM);
         assertThat(testTreballador.getCarregaHores()).isEqualTo(UPDATED_CARREGA_HORES);
         assertThat(testTreballador.isActiu()).isEqualTo(UPDATED_ACTIU);
@@ -274,20 +264,5 @@ public class TreballadorResourceIT {
         // Validate the database contains one less item
         List<Treballador> treballadorList = treballadorRepository.findAll();
         assertThat(treballadorList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Treballador.class);
-        Treballador treballador1 = new Treballador();
-        treballador1.setId(1L);
-        Treballador treballador2 = new Treballador();
-        treballador2.setId(treballador1.getId());
-        assertThat(treballador1).isEqualTo(treballador2);
-        treballador2.setId(2L);
-        assertThat(treballador1).isNotEqualTo(treballador2);
-        treballador1.setId(null);
-        assertThat(treballador1).isNotEqualTo(treballador2);
     }
 }

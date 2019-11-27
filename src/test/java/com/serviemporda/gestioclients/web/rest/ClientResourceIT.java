@@ -33,9 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = GestioClientsApp.class)
 public class ClientResourceIT {
 
-    private static final Integer DEFAULT_NUMERO = 1;
-    private static final Integer UPDATED_NUMERO = 2;
-
     private static final String DEFAULT_NOM = "AAAAAAAAAA";
     private static final String UPDATED_NOM = "BBBBBBBBBB";
 
@@ -102,7 +99,6 @@ public class ClientResourceIT {
      */
     public static Client createEntity(EntityManager em) {
         Client client = new Client()
-            .numero(DEFAULT_NUMERO)
             .nom(DEFAULT_NOM)
             .direccio(DEFAULT_DIRECCIO)
             .localitat(DEFAULT_LOCALITAT)
@@ -121,7 +117,6 @@ public class ClientResourceIT {
      */
     public static Client createUpdatedEntity(EntityManager em) {
         Client client = new Client()
-            .numero(UPDATED_NUMERO)
             .nom(UPDATED_NOM)
             .direccio(UPDATED_DIRECCIO)
             .localitat(UPDATED_LOCALITAT)
@@ -153,7 +148,6 @@ public class ClientResourceIT {
         List<Client> clientList = clientRepository.findAll();
         assertThat(clientList).hasSize(databaseSizeBeforeCreate + 1);
         Client testClient = clientList.get(clientList.size() - 1);
-        assertThat(testClient.getNumero()).isEqualTo(DEFAULT_NUMERO);
         assertThat(testClient.getNom()).isEqualTo(DEFAULT_NOM);
         assertThat(testClient.getDireccio()).isEqualTo(DEFAULT_DIRECCIO);
         assertThat(testClient.getLocalitat()).isEqualTo(DEFAULT_LOCALITAT);
@@ -195,7 +189,6 @@ public class ClientResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(client.getId().intValue())))
-            .andExpect(jsonPath("$.[*].numero").value(hasItem(DEFAULT_NUMERO)))
             .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM)))
             .andExpect(jsonPath("$.[*].direccio").value(hasItem(DEFAULT_DIRECCIO)))
             .andExpect(jsonPath("$.[*].localitat").value(hasItem(DEFAULT_LOCALITAT)))
@@ -217,7 +210,6 @@ public class ClientResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(client.getId().intValue()))
-            .andExpect(jsonPath("$.numero").value(DEFAULT_NUMERO))
             .andExpect(jsonPath("$.nom").value(DEFAULT_NOM))
             .andExpect(jsonPath("$.direccio").value(DEFAULT_DIRECCIO))
             .andExpect(jsonPath("$.localitat").value(DEFAULT_LOCALITAT))
@@ -249,7 +241,6 @@ public class ClientResourceIT {
         // Disconnect from session so that the updates on updatedClient are not directly saved in db
         em.detach(updatedClient);
         updatedClient
-            .numero(UPDATED_NUMERO)
             .nom(UPDATED_NOM)
             .direccio(UPDATED_DIRECCIO)
             .localitat(UPDATED_LOCALITAT)
@@ -268,7 +259,6 @@ public class ClientResourceIT {
         List<Client> clientList = clientRepository.findAll();
         assertThat(clientList).hasSize(databaseSizeBeforeUpdate);
         Client testClient = clientList.get(clientList.size() - 1);
-        assertThat(testClient.getNumero()).isEqualTo(UPDATED_NUMERO);
         assertThat(testClient.getNom()).isEqualTo(UPDATED_NOM);
         assertThat(testClient.getDireccio()).isEqualTo(UPDATED_DIRECCIO);
         assertThat(testClient.getLocalitat()).isEqualTo(UPDATED_LOCALITAT);
@@ -313,20 +303,5 @@ public class ClientResourceIT {
         // Validate the database contains one less item
         List<Client> clientList = clientRepository.findAll();
         assertThat(clientList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Client.class);
-        Client client1 = new Client();
-        client1.setId(1L);
-        Client client2 = new Client();
-        client2.setId(client1.getId());
-        assertThat(client1).isEqualTo(client2);
-        client2.setId(2L);
-        assertThat(client1).isNotEqualTo(client2);
-        client1.setId(null);
-        assertThat(client1).isNotEqualTo(client2);
     }
 }

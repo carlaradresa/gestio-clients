@@ -16,14 +16,11 @@
       "detail": {
         "title": "Treballador"
       },
-      "numero": "Numero",
       "nom": "Nom",
       "carregaHores": "Carrega Hores",
       "actiu": "Actiu",
       "controlQualitat": "Control Qualitat",
       "user": "User",
-      "marcatge": "Marcatge",
-      "revisionsFetes": "Revisions Fetes",
       "feina": "Feina"
     }
   }

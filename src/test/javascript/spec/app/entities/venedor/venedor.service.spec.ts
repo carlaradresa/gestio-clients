@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(VenedorService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Venedor(0, 0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Venedor(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -56,7 +56,6 @@ describe('Service Tests', () => {
       it('should update a Venedor', () => {
         const returnedFromService = Object.assign(
           {
-            numero: 1,
             nom: 'BBBBBB',
             telefon: 'BBBBBB',
             email: 'BBBBBB',
@@ -78,7 +77,6 @@ describe('Service Tests', () => {
       it('should return a list of Venedor', () => {
         const returnedFromService = Object.assign(
           {
-            numero: 1,
             nom: 'BBBBBB',
             telefon: 'BBBBBB',
             email: 'BBBBBB',

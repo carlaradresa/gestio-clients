@@ -31,7 +31,7 @@ public class RepeticioTascaSetmanal implements Serializable {
     private Boolean activo;
 
     @ManyToOne
-    @JsonIgnoreProperties("repeticios")
+    @JsonIgnoreProperties("repeticioTascaSetmanals")
     private Feina feina;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
