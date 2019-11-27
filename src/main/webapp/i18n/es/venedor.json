@@ -5,7 +5,7 @@
         "title": "Venedors",
         "createLabel": "Crear nuevo Venedor",
         "createOrEditLabel": "Crear o editar Venedor",
-        "notFound": "No Venedors found"
+        "notFound": "Ningún Venedors encontrado"
       },
       "created": "Un nuevo Venedor ha sido creado con el identificador {{ param }}",
       "updated": "Un Venedor ha sido actualizado con el identificador {{ param }}",
@@ -16,13 +16,11 @@
       "detail": {
         "title": "Venedor"
       },
-      "numero": "Numero",
       "nom": "Nom",
       "telefon": "Telefon",
       "email": "Email",
       "observacions": "Observacions",
-      "ubicacio": "Ubicacio",
-      "client": "Client"
+      "ubicacio": "Ubicacio"
     }
   }
 }

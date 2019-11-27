@@ -5,7 +5,7 @@
         "title": "Treballadors",
         "createLabel": "Crear nuevo Treballador",
         "createOrEditLabel": "Crear o editar Treballador",
-        "notFound": "No Treballadors found"
+        "notFound": "Ningún Treballadors encontrado"
       },
       "created": "Un nuevo Treballador ha sido creado con el identificador {{ param }}",
       "updated": "Un Treballador ha sido actualizado con el identificador {{ param }}",
@@ -16,14 +16,11 @@
       "detail": {
         "title": "Treballador"
       },
-      "numero": "Numero",
       "nom": "Nom",
       "carregaHores": "Carrega Hores",
       "actiu": "Actiu",
       "controlQualitat": "Control Qualitat",
       "user": "User",
-      "marcatge": "Marcatge",
-      "revisionsFetes": "Revisions Fetes",
       "feina": "Feina"
     }
   }

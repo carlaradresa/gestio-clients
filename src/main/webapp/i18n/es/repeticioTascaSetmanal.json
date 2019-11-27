@@ -5,7 +5,7 @@
         "title": "Repeticio Tasca Setmanals",
         "createLabel": "Crear nuevo Repeticio Tasca Setmanal",
         "createOrEditLabel": "Crear o editar Repeticio Tasca Setmanal",
-        "notFound": "No Repeticio Tasca Setmanals found"
+        "notFound": "Ningún Repeticio Tasca Setmanals encontrado"
       },
       "created": "Un nuevo Repeticio Tasca Setmanal ha sido creado con el identificador {{ param }}",
       "updated": "Un Repeticio Tasca Setmanal ha sido actualizado con el identificador {{ param }}",

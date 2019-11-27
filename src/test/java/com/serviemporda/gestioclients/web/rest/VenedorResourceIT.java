@@ -33,9 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = GestioClientsApp.class)
 public class VenedorResourceIT {
 
-    private static final Integer DEFAULT_NUMERO = 1;
-    private static final Integer UPDATED_NUMERO = 2;
-
     private static final String DEFAULT_NOM = "AAAAAAAAAA";
     private static final String UPDATED_NOM = "BBBBBBBBBB";
 
@@ -90,7 +87,6 @@ public class VenedorResourceIT {
      */
     public static Venedor createEntity(EntityManager em) {
         Venedor venedor = new Venedor()
-            .numero(DEFAULT_NUMERO)
             .nom(DEFAULT_NOM)
             .telefon(DEFAULT_TELEFON)
             .email(DEFAULT_EMAIL)
@@ -105,7 +101,6 @@ public class VenedorResourceIT {
      */
     public static Venedor createUpdatedEntity(EntityManager em) {
         Venedor venedor = new Venedor()
-            .numero(UPDATED_NUMERO)
             .nom(UPDATED_NOM)
             .telefon(UPDATED_TELEFON)
             .email(UPDATED_EMAIL)
@@ -133,7 +128,6 @@ public class VenedorResourceIT {
         List<Venedor> venedorList = venedorRepository.findAll();
         assertThat(venedorList).hasSize(databaseSizeBeforeCreate + 1);
         Venedor testVenedor = venedorList.get(venedorList.size() - 1);
-        assertThat(testVenedor.getNumero()).isEqualTo(DEFAULT_NUMERO);
         assertThat(testVenedor.getNom()).isEqualTo(DEFAULT_NOM);
         assertThat(testVenedor.getTelefon()).isEqualTo(DEFAULT_TELEFON);
         assertThat(testVenedor.getEmail()).isEqualTo(DEFAULT_EMAIL);
@@ -171,7 +165,6 @@ public class VenedorResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(venedor.getId().intValue())))
-            .andExpect(jsonPath("$.[*].numero").value(hasItem(DEFAULT_NUMERO)))
             .andExpect(jsonPath("$.[*].nom").value(hasItem(DEFAULT_NOM)))
             .andExpect(jsonPath("$.[*].telefon").value(hasItem(DEFAULT_TELEFON)))
             .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
@@ -189,7 +182,6 @@ public class VenedorResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(venedor.getId().intValue()))
-            .andExpect(jsonPath("$.numero").value(DEFAULT_NUMERO))
             .andExpect(jsonPath("$.nom").value(DEFAULT_NOM))
             .andExpect(jsonPath("$.telefon").value(DEFAULT_TELEFON))
             .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
@@ -217,7 +209,6 @@ public class VenedorResourceIT {
         // Disconnect from session so that the updates on updatedVenedor are not directly saved in db
         em.detach(updatedVenedor);
         updatedVenedor
-            .numero(UPDATED_NUMERO)
             .nom(UPDATED_NOM)
             .telefon(UPDATED_TELEFON)
             .email(UPDATED_EMAIL)
@@ -232,7 +223,6 @@ public class VenedorResourceIT {
         List<Venedor> venedorList = venedorRepository.findAll();
         assertThat(venedorList).hasSize(databaseSizeBeforeUpdate);
         Venedor testVenedor = venedorList.get(venedorList.size() - 1);
-        assertThat(testVenedor.getNumero()).isEqualTo(UPDATED_NUMERO);
         assertThat(testVenedor.getNom()).isEqualTo(UPDATED_NOM);
         assertThat(testVenedor.getTelefon()).isEqualTo(UPDATED_TELEFON);
         assertThat(testVenedor.getEmail()).isEqualTo(UPDATED_EMAIL);
@@ -273,20 +263,5 @@ public class VenedorResourceIT {
         // Validate the database contains one less item
         List<Venedor> venedorList = venedorRepository.findAll();
         assertThat(venedorList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Venedor.class);
-        Venedor venedor1 = new Venedor();
-        venedor1.setId(1L);
-        Venedor venedor2 = new Venedor();
-        venedor2.setId(venedor1.getId());
-        assertThat(venedor1).isEqualTo(venedor2);
-        venedor2.setId(2L);
-        assertThat(venedor1).isNotEqualTo(venedor2);
-        venedor1.setId(null);
-        assertThat(venedor1).isNotEqualTo(venedor2);
     }
 }

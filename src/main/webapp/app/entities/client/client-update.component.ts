@@ -5,7 +5,6 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { IClient, Client } from 'app/shared/model/client.model';
 import { ClientService } from './client.service';
@@ -27,7 +26,6 @@ export class ClientUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    numero: [],
     nom: [],
     direccio: [],
     localitat: [],
@@ -54,44 +52,29 @@ export class ClientUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ client }) => {
       this.updateForm(client);
     });
-    this.ubicacioService
-      .query({ filter: 'client-is-null' })
-      .pipe(
-        filter((mayBeOk: HttpResponse<IUbicacio[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IUbicacio[]>) => response.body)
-      )
-      .subscribe(
-        (res: IUbicacio[]) => {
-          if (!this.editForm.get('ubicacio').value || !this.editForm.get('ubicacio').value.id) {
-            this.ubicacios = res;
-          } else {
-            this.ubicacioService
-              .find(this.editForm.get('ubicacio').value.id)
-              .pipe(
-                filter((subResMayBeOk: HttpResponse<IUbicacio>) => subResMayBeOk.ok),
-                map((subResponse: HttpResponse<IUbicacio>) => subResponse.body)
-              )
-              .subscribe(
-                (subRes: IUbicacio) => (this.ubicacios = [subRes].concat(res)),
-                (subRes: HttpErrorResponse) => this.onError(subRes.message)
-              );
-          }
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
+    this.ubicacioService.query({ filter: 'client-is-null' }).subscribe(
+      (res: HttpResponse<IUbicacio[]>) => {
+        if (!this.editForm.get('ubicacio').value || !this.editForm.get('ubicacio').value.id) {
+          this.ubicacios = res.body;
+        } else {
+          this.ubicacioService
+            .find(this.editForm.get('ubicacio').value.id)
+            .subscribe(
+              (subRes: HttpResponse<IUbicacio>) => (this.ubicacios = [subRes.body].concat(res.body)),
+              (subRes: HttpErrorResponse) => this.onError(subRes.message)
+            );
+        }
+      },
+      (res: HttpErrorResponse) => this.onError(res.message)
+    );
     this.venedorService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IVenedor[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IVenedor[]>) => response.body)
-      )
-      .subscribe((res: IVenedor[]) => (this.venedors = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<IVenedor[]>) => (this.venedors = res.body), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(client: IClient) {
     this.editForm.patchValue({
       id: client.id,
-      numero: client.numero,
       nom: client.nom,
       direccio: client.direccio,
       localitat: client.localitat,
@@ -123,7 +106,6 @@ export class ClientUpdateComponent implements OnInit {
     return {
       ...new Client(),
       id: this.editForm.get(['id']).value,
-      numero: this.editForm.get(['numero']).value,
       nom: this.editForm.get(['nom']).value,
       direccio: this.editForm.get(['direccio']).value,
       localitat: this.editForm.get(['localitat']).value,
