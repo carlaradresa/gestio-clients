@@ -10,11 +10,6 @@
                         readonly />
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gestioClientsApp.feina.numero" for="field_numero">Numero</label>
-                    <input type="number" class="form-control" name="numero" id="field_numero"
-                           formControlName="numero"/>
-                </div>
-                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gestioClientsApp.feina.nom" for="field_nom">Nom</label>
                     <input type="text" class="form-control" name="nom" id="field_nom"
                            formControlName="nom"/>
@@ -73,21 +68,21 @@
                     <label class="form-control-label" jhiTranslate="gestioClientsApp.feina.plantillaFeina" for="field_plantillaFeina">Plantilla Feina</label>
                     <select class="form-control" id="field_plantillaFeina" name="plantillaFeina" formControlName="plantillaFeina">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="plantillaFeinaOption.id === editForm.get('plantillaFeina').value?.id ? editForm.get('plantillaFeina').value : plantillaFeinaOption" *ngFor="let plantillaFeinaOption of plantillafeinas; trackBy: trackPlantillaFeinaById">{{plantillaFeinaOption.numero}}</option>
+                        <option [ngValue]="plantillaFeinaOption.id === editForm.get('plantillaFeina').value?.id ? editForm.get('plantillaFeina').value : plantillaFeinaOption" *ngFor="let plantillaFeinaOption of plantillafeinas; trackBy: trackPlantillaFeinaById">{{plantillaFeinaOption.id}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gestioClientsApp.feina.categoria" for="field_categoria">Categoria</label>
                     <select class="form-control" id="field_categoria" name="categoria" formControlName="categoria">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="categoriaOption.id === editForm.get('categoria').value?.id ? editForm.get('categoria').value : categoriaOption" *ngFor="let categoriaOption of categorias; trackBy: trackCategoriaById">{{categoriaOption.nom}}</option>
+                        <option [ngValue]="categoriaOption.id === editForm.get('categoria').value?.id ? editForm.get('categoria').value : categoriaOption" *ngFor="let categoriaOption of categorias; trackBy: trackCategoriaById">{{categoriaOption.id}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gestioClientsApp.feina.client" for="field_client">Client</label>
                     <select class="form-control" id="field_client" name="client" formControlName="client">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="clientOption.id === editForm.get('client').value?.id ? editForm.get('client').value : clientOption" *ngFor="let clientOption of clients; trackBy: trackClientById">{{clientOption.nom}}</option>
+                        <option [ngValue]="clientOption.id === editForm.get('client').value?.id ? editForm.get('client').value : clientOption" *ngFor="let clientOption of clients; trackBy: trackClientById">{{clientOption.id}}</option>
                     </select>
                 </div>
                 <div class="form-group">

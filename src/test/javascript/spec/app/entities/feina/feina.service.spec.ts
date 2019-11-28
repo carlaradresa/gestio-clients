@@ -24,7 +24,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Feina(0, 0, 'AAAAAAA', 'AAAAAAA', currentDate, 0, 0, false, 0, false, 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Feina(0, 'AAAAAAA', 'AAAAAAA', currentDate, 0, 0, false, 0, false, 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -71,7 +71,6 @@ describe('Service Tests', () => {
       it('should update a Feina', () => {
         const returnedFromService = Object.assign(
           {
-            numero: 1,
             nom: 'BBBBBB',
             descripcio: 'BBBBBB',
             setmana: currentDate.format(DATE_FORMAT),
@@ -104,7 +103,6 @@ describe('Service Tests', () => {
       it('should return a list of Feina', () => {
         const returnedFromService = Object.assign(
           {
-            numero: 1,
             nom: 'BBBBBB',
             descripcio: 'BBBBBB',
             setmana: currentDate.format(DATE_FORMAT),

@@ -28,13 +28,13 @@
                 <dt><span jhiTranslate="gestioClientsApp.control.revisor">Revisor</span></dt>
                 <dd>
                     <div *ngIf="control.revisor">
-                        <a [routerLink]="['/treballador', control.revisor?.id, 'view']">{{control.revisor?.nom}}</a>
+                        <a [routerLink]="['/treballador', control.revisor?.id, 'view']">{{control.revisor?.id}}</a>
                     </div>
                 </dd>
                 <dt><span jhiTranslate="gestioClientsApp.control.feina">Feina</span></dt>
                 <dd>
                     <div *ngIf="control.feina">
-                        <a [routerLink]="['/feina', control.feina?.id, 'view']">{{control.feina?.nom}}</a>
+                        <a [routerLink]="['/feina', control.feina?.id, 'view']">{{control.feina?.id}}</a>
                     </div>
                 </dd>
             </dl>

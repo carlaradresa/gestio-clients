@@ -6,14 +6,7 @@
             "fieldType": "String"
         }
     ],
-    "relationships": [
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "feina",
-            "otherEntityRelationshipName": "categoria",
-            "relationshipName": "feina"
-        }
-    ],
+    "relationships": [],
     "changelogDate": "20191029182926",
     "entityTableName": "categoria",
     "dto": "no",

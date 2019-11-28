@@ -2,10 +2,6 @@
     "name": "Client",
     "fields": [
         {
-            "fieldName": "numero",
-            "fieldType": "Integer"
-        },
-        {
             "fieldName": "nom",
             "fieldType": "String"
         },
@@ -52,13 +48,7 @@
             "otherEntityName": "venedor",
             "otherEntityRelationshipName": "client",
             "relationshipName": "venedor",
-            "otherEntityField": "numero"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "feina",
-            "otherEntityRelationshipName": "client",
-            "relationshipName": "feina"
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20191029182929",

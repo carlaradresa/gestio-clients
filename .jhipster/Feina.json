@@ -2,10 +2,6 @@
     "name": "Feina",
     "fields": [
         {
-            "fieldName": "numero",
-            "fieldType": "Integer"
-        },
-        {
             "fieldName": "nom",
             "fieldType": "String"
         },
@@ -52,21 +48,21 @@
             "otherEntityName": "plantillaFeina",
             "otherEntityRelationshipName": "feina",
             "relationshipName": "plantillaFeina",
-            "otherEntityField": "numero"
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "categoria",
             "otherEntityRelationshipName": "feina",
             "relationshipName": "categoria",
-            "otherEntityField": "nom"
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "client",
             "otherEntityRelationshipName": "feina",
             "relationshipName": "client",
-            "otherEntityField": "nom"
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-many",
@@ -75,24 +71,6 @@
             "relationshipName": "treballador",
             "otherEntityField": "nom",
             "ownerSide": true
-        },
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "repeticioTascaSetmanal",
-            "otherEntityRelationshipName": "feina",
-            "relationshipName": "repeticio"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "marcatge",
-            "otherEntityRelationshipName": "feina",
-            "relationshipName": "marcatge"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "control",
-            "otherEntityRelationshipName": "feina",
-            "relationshipName": "revisionsRebudes"
         }
     ],
     "changelogDate": "20191029182930",

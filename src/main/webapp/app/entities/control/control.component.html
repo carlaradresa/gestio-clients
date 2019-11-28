@@ -39,12 +39,12 @@
                 <td>{{control.comentaris}}</td>
                 <td>
                     <div *ngIf="control.revisor">
-                        <a [routerLink]="['/treballador', control.revisor?.id, 'view' ]" >{{control.revisor?.nom}}</a>
+                        <a [routerLink]="['/treballador', control.revisor?.id, 'view' ]" >{{control.revisor?.id}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="control.feina">
-                        <a [routerLink]="['/feina', control.feina?.id, 'view' ]" >{{control.feina?.nom}}</a>
+                        <a [routerLink]="['/feina', control.feina?.id, 'view' ]" >{{control.feina?.id}}</a>
                     </div>
                 </td>
                 <td class="text-right">
@@ -61,10 +61,7 @@
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit"
-                                [routerLink]="['/control', { outlets: { popup: control.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
+                        <button type="submit" (click)="delete(control)"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>

@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(TreballadorService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Treballador(0, 0, 'AAAAAAA', 0, false, false);
+      elemDefault = new Treballador(0, 'AAAAAAA', 0, false, false);
     });
 
     describe('Service methods', () => {
@@ -56,7 +56,6 @@ describe('Service Tests', () => {
       it('should update a Treballador', () => {
         const returnedFromService = Object.assign(
           {
-            numero: 1,
             nom: 'BBBBBB',
             carregaHores: 'BBBBBB',
             actiu: true,
@@ -78,7 +77,6 @@ describe('Service Tests', () => {
       it('should return a list of Treballador', () => {
         const returnedFromService = Object.assign(
           {
-            numero: 1,
             nom: 'BBBBBB',
             carregaHores: 'BBBBBB',
             actiu: true,

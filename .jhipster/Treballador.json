@@ -2,10 +2,6 @@
     "name": "Treballador",
     "fields": [
         {
-            "fieldName": "numero",
-            "fieldType": "Integer"
-        },
-        {
             "fieldName": "nom",
             "fieldType": "String"
         },
@@ -30,18 +26,6 @@
             "relationshipName": "user",
             "otherEntityField": "login",
             "ownerSide": true
-        },
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "marcatge",
-            "otherEntityRelationshipName": "treballador",
-            "relationshipName": "marcatge"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "otherEntityName": "control",
-            "otherEntityRelationshipName": "revisor",
-            "relationshipName": "revisionsFetes"
         },
         {
             "relationshipType": "many-to-many",
