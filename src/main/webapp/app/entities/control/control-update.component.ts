@@ -5,7 +5,6 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
@@ -55,18 +54,13 @@ export class ControlUpdateComponent implements OnInit {
     });
     this.treballadorService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<ITreballador[]>) => mayBeOk.ok),
-        map((response: HttpResponse<ITreballador[]>) => response.body)
-      )
-      .subscribe((res: ITreballador[]) => (this.treballadors = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe(
+        (res: HttpResponse<ITreballador[]>) => (this.treballadors = res.body),
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
     this.feinaService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IFeina[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IFeina[]>) => response.body)
-      )
-      .subscribe((res: IFeina[]) => (this.feinas = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<IFeina[]>) => (this.feinas = res.body), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(control: IControl) {

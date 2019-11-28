@@ -5,7 +5,6 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { IVenedor, Venedor } from 'app/shared/model/venedor.model';
 import { VenedorService } from './venedor.service';
@@ -23,7 +22,6 @@ export class VenedorUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    numero: [],
     nom: [],
     telefon: [],
     email: [],
@@ -44,37 +42,26 @@ export class VenedorUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ venedor }) => {
       this.updateForm(venedor);
     });
-    this.ubicacioService
-      .query({ filter: 'venedor-is-null' })
-      .pipe(
-        filter((mayBeOk: HttpResponse<IUbicacio[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IUbicacio[]>) => response.body)
-      )
-      .subscribe(
-        (res: IUbicacio[]) => {
-          if (!this.editForm.get('ubicacio').value || !this.editForm.get('ubicacio').value.id) {
-            this.ubicacios = res;
-          } else {
-            this.ubicacioService
-              .find(this.editForm.get('ubicacio').value.id)
-              .pipe(
-                filter((subResMayBeOk: HttpResponse<IUbicacio>) => subResMayBeOk.ok),
-                map((subResponse: HttpResponse<IUbicacio>) => subResponse.body)
-              )
-              .subscribe(
-                (subRes: IUbicacio) => (this.ubicacios = [subRes].concat(res)),
-                (subRes: HttpErrorResponse) => this.onError(subRes.message)
-              );
-          }
-        },
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
+    this.ubicacioService.query({ filter: 'venedor-is-null' }).subscribe(
+      (res: HttpResponse<IUbicacio[]>) => {
+        if (!this.editForm.get('ubicacio').value || !this.editForm.get('ubicacio').value.id) {
+          this.ubicacios = res.body;
+        } else {
+          this.ubicacioService
+            .find(this.editForm.get('ubicacio').value.id)
+            .subscribe(
+              (subRes: HttpResponse<IUbicacio>) => (this.ubicacios = [subRes.body].concat(res.body)),
+              (subRes: HttpErrorResponse) => this.onError(subRes.message)
+            );
+        }
+      },
+      (res: HttpErrorResponse) => this.onError(res.message)
+    );
   }
 
   updateForm(venedor: IVenedor) {
     this.editForm.patchValue({
       id: venedor.id,
-      numero: venedor.numero,
       nom: venedor.nom,
       telefon: venedor.telefon,
       email: venedor.email,
@@ -101,7 +88,6 @@ export class VenedorUpdateComponent implements OnInit {
     return {
       ...new Venedor(),
       id: this.editForm.get(['id']).value,
-      numero: this.editForm.get(['numero']).value,
       nom: this.editForm.get(['nom']).value,
       telefon: this.editForm.get(['telefon']).value,
       email: this.editForm.get(['email']).value,

@@ -8,8 +8,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Duration;
-import java.util.HashSet;
-import java.util.Set;
 
 import com.serviemporda.gestioclients.domain.enumeration.Dia;
 
@@ -28,9 +26,6 @@ public class PlantillaFeina implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "numero")
-    private Integer numero;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "dia")
@@ -64,10 +59,6 @@ public class PlantillaFeina implements Serializable {
     @Column(name = "numero_control")
     private Integer numeroControl;
 
-    @OneToMany(mappedBy = "plantillaFeina")
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Feina> feinas = new HashSet<>();
-
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -75,19 +66,6 @@ public class PlantillaFeina implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Integer getNumero() {
-        return numero;
-    }
-
-    public PlantillaFeina numero(Integer numero) {
-        this.numero = numero;
-        return this;
-    }
-
-    public void setNumero(Integer numero) {
-        this.numero = numero;
     }
 
     public Dia getDia() {
@@ -219,31 +197,6 @@ public class PlantillaFeina implements Serializable {
     public void setNumeroControl(Integer numeroControl) {
         this.numeroControl = numeroControl;
     }
-
-    public Set<Feina> getFeinas() {
-        return feinas;
-    }
-
-    public PlantillaFeina feinas(Set<Feina> feinas) {
-        this.feinas = feinas;
-        return this;
-    }
-
-    public PlantillaFeina addFeina(Feina feina) {
-        this.feinas.add(feina);
-        feina.setPlantillaFeina(this);
-        return this;
-    }
-
-    public PlantillaFeina removeFeina(Feina feina) {
-        this.feinas.remove(feina);
-        feina.setPlantillaFeina(null);
-        return this;
-    }
-
-    public void setFeinas(Set<Feina> feinas) {
-        this.feinas = feinas;
-    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -266,7 +219,6 @@ public class PlantillaFeina implements Serializable {
     public String toString() {
         return "PlantillaFeina{" +
             "id=" + getId() +
-            ", numero=" + getNumero() +
             ", dia='" + getDia() + "'" +
             ", horaInici='" + getHoraInici() + "'" +
             ", horaFinal='" + getHoraFinal() + "'" +

@@ -19,7 +19,6 @@
             <thead>
             <tr>
             <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-            <th scope="col" ><span jhiTranslate="gestioClientsApp.feina.numero">Numero</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.feina.nom">Nom</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.feina.descripcio">Descripcio</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.feina.setmana">Setmana</span></th>
@@ -40,7 +39,6 @@
             <tbody>
             <tr *ngFor="let feina of feinas ;trackBy: trackId">
                 <td><a [routerLink]="['/feina', feina.id, 'view' ]">{{feina.id}}</a></td>
-                <td>{{feina.numero}}</td>
                 <td>{{feina.nom}}</td>
                 <td>{{feina.descripcio}}</td>
                 <td>{{feina.setmana | date:'mediumDate'}}</td>
@@ -53,17 +51,17 @@
                 <td>{{feina.comentarisTreballador}}</td>
                 <td>
                     <div *ngIf="feina.plantillaFeina">
-                        <a [routerLink]="['/plantilla-feina', feina.plantillaFeina?.id, 'view' ]" >{{feina.plantillaFeina?.numero}}</a>
+                        <a [routerLink]="['/plantilla-feina', feina.plantillaFeina?.id, 'view' ]" >{{feina.plantillaFeina?.id}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="feina.categoria">
-                        <a [routerLink]="['/categoria', feina.categoria?.id, 'view' ]" >{{feina.categoria?.nom}}</a>
+                        <a [routerLink]="['/categoria', feina.categoria?.id, 'view' ]" >{{feina.categoria?.id}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="feina.client">
-                        <a [routerLink]="['/client', feina.client?.id, 'view' ]" >{{feina.client?.nom}}</a>
+                        <a [routerLink]="['/client', feina.client?.id, 'view' ]" >{{feina.client?.id}}</a>
                     </div>
                 </td>
                 <td>
@@ -85,10 +83,7 @@
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit"
-                                [routerLink]="['/feina', { outlets: { popup: feina.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
+                        <button type="submit" (click)="delete(feina)"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>

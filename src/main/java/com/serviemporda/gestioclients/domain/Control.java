@@ -39,11 +39,11 @@ public class Control implements Serializable {
     private String comentaris;
 
     @ManyToOne
-    @JsonIgnoreProperties("revisionsFetes")
+    @JsonIgnoreProperties("controls")
     private Treballador revisor;
 
     @ManyToOne
-    @JsonIgnoreProperties("revisionsRebudes")
+    @JsonIgnoreProperties("controls")
     private Feina feina;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

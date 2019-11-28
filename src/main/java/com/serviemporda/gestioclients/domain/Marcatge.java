@@ -22,9 +22,6 @@ public class Marcatge implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "numero")
-    private Integer numero;
-
     @Column(name = "hora_entrada")
     private Instant horaEntrada;
 
@@ -49,19 +46,6 @@ public class Marcatge implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Integer getNumero() {
-        return numero;
-    }
-
-    public Marcatge numero(Integer numero) {
-        this.numero = numero;
-        return this;
-    }
-
-    public void setNumero(Integer numero) {
-        this.numero = numero;
     }
 
     public Instant getHoraEntrada() {
@@ -150,7 +134,6 @@ public class Marcatge implements Serializable {
     public String toString() {
         return "Marcatge{" +
             "id=" + getId() +
-            ", numero=" + getNumero() +
             ", horaEntrada='" + getHoraEntrada() + "'" +
             ", horaSortida='" + getHoraSortida() + "'" +
             ", desviacio='" + isDesviacio() + "'" +

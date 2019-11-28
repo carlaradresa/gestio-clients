@@ -5,10 +5,6 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="gestioClientsApp.client.numero">Numero</span></dt>
-                <dd>
-                    <span>{{client.numero}}</span>
-                </dd>
                 <dt><span jhiTranslate="gestioClientsApp.client.nom">Nom</span></dt>
                 <dd>
                     <span>{{client.nom}}</span>
@@ -50,7 +46,7 @@
                 <dt><span jhiTranslate="gestioClientsApp.client.venedor">Venedor</span></dt>
                 <dd>
                     <div *ngIf="client.venedor">
-                        <a [routerLink]="['/venedor', client.venedor?.id, 'view']">{{client.venedor?.numero}}</a>
+                        <a [routerLink]="['/venedor', client.venedor?.id, 'view']">{{client.venedor?.id}}</a>
                     </div>
                 </dd>
             </dl>

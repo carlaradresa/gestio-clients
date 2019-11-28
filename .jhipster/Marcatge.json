@@ -2,10 +2,6 @@
     "name": "Marcatge",
     "fields": [
         {
-            "fieldName": "numero",
-            "fieldType": "Integer"
-        },
-        {
             "fieldName": "horaEntrada",
             "fieldType": "Instant"
         },
@@ -24,14 +20,14 @@
             "otherEntityName": "feina",
             "otherEntityRelationshipName": "marcatge",
             "relationshipName": "feina",
-            "otherEntityField": "nom"
+            "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "treballador",
             "otherEntityRelationshipName": "marcatge",
             "relationshipName": "treballador",
-            "otherEntityField": "nom"
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20191029182932",

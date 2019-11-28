@@ -19,7 +19,6 @@
             <thead>
             <tr>
             <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-            <th scope="col" ><span jhiTranslate="gestioClientsApp.marcatge.numero">Numero</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.marcatge.horaEntrada">Hora Entrada</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.marcatge.horaSortida">Hora Sortida</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.marcatge.desviacio">Desviacio</span></th>
@@ -31,18 +30,17 @@
             <tbody>
             <tr *ngFor="let marcatge of marcatges ;trackBy: trackId">
                 <td><a [routerLink]="['/marcatge', marcatge.id, 'view' ]">{{marcatge.id}}</a></td>
-                <td>{{marcatge.numero}}</td>
                 <td>{{marcatge.horaEntrada | date:'medium'}}</td>
                 <td>{{marcatge.horaSortida | date:'medium'}}</td>
                 <td>{{marcatge.desviacio}}</td>
                 <td>
                     <div *ngIf="marcatge.feina">
-                        <a [routerLink]="['/feina', marcatge.feina?.id, 'view' ]" >{{marcatge.feina?.nom}}</a>
+                        <a [routerLink]="['/feina', marcatge.feina?.id, 'view' ]" >{{marcatge.feina?.id}}</a>
                     </div>
                 </td>
                 <td>
                     <div *ngIf="marcatge.treballador">
-                        <a [routerLink]="['/treballador', marcatge.treballador?.id, 'view' ]" >{{marcatge.treballador?.nom}}</a>
+                        <a [routerLink]="['/treballador', marcatge.treballador?.id, 'view' ]" >{{marcatge.treballador?.id}}</a>
                     </div>
                 </td>
                 <td class="text-right">
@@ -59,10 +57,7 @@
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
                         </button>
-                        <button type="submit"
-                                [routerLink]="['/marcatge', { outlets: { popup: marcatge.id + '/delete'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
+                        <button type="submit" (click)="delete(marcatge)"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>

@@ -5,10 +5,6 @@
             <hr>
             <jhi-alert-error></jhi-alert-error>
             <dl class="row-md jh-entity-details">
-                <dt><span jhiTranslate="gestioClientsApp.feina.numero">Numero</span></dt>
-                <dd>
-                    <span>{{feina.numero}}</span>
-                </dd>
                 <dt><span jhiTranslate="gestioClientsApp.feina.nom">Nom</span></dt>
                 <dd>
                     <span>{{feina.nom}}</span>
@@ -52,19 +48,19 @@
                 <dt><span jhiTranslate="gestioClientsApp.feina.plantillaFeina">Plantilla Feina</span></dt>
                 <dd>
                     <div *ngIf="feina.plantillaFeina">
-                        <a [routerLink]="['/plantilla-feina', feina.plantillaFeina?.id, 'view']">{{feina.plantillaFeina?.numero}}</a>
+                        <a [routerLink]="['/plantilla-feina', feina.plantillaFeina?.id, 'view']">{{feina.plantillaFeina?.id}}</a>
                     </div>
                 </dd>
                 <dt><span jhiTranslate="gestioClientsApp.feina.categoria">Categoria</span></dt>
                 <dd>
                     <div *ngIf="feina.categoria">
-                        <a [routerLink]="['/categoria', feina.categoria?.id, 'view']">{{feina.categoria?.nom}}</a>
+                        <a [routerLink]="['/categoria', feina.categoria?.id, 'view']">{{feina.categoria?.id}}</a>
                     </div>
                 </dd>
                 <dt><span jhiTranslate="gestioClientsApp.feina.client">Client</span></dt>
                 <dd>
                     <div *ngIf="feina.client">
-                        <a [routerLink]="['/client', feina.client?.id, 'view']">{{feina.client?.nom}}</a>
+                        <a [routerLink]="['/client', feina.client?.id, 'view']">{{feina.client?.id}}</a>
                     </div>
                 </dd>
                 <dt><span jhiTranslate="gestioClientsApp.feina.treballador">Treballador</span></dt>

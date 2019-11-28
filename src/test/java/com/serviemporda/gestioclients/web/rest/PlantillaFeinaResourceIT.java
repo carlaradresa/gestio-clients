@@ -40,9 +40,6 @@ import com.serviemporda.gestioclients.domain.enumeration.Periodicitat;
 @SpringBootTest(classes = GestioClientsApp.class)
 public class PlantillaFeinaResourceIT {
 
-    private static final Integer DEFAULT_NUMERO = 1;
-    private static final Integer UPDATED_NUMERO = 2;
-
     private static final Dia DEFAULT_DIA = Dia.DILLUNS;
     private static final Dia UPDATED_DIA = Dia.DIMARTS;
 
@@ -115,7 +112,6 @@ public class PlantillaFeinaResourceIT {
      */
     public static PlantillaFeina createEntity(EntityManager em) {
         PlantillaFeina plantillaFeina = new PlantillaFeina()
-            .numero(DEFAULT_NUMERO)
             .dia(DEFAULT_DIA)
             .horaInici(DEFAULT_HORA_INICI)
             .horaFinal(DEFAULT_HORA_FINAL)
@@ -136,7 +132,6 @@ public class PlantillaFeinaResourceIT {
      */
     public static PlantillaFeina createUpdatedEntity(EntityManager em) {
         PlantillaFeina plantillaFeina = new PlantillaFeina()
-            .numero(UPDATED_NUMERO)
             .dia(UPDATED_DIA)
             .horaInici(UPDATED_HORA_INICI)
             .horaFinal(UPDATED_HORA_FINAL)
@@ -170,7 +165,6 @@ public class PlantillaFeinaResourceIT {
         List<PlantillaFeina> plantillaFeinaList = plantillaFeinaRepository.findAll();
         assertThat(plantillaFeinaList).hasSize(databaseSizeBeforeCreate + 1);
         PlantillaFeina testPlantillaFeina = plantillaFeinaList.get(plantillaFeinaList.size() - 1);
-        assertThat(testPlantillaFeina.getNumero()).isEqualTo(DEFAULT_NUMERO);
         assertThat(testPlantillaFeina.getDia()).isEqualTo(DEFAULT_DIA);
         assertThat(testPlantillaFeina.getHoraInici()).isEqualTo(DEFAULT_HORA_INICI);
         assertThat(testPlantillaFeina.getHoraFinal()).isEqualTo(DEFAULT_HORA_FINAL);
@@ -214,7 +208,6 @@ public class PlantillaFeinaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(plantillaFeina.getId().intValue())))
-            .andExpect(jsonPath("$.[*].numero").value(hasItem(DEFAULT_NUMERO)))
             .andExpect(jsonPath("$.[*].dia").value(hasItem(DEFAULT_DIA.toString())))
             .andExpect(jsonPath("$.[*].horaInici").value(hasItem(DEFAULT_HORA_INICI.toString())))
             .andExpect(jsonPath("$.[*].horaFinal").value(hasItem(DEFAULT_HORA_FINAL.toString())))
@@ -238,7 +231,6 @@ public class PlantillaFeinaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(plantillaFeina.getId().intValue()))
-            .andExpect(jsonPath("$.numero").value(DEFAULT_NUMERO))
             .andExpect(jsonPath("$.dia").value(DEFAULT_DIA.toString()))
             .andExpect(jsonPath("$.horaInici").value(DEFAULT_HORA_INICI.toString()))
             .andExpect(jsonPath("$.horaFinal").value(DEFAULT_HORA_FINAL.toString()))
@@ -272,7 +264,6 @@ public class PlantillaFeinaResourceIT {
         // Disconnect from session so that the updates on updatedPlantillaFeina are not directly saved in db
         em.detach(updatedPlantillaFeina);
         updatedPlantillaFeina
-            .numero(UPDATED_NUMERO)
             .dia(UPDATED_DIA)
             .horaInici(UPDATED_HORA_INICI)
             .horaFinal(UPDATED_HORA_FINAL)
@@ -293,7 +284,6 @@ public class PlantillaFeinaResourceIT {
         List<PlantillaFeina> plantillaFeinaList = plantillaFeinaRepository.findAll();
         assertThat(plantillaFeinaList).hasSize(databaseSizeBeforeUpdate);
         PlantillaFeina testPlantillaFeina = plantillaFeinaList.get(plantillaFeinaList.size() - 1);
-        assertThat(testPlantillaFeina.getNumero()).isEqualTo(UPDATED_NUMERO);
         assertThat(testPlantillaFeina.getDia()).isEqualTo(UPDATED_DIA);
         assertThat(testPlantillaFeina.getHoraInici()).isEqualTo(UPDATED_HORA_INICI);
         assertThat(testPlantillaFeina.getHoraFinal()).isEqualTo(UPDATED_HORA_FINAL);
@@ -340,20 +330,5 @@ public class PlantillaFeinaResourceIT {
         // Validate the database contains one less item
         List<PlantillaFeina> plantillaFeinaList = plantillaFeinaRepository.findAll();
         assertThat(plantillaFeinaList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(PlantillaFeina.class);
-        PlantillaFeina plantillaFeina1 = new PlantillaFeina();
-        plantillaFeina1.setId(1L);
-        PlantillaFeina plantillaFeina2 = new PlantillaFeina();
-        plantillaFeina2.setId(plantillaFeina1.getId());
-        assertThat(plantillaFeina1).isEqualTo(plantillaFeina2);
-        plantillaFeina2.setId(2L);
-        assertThat(plantillaFeina1).isNotEqualTo(plantillaFeina2);
-        plantillaFeina1.setId(null);
-        assertThat(plantillaFeina1).isNotEqualTo(plantillaFeina2);
     }
 }

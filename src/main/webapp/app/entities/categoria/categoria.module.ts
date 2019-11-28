@@ -5,20 +5,12 @@ import { GestioClientsSharedModule } from 'app/shared/shared.module';
 import { CategoriaComponent } from './categoria.component';
 import { CategoriaDetailComponent } from './categoria-detail.component';
 import { CategoriaUpdateComponent } from './categoria-update.component';
-import { CategoriaDeletePopupComponent, CategoriaDeleteDialogComponent } from './categoria-delete-dialog.component';
-import { categoriaRoute, categoriaPopupRoute } from './categoria.route';
-
-const ENTITY_STATES = [...categoriaRoute, ...categoriaPopupRoute];
+import { CategoriaDeleteDialogComponent } from './categoria-delete-dialog.component';
+import { categoriaRoute } from './categoria.route';
 
 @NgModule({
-  imports: [GestioClientsSharedModule, RouterModule.forChild(ENTITY_STATES)],
-  declarations: [
-    CategoriaComponent,
-    CategoriaDetailComponent,
-    CategoriaUpdateComponent,
-    CategoriaDeleteDialogComponent,
-    CategoriaDeletePopupComponent
-  ],
+  imports: [GestioClientsSharedModule, RouterModule.forChild(categoriaRoute)],
+  declarations: [CategoriaComponent, CategoriaDetailComponent, CategoriaUpdateComponent, CategoriaDeleteDialogComponent],
   entryComponents: [CategoriaDeleteDialogComponent]
 })
 export class GestioClientsCategoriaModule {}

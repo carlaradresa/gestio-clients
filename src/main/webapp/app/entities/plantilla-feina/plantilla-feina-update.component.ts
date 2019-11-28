@@ -21,7 +21,6 @@ export class PlantillaFeinaUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    numero: [],
     dia: [],
     horaInici: [],
     horaFinal: [],
@@ -46,7 +45,6 @@ export class PlantillaFeinaUpdateComponent implements OnInit {
   updateForm(plantillaFeina: IPlantillaFeina) {
     this.editForm.patchValue({
       id: plantillaFeina.id,
-      numero: plantillaFeina.numero,
       dia: plantillaFeina.dia,
       horaInici: plantillaFeina.horaInici != null ? plantillaFeina.horaInici.format(DATE_TIME_FORMAT) : null,
       horaFinal: plantillaFeina.horaFinal != null ? plantillaFeina.horaFinal.format(DATE_TIME_FORMAT) : null,
@@ -78,7 +76,6 @@ export class PlantillaFeinaUpdateComponent implements OnInit {
     return {
       ...new PlantillaFeina(),
       id: this.editForm.get(['id']).value,
-      numero: this.editForm.get(['numero']).value,
       dia: this.editForm.get(['dia']).value,
       horaInici:
         this.editForm.get(['horaInici']).value != null ? moment(this.editForm.get(['horaInici']).value, DATE_TIME_FORMAT) : undefined,
