@@ -5,7 +5,7 @@
         "title": "Clients",
         "createLabel": "Crear nuevo Client",
         "createOrEditLabel": "Crear o editar Client",
-        "notFound": "No Clients found"
+        "notFound": "Ningún Clients encontrado"
       },
       "created": "Un nuevo Client ha sido creado con el identificador {{ param }}",
       "updated": "Un Client ha sido actualizado con el identificador {{ param }}",
@@ -16,7 +16,6 @@
       "detail": {
         "title": "Client"
       },
-      "numero": "Numero",
       "nom": "Nom",
       "direccio": "Direccio",
       "localitat": "Localitat",
@@ -26,8 +25,7 @@
       "codiUbicacio": "Codi Ubicacio",
       "observacions": "Observacions",
       "ubicacio": "Ubicacio",
-      "venedor": "Venedor",
-      "feina": "Feina"
+      "venedor": "Venedor"
     }
   }
 }

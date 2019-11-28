@@ -5,7 +5,7 @@
         "title": "Categorias",
         "createLabel": "Crear nuevo Categoria",
         "createOrEditLabel": "Crear o editar Categoria",
-        "notFound": "No Categorias found"
+        "notFound": "Ningún Categorias encontrado"
       },
       "created": "Un nuevo Categoria ha sido creado con el identificador {{ param }}",
       "updated": "Un Categoria ha sido actualizado con el identificador {{ param }}",
@@ -16,8 +16,7 @@
       "detail": {
         "title": "Categoria"
       },
-      "nomCategoria": "Nom Categoria",
-      "feina": "Feina"
+      "nomCategoria": "Nom Categoria"
     }
   }
 }

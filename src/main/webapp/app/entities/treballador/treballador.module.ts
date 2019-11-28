@@ -5,20 +5,12 @@ import { GestioClientsSharedModule } from 'app/shared/shared.module';
 import { TreballadorComponent } from './treballador.component';
 import { TreballadorDetailComponent } from './treballador-detail.component';
 import { TreballadorUpdateComponent } from './treballador-update.component';
-import { TreballadorDeletePopupComponent, TreballadorDeleteDialogComponent } from './treballador-delete-dialog.component';
-import { treballadorRoute, treballadorPopupRoute } from './treballador.route';
-
-const ENTITY_STATES = [...treballadorRoute, ...treballadorPopupRoute];
+import { TreballadorDeleteDialogComponent } from './treballador-delete-dialog.component';
+import { treballadorRoute } from './treballador.route';
 
 @NgModule({
-  imports: [GestioClientsSharedModule, RouterModule.forChild(ENTITY_STATES)],
-  declarations: [
-    TreballadorComponent,
-    TreballadorDetailComponent,
-    TreballadorUpdateComponent,
-    TreballadorDeleteDialogComponent,
-    TreballadorDeletePopupComponent
-  ],
+  imports: [GestioClientsSharedModule, RouterModule.forChild(treballadorRoute)],
+  declarations: [TreballadorComponent, TreballadorDetailComponent, TreballadorUpdateComponent, TreballadorDeleteDialogComponent],
   entryComponents: [TreballadorDeleteDialogComponent]
 })
 export class GestioClientsTreballadorModule {}

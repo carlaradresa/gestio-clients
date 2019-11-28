@@ -5,7 +5,6 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService } from 'ng-jhipster';
@@ -29,7 +28,6 @@ export class MarcatgeUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    numero: [],
     horaEntrada: [],
     horaSortida: [],
     desviacio: [],
@@ -53,24 +51,18 @@ export class MarcatgeUpdateComponent implements OnInit {
     });
     this.feinaService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IFeina[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IFeina[]>) => response.body)
-      )
-      .subscribe((res: IFeina[]) => (this.feinas = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<IFeina[]>) => (this.feinas = res.body), (res: HttpErrorResponse) => this.onError(res.message));
     this.treballadorService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<ITreballador[]>) => mayBeOk.ok),
-        map((response: HttpResponse<ITreballador[]>) => response.body)
-      )
-      .subscribe((res: ITreballador[]) => (this.treballadors = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe(
+        (res: HttpResponse<ITreballador[]>) => (this.treballadors = res.body),
+        (res: HttpErrorResponse) => this.onError(res.message)
+      );
   }
 
   updateForm(marcatge: IMarcatge) {
     this.editForm.patchValue({
       id: marcatge.id,
-      numero: marcatge.numero,
       horaEntrada: marcatge.horaEntrada != null ? marcatge.horaEntrada.format(DATE_TIME_FORMAT) : null,
       horaSortida: marcatge.horaSortida != null ? marcatge.horaSortida.format(DATE_TIME_FORMAT) : null,
       desviacio: marcatge.desviacio,
@@ -97,7 +89,6 @@ export class MarcatgeUpdateComponent implements OnInit {
     return {
       ...new Marcatge(),
       id: this.editForm.get(['id']).value,
-      numero: this.editForm.get(['numero']).value,
       horaEntrada:
         this.editForm.get(['horaEntrada']).value != null ? moment(this.editForm.get(['horaEntrada']).value, DATE_TIME_FORMAT) : undefined,
       horaSortida:

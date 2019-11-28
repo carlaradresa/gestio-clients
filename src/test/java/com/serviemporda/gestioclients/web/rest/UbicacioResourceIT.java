@@ -254,19 +254,4 @@ public class UbicacioResourceIT {
         List<Ubicacio> ubicacioList = ubicacioRepository.findAll();
         assertThat(ubicacioList).hasSize(databaseSizeBeforeDelete - 1);
     }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Ubicacio.class);
-        Ubicacio ubicacio1 = new Ubicacio();
-        ubicacio1.setId(1L);
-        Ubicacio ubicacio2 = new Ubicacio();
-        ubicacio2.setId(ubicacio1.getId());
-        assertThat(ubicacio1).isEqualTo(ubicacio2);
-        ubicacio2.setId(2L);
-        assertThat(ubicacio1).isNotEqualTo(ubicacio2);
-        ubicacio1.setId(null);
-        assertThat(ubicacio1).isNotEqualTo(ubicacio2);
-    }
 }

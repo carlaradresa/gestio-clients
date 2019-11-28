@@ -5,7 +5,6 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
 import { ITreballador, Treballador } from 'app/shared/model/treballador.model';
 import { TreballadorService } from './treballador.service';
@@ -27,7 +26,6 @@ export class TreballadorUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    numero: [],
     nom: [],
     carregaHores: [],
     actiu: [],
@@ -51,24 +49,15 @@ export class TreballadorUpdateComponent implements OnInit {
     });
     this.userService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IUser[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IUser[]>) => response.body)
-      )
-      .subscribe((res: IUser[]) => (this.users = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body), (res: HttpErrorResponse) => this.onError(res.message));
     this.feinaService
       .query()
-      .pipe(
-        filter((mayBeOk: HttpResponse<IFeina[]>) => mayBeOk.ok),
-        map((response: HttpResponse<IFeina[]>) => response.body)
-      )
-      .subscribe((res: IFeina[]) => (this.feinas = res), (res: HttpErrorResponse) => this.onError(res.message));
+      .subscribe((res: HttpResponse<IFeina[]>) => (this.feinas = res.body), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
   updateForm(treballador: ITreballador) {
     this.editForm.patchValue({
       id: treballador.id,
-      numero: treballador.numero,
       nom: treballador.nom,
       carregaHores: treballador.carregaHores,
       actiu: treballador.actiu,
@@ -95,7 +84,6 @@ export class TreballadorUpdateComponent implements OnInit {
     return {
       ...new Treballador(),
       id: this.editForm.get(['id']).value,
-      numero: this.editForm.get(['numero']).value,
       nom: this.editForm.get(['nom']).value,
       carregaHores: this.editForm.get(['carregaHores']).value,
       actiu: this.editForm.get(['actiu']).value,

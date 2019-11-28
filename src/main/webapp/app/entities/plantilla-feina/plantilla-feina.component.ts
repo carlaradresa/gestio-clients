@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { filter, map } from 'rxjs/operators';
 import { JhiEventManager } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IPlantillaFeina } from 'app/shared/model/plantilla-feina.model';
-import { AccountService } from 'app/core/auth/account.service';
 import { PlantillaFeinaService } from './plantilla-feina.service';
+import { PlantillaFeinaDeleteDialogComponent } from './plantilla-feina-delete-dialog.component';
 
 @Component({
   selector: 'jhi-plantilla-feina',
@@ -15,32 +14,22 @@ import { PlantillaFeinaService } from './plantilla-feina.service';
 })
 export class PlantillaFeinaComponent implements OnInit, OnDestroy {
   plantillaFeinas: IPlantillaFeina[];
-  currentAccount: any;
   eventSubscriber: Subscription;
 
   constructor(
     protected plantillaFeinaService: PlantillaFeinaService,
     protected eventManager: JhiEventManager,
-    protected accountService: AccountService
+    protected modalService: NgbModal
   ) {}
 
   loadAll() {
-    this.plantillaFeinaService
-      .query()
-      .pipe(
-        filter((res: HttpResponse<IPlantillaFeina[]>) => res.ok),
-        map((res: HttpResponse<IPlantillaFeina[]>) => res.body)
-      )
-      .subscribe((res: IPlantillaFeina[]) => {
-        this.plantillaFeinas = res;
-      });
+    this.plantillaFeinaService.query().subscribe((res: HttpResponse<IPlantillaFeina[]>) => {
+      this.plantillaFeinas = res.body;
+    });
   }
 
   ngOnInit() {
     this.loadAll();
-    this.accountService.identity().subscribe(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInPlantillaFeinas();
   }
 
@@ -53,6 +42,11 @@ export class PlantillaFeinaComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInPlantillaFeinas() {
-    this.eventSubscriber = this.eventManager.subscribe('plantillaFeinaListModification', response => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('plantillaFeinaListModification', () => this.loadAll());
+  }
+
+  delete(plantillaFeina: IPlantillaFeina) {
+    const modalRef = this.modalService.open(PlantillaFeinaDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.plantillaFeina = plantillaFeina;
   }
 }
