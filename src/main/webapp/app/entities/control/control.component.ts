@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { filter, map } from 'rxjs/operators';
 import { JhiEventManager } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IControl } from 'app/shared/model/control.model';
-import { AccountService } from 'app/core/auth/account.service';
 import { ControlService } from './control.service';
+import { ControlDeleteDialogComponent } from './control-delete-dialog.component';
 
 @Component({
   selector: 'jhi-control',
@@ -15,32 +14,18 @@ import { ControlService } from './control.service';
 })
 export class ControlComponent implements OnInit, OnDestroy {
   controls: IControl[];
-  currentAccount: any;
   eventSubscriber: Subscription;
 
-  constructor(
-    protected controlService: ControlService,
-    protected eventManager: JhiEventManager,
-    protected accountService: AccountService
-  ) {}
+  constructor(protected controlService: ControlService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {}
 
   loadAll() {
-    this.controlService
-      .query()
-      .pipe(
-        filter((res: HttpResponse<IControl[]>) => res.ok),
-        map((res: HttpResponse<IControl[]>) => res.body)
-      )
-      .subscribe((res: IControl[]) => {
-        this.controls = res;
-      });
+    this.controlService.query().subscribe((res: HttpResponse<IControl[]>) => {
+      this.controls = res.body;
+    });
   }
 
   ngOnInit() {
     this.loadAll();
-    this.accountService.identity().subscribe(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInControls();
   }
 
@@ -53,6 +38,11 @@ export class ControlComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInControls() {
-    this.eventSubscriber = this.eventManager.subscribe('controlListModification', response => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('controlListModification', () => this.loadAll());
+  }
+
+  delete(control: IControl) {
+    const modalRef = this.modalService.open(ControlDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.control = control;
   }
 }

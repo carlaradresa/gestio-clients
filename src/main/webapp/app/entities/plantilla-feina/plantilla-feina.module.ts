@@ -5,19 +5,16 @@ import { GestioClientsSharedModule } from 'app/shared/shared.module';
 import { PlantillaFeinaComponent } from './plantilla-feina.component';
 import { PlantillaFeinaDetailComponent } from './plantilla-feina-detail.component';
 import { PlantillaFeinaUpdateComponent } from './plantilla-feina-update.component';
-import { PlantillaFeinaDeletePopupComponent, PlantillaFeinaDeleteDialogComponent } from './plantilla-feina-delete-dialog.component';
-import { plantillaFeinaRoute, plantillaFeinaPopupRoute } from './plantilla-feina.route';
-
-const ENTITY_STATES = [...plantillaFeinaRoute, ...plantillaFeinaPopupRoute];
+import { PlantillaFeinaDeleteDialogComponent } from './plantilla-feina-delete-dialog.component';
+import { plantillaFeinaRoute } from './plantilla-feina.route';
 
 @NgModule({
-  imports: [GestioClientsSharedModule, RouterModule.forChild(ENTITY_STATES)],
+  imports: [GestioClientsSharedModule, RouterModule.forChild(plantillaFeinaRoute)],
   declarations: [
     PlantillaFeinaComponent,
     PlantillaFeinaDetailComponent,
     PlantillaFeinaUpdateComponent,
-    PlantillaFeinaDeleteDialogComponent,
-    PlantillaFeinaDeletePopupComponent
+    PlantillaFeinaDeleteDialogComponent
   ],
   entryComponents: [PlantillaFeinaDeleteDialogComponent]
 })

@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { filter, map } from 'rxjs/operators';
 import { JhiEventManager } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ICategoria } from 'app/shared/model/categoria.model';
-import { AccountService } from 'app/core/auth/account.service';
 import { CategoriaService } from './categoria.service';
+import { CategoriaDeleteDialogComponent } from './categoria-delete-dialog.component';
 
 @Component({
   selector: 'jhi-categoria',
@@ -15,32 +14,18 @@ import { CategoriaService } from './categoria.service';
 })
 export class CategoriaComponent implements OnInit, OnDestroy {
   categorias: ICategoria[];
-  currentAccount: any;
   eventSubscriber: Subscription;
 
-  constructor(
-    protected categoriaService: CategoriaService,
-    protected eventManager: JhiEventManager,
-    protected accountService: AccountService
-  ) {}
+  constructor(protected categoriaService: CategoriaService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {}
 
   loadAll() {
-    this.categoriaService
-      .query()
-      .pipe(
-        filter((res: HttpResponse<ICategoria[]>) => res.ok),
-        map((res: HttpResponse<ICategoria[]>) => res.body)
-      )
-      .subscribe((res: ICategoria[]) => {
-        this.categorias = res;
-      });
+    this.categoriaService.query().subscribe((res: HttpResponse<ICategoria[]>) => {
+      this.categorias = res.body;
+    });
   }
 
   ngOnInit() {
     this.loadAll();
-    this.accountService.identity().subscribe(account => {
-      this.currentAccount = account;
-    });
     this.registerChangeInCategorias();
   }
 
@@ -53,6 +38,11 @@ export class CategoriaComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInCategorias() {
-    this.eventSubscriber = this.eventManager.subscribe('categoriaListModification', response => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('categoriaListModification', () => this.loadAll());
+  }
+
+  delete(categoria: ICategoria) {
+    const modalRef = this.modalService.open(CategoriaDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.categoria = categoria;
   }
 }

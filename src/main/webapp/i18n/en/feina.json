@@ -16,7 +16,6 @@
       "detail": {
         "title": "Feina"
       },
-      "numero": "Numero",
       "nom": "Nom",
       "descripcio": "Descripcio",
       "setmana": "Setmana",
@@ -30,10 +29,7 @@
       "plantillaFeina": "Plantilla Feina",
       "categoria": "Categoria",
       "client": "Client",
-      "treballador": "Treballador",
-      "repeticio": "Repeticio",
-      "marcatge": "Marcatge",
-      "revisionsRebudes": "Revisions Rebudes"
+      "treballador": "Treballador"
     }
   }
 }

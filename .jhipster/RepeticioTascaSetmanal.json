@@ -4,7 +4,7 @@
         {
             "fieldName": "dia",
             "fieldType": "Dia",
-            "fieldValues": "DILLUNS,DIMARTS,DIMECRES,DIJOUS,DIVENDRES,DISSABTE,DIUMENGE"
+            "fieldValues": "DILLUNS,DIMARTS,DIMECRES,DIJOUS,DIVENDRES,DISSABTE,DIUMENGE,QUALSEVOL"
         },
         {
             "fieldName": "activo",
@@ -15,7 +15,7 @@
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "feina",
-            "otherEntityRelationshipName": "repeticio",
+            "otherEntityRelationshipName": "repeticioTascaSetmanal",
             "relationshipName": "feina",
             "otherEntityField": "numero"
         }

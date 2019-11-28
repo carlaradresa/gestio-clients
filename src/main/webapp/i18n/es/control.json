@@ -5,7 +5,7 @@
         "title": "Controls",
         "createLabel": "Crear nuevo Control",
         "createOrEditLabel": "Crear o editar Control",
-        "notFound": "No Controls found"
+        "notFound": "Ningún Controls encontrado"
       },
       "created": "Un nuevo Control ha sido creado con el identificador {{ param }}",
       "updated": "Un Control ha sido actualizado con el identificador {{ param }}",
