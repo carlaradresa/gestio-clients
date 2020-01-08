@@ -13,8 +13,8 @@ import { PeriodicitatSetmanalDeleteDialogComponent } from './periodicitat-setman
   templateUrl: './periodicitat-setmanal.component.html'
 })
 export class PeriodicitatSetmanalComponent implements OnInit, OnDestroy {
-  periodicitatSetmanals: IPeriodicitatSetmanal[];
-  eventSubscriber: Subscription;
+  periodicitatSetmanals?: IPeriodicitatSetmanal[];
+  eventSubscriber?: Subscription;
 
   constructor(
     protected periodicitatSetmanalService: PeriodicitatSetmanalService,
@@ -22,30 +22,33 @@ export class PeriodicitatSetmanalComponent implements OnInit, OnDestroy {
     protected modalService: NgbModal
   ) {}
 
-  loadAll() {
+  loadAll(): void {
     this.periodicitatSetmanalService.query().subscribe((res: HttpResponse<IPeriodicitatSetmanal[]>) => {
-      this.periodicitatSetmanals = res.body;
+      this.periodicitatSetmanals = res.body ? res.body : [];
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadAll();
     this.registerChangeInPeriodicitatSetmanals();
   }
 
-  ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
+  ngOnDestroy(): void {
+    if (this.eventSubscriber) {
+      this.eventManager.destroy(this.eventSubscriber);
+    }
   }
 
-  trackId(index: number, item: IPeriodicitatSetmanal) {
-    return item.id;
+  trackId(index: number, item: IPeriodicitatSetmanal): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
   }
 
-  registerChangeInPeriodicitatSetmanals() {
+  registerChangeInPeriodicitatSetmanals(): void {
     this.eventSubscriber = this.eventManager.subscribe('periodicitatSetmanalListModification', () => this.loadAll());
   }
 
-  delete(periodicitatSetmanal: IPeriodicitatSetmanal) {
+  delete(periodicitatSetmanal: IPeriodicitatSetmanal): void {
     const modalRef = this.modalService.open(PeriodicitatSetmanalDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.periodicitatSetmanal = periodicitatSetmanal;
   }

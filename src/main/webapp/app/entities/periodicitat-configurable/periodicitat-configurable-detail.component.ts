@@ -8,17 +8,17 @@ import { IPeriodicitatConfigurable } from 'app/shared/model/periodicitat-configu
   templateUrl: './periodicitat-configurable-detail.component.html'
 })
 export class PeriodicitatConfigurableDetailComponent implements OnInit {
-  periodicitatConfigurable: IPeriodicitatConfigurable;
+  periodicitatConfigurable: IPeriodicitatConfigurable | null = null;
 
   constructor(protected activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ periodicitatConfigurable }) => {
       this.periodicitatConfigurable = periodicitatConfigurable;
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 }

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import * as moment from 'moment';
-import { JhiAlertService } from 'ng-jhipster';
+
 import { IFeina, Feina } from 'app/shared/model/feina.model';
 import { FeinaService } from './feina.service';
 import { IPlantillaFeina } from 'app/shared/model/plantilla-feina.model';
@@ -18,20 +18,22 @@ import { ClientService } from 'app/entities/client/client.service';
 import { ITreballador } from 'app/shared/model/treballador.model';
 import { TreballadorService } from 'app/entities/treballador/treballador.service';
 
+type SelectableEntity = IPlantillaFeina | ICategoria | IClient | ITreballador;
+
 @Component({
   selector: 'jhi-feina-update',
   templateUrl: './feina-update.component.html'
 })
 export class FeinaUpdateComponent implements OnInit {
-  isSaving: boolean;
+  isSaving = false;
 
-  plantillafeinas: IPlantillaFeina[];
+  plantillafeinas: IPlantillaFeina[] = [];
 
-  categorias: ICategoria[];
+  categorias: ICategoria[] = [];
 
-  clients: IClient[];
+  clients: IClient[] = [];
 
-  treballadors: ITreballador[];
+  treballadors: ITreballador[] = [];
   setmanaDp: any;
 
   editForm = this.fb.group({
@@ -53,7 +55,6 @@ export class FeinaUpdateComponent implements OnInit {
   });
 
   constructor(
-    protected jhiAlertService: JhiAlertService,
     protected feinaService: FeinaService,
     protected plantillaFeinaService: PlantillaFeinaService,
     protected categoriaService: CategoriaService,
@@ -63,32 +64,49 @@ export class FeinaUpdateComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
-  ngOnInit() {
-    this.isSaving = false;
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ feina }) => {
       this.updateForm(feina);
+
+      this.plantillaFeinaService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IPlantillaFeina[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IPlantillaFeina[]) => (this.plantillafeinas = resBody));
+
+      this.categoriaService
+        .query()
+        .pipe(
+          map((res: HttpResponse<ICategoria[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: ICategoria[]) => (this.categorias = resBody));
+
+      this.clientService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IClient[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IClient[]) => (this.clients = resBody));
+
+      this.treballadorService
+        .query()
+        .pipe(
+          map((res: HttpResponse<ITreballador[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: ITreballador[]) => (this.treballadors = resBody));
     });
-    this.plantillaFeinaService
-      .query()
-      .subscribe(
-        (res: HttpResponse<IPlantillaFeina[]>) => (this.plantillafeinas = res.body),
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
-    this.categoriaService
-      .query()
-      .subscribe((res: HttpResponse<ICategoria[]>) => (this.categorias = res.body), (res: HttpErrorResponse) => this.onError(res.message));
-    this.clientService
-      .query()
-      .subscribe((res: HttpResponse<IClient[]>) => (this.clients = res.body), (res: HttpErrorResponse) => this.onError(res.message));
-    this.treballadorService
-      .query()
-      .subscribe(
-        (res: HttpResponse<ITreballador[]>) => (this.treballadors = res.body),
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
   }
 
-  updateForm(feina: IFeina) {
+  updateForm(feina: IFeina): void {
     this.editForm.patchValue({
       id: feina.id,
       nom: feina.nom,
@@ -108,11 +126,11 @@ export class FeinaUpdateComponent implements OnInit {
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 
-  save() {
+  save(): void {
     this.isSaving = true;
     const feina = this.createFromForm();
     if (feina.id !== undefined) {
@@ -125,57 +143,45 @@ export class FeinaUpdateComponent implements OnInit {
   private createFromForm(): IFeina {
     return {
       ...new Feina(),
-      id: this.editForm.get(['id']).value,
-      nom: this.editForm.get(['nom']).value,
-      descripcio: this.editForm.get(['descripcio']).value,
-      setmana: this.editForm.get(['setmana']).value,
-      tempsPrevist: this.editForm.get(['tempsPrevist']).value,
-      tempsReal: this.editForm.get(['tempsReal']).value,
-      estat: this.editForm.get(['estat']).value,
-      intervalControl: this.editForm.get(['intervalControl']).value,
-      facturacioAutomatica: this.editForm.get(['facturacioAutomatica']).value,
-      observacions: this.editForm.get(['observacions']).value,
-      comentarisTreballador: this.editForm.get(['comentarisTreballador']).value,
-      plantillaFeina: this.editForm.get(['plantillaFeina']).value,
-      categoria: this.editForm.get(['categoria']).value,
-      client: this.editForm.get(['client']).value,
-      treballadors: this.editForm.get(['treballadors']).value
+      id: this.editForm.get(['id'])!.value,
+      nom: this.editForm.get(['nom'])!.value,
+      descripcio: this.editForm.get(['descripcio'])!.value,
+      setmana: this.editForm.get(['setmana'])!.value,
+      tempsPrevist: this.editForm.get(['tempsPrevist'])!.value,
+      tempsReal: this.editForm.get(['tempsReal'])!.value,
+      estat: this.editForm.get(['estat'])!.value,
+      intervalControl: this.editForm.get(['intervalControl'])!.value,
+      facturacioAutomatica: this.editForm.get(['facturacioAutomatica'])!.value,
+      observacions: this.editForm.get(['observacions'])!.value,
+      comentarisTreballador: this.editForm.get(['comentarisTreballador'])!.value,
+      plantillaFeina: this.editForm.get(['plantillaFeina'])!.value,
+      categoria: this.editForm.get(['categoria'])!.value,
+      client: this.editForm.get(['client'])!.value,
+      treballadors: this.editForm.get(['treballadors'])!.value
     };
   }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IFeina>>) {
-    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IFeina>>): void {
+    result.subscribe(
+      () => this.onSaveSuccess(),
+      () => this.onSaveError()
+    );
   }
 
-  protected onSaveSuccess() {
+  protected onSaveSuccess(): void {
     this.isSaving = false;
     this.previousState();
   }
 
-  protected onSaveError() {
+  protected onSaveError(): void {
     this.isSaving = false;
   }
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
-  }
 
-  trackPlantillaFeinaById(index: number, item: IPlantillaFeina) {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
   }
 
-  trackCategoriaById(index: number, item: ICategoria) {
-    return item.id;
-  }
-
-  trackClientById(index: number, item: IClient) {
-    return item.id;
-  }
-
-  trackTreballadorById(index: number, item: ITreballador) {
-    return item.id;
-  }
-
-  getSelected(selectedVals: any[], option: any) {
+  getSelected(selectedVals: ITreballador[], option: ITreballador): ITreballador {
     if (selectedVals) {
       for (let i = 0; i < selectedVals.length; i++) {
         if (option.id === selectedVals[i].id) {

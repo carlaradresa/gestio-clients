@@ -8,17 +8,17 @@ import { IFeina } from 'app/shared/model/feina.model';
   templateUrl: './feina-detail.component.html'
 })
 export class FeinaDetailComponent implements OnInit {
-  feina: IFeina;
+  feina: IFeina | null = null;
 
   constructor(protected activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ feina }) => {
       this.feina = feina;
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 }
