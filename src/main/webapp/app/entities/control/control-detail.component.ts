@@ -8,17 +8,17 @@ import { IControl } from 'app/shared/model/control.model';
   templateUrl: './control-detail.component.html'
 })
 export class ControlDetailComponent implements OnInit {
-  control: IControl;
+  control: IControl | null = null;
 
   constructor(protected activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ control }) => {
       this.control = control;
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 }

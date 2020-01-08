@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -10,7 +9,7 @@ import { PeriodicitatConfigurableService } from './periodicitat-configurable.ser
   templateUrl: './periodicitat-configurable-delete-dialog.component.html'
 })
 export class PeriodicitatConfigurableDeleteDialogComponent {
-  periodicitatConfigurable: IPeriodicitatConfigurable;
+  periodicitatConfigurable?: IPeriodicitatConfigurable;
 
   constructor(
     protected periodicitatConfigurableService: PeriodicitatConfigurableService,
@@ -18,17 +17,14 @@ export class PeriodicitatConfigurableDeleteDialogComponent {
     protected eventManager: JhiEventManager
   ) {}
 
-  clear() {
-    this.activeModal.dismiss('cancel');
+  clear(): void {
+    this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number) {
+  confirmDelete(id: number): void {
     this.periodicitatConfigurableService.delete(id).subscribe(() => {
-      this.eventManager.broadcast({
-        name: 'periodicitatConfigurableListModification',
-        content: 'Deleted an periodicitatConfigurable'
-      });
-      this.activeModal.dismiss(true);
+      this.eventManager.broadcast('periodicitatConfigurableListModification');
+      this.activeModal.close();
     });
   }
 }
