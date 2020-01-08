@@ -13,35 +13,38 @@ import { MarcatgeDeleteDialogComponent } from './marcatge-delete-dialog.componen
   templateUrl: './marcatge.component.html'
 })
 export class MarcatgeComponent implements OnInit, OnDestroy {
-  marcatges: IMarcatge[];
-  eventSubscriber: Subscription;
+  marcatges?: IMarcatge[];
+  eventSubscriber?: Subscription;
 
   constructor(protected marcatgeService: MarcatgeService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {}
 
-  loadAll() {
+  loadAll(): void {
     this.marcatgeService.query().subscribe((res: HttpResponse<IMarcatge[]>) => {
-      this.marcatges = res.body;
+      this.marcatges = res.body ? res.body : [];
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadAll();
     this.registerChangeInMarcatges();
   }
 
-  ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
+  ngOnDestroy(): void {
+    if (this.eventSubscriber) {
+      this.eventManager.destroy(this.eventSubscriber);
+    }
   }
 
-  trackId(index: number, item: IMarcatge) {
-    return item.id;
+  trackId(index: number, item: IMarcatge): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
   }
 
-  registerChangeInMarcatges() {
+  registerChangeInMarcatges(): void {
     this.eventSubscriber = this.eventManager.subscribe('marcatgeListModification', () => this.loadAll());
   }
 
-  delete(marcatge: IMarcatge) {
+  delete(marcatge: IMarcatge): void {
     const modalRef = this.modalService.open(MarcatgeDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.marcatge = marcatge;
   }

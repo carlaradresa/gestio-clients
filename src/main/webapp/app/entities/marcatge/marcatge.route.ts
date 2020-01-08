@@ -1,24 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
+import { Observable, of, EMPTY } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
+
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Marcatge } from 'app/shared/model/marcatge.model';
+import { IMarcatge, Marcatge } from 'app/shared/model/marcatge.model';
 import { MarcatgeService } from './marcatge.service';
 import { MarcatgeComponent } from './marcatge.component';
 import { MarcatgeDetailComponent } from './marcatge-detail.component';
 import { MarcatgeUpdateComponent } from './marcatge-update.component';
-import { IMarcatge } from 'app/shared/model/marcatge.model';
 
 @Injectable({ providedIn: 'root' })
 export class MarcatgeResolve implements Resolve<IMarcatge> {
-  constructor(private service: MarcatgeService) {}
+  constructor(private service: MarcatgeService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<IMarcatge> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IMarcatge> | Observable<never> {
     const id = route.params['id'];
     if (id) {
-      return this.service.find(id).pipe(map((marcatge: HttpResponse<Marcatge>) => marcatge.body));
+      return this.service.find(id).pipe(
+        flatMap((marcatge: HttpResponse<Marcatge>) => {
+          if (marcatge.body) {
+            return of(marcatge.body);
+          } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
     }
     return of(new Marcatge());
   }

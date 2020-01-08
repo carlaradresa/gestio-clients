@@ -4,7 +4,7 @@
             <h2 id="jhi-client-heading" jhiTranslate="gestioClientsApp.client.home.createOrEditLabel">Create or edit a Client</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!editForm.get('id').value">
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id"
                         readonly />
@@ -54,14 +54,14 @@
                     <label class="form-control-label" jhiTranslate="gestioClientsApp.client.ubicacio" for="field_ubicacio">Ubicacio</label>
                     <select class="form-control" id="field_ubicacio" name="ubicacio" formControlName="ubicacio">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="ubicacioOption.id === editForm.get('ubicacio').value?.id ? editForm.get('ubicacio').value : ubicacioOption" *ngFor="let ubicacioOption of ubicacios; trackBy: trackUbicacioById">{{ubicacioOption.ubicacio}}</option>
+                        <option [ngValue]="ubicacioOption.id === editForm.get('ubicacio')!.value?.id ? editForm.get('ubicacio')!.value : ubicacioOption" *ngFor="let ubicacioOption of ubicacios; trackBy: trackById">{{ubicacioOption.ubicacio}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gestioClientsApp.client.venedor" for="field_venedor">Venedor</label>
                     <select class="form-control" id="field_venedor" name="venedor" formControlName="venedor">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="venedorOption.id === editForm.get('venedor').value?.id ? editForm.get('venedor').value : venedorOption" *ngFor="let venedorOption of venedors; trackBy: trackVenedorById">{{venedorOption.id}}</option>
+                        <option [ngValue]="venedorOption.id === editForm.get('venedor')!.value?.id ? editForm.get('venedor')!.value : venedorOption" *ngFor="let venedorOption of venedors; trackBy: trackById">{{venedorOption.id}}</option>
                     </select>
                 </div>
             </div>

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -10,21 +9,18 @@ import { ControlService } from './control.service';
   templateUrl: './control-delete-dialog.component.html'
 })
 export class ControlDeleteDialogComponent {
-  control: IControl;
+  control?: IControl;
 
   constructor(protected controlService: ControlService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
-  clear() {
-    this.activeModal.dismiss('cancel');
+  clear(): void {
+    this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number) {
+  confirmDelete(id: number): void {
     this.controlService.delete(id).subscribe(() => {
-      this.eventManager.broadcast({
-        name: 'controlListModification',
-        content: 'Deleted an control'
-      });
-      this.activeModal.dismiss(true);
+      this.eventManager.broadcast('controlListModification');
+      this.activeModal.close();
     });
   }
 }
