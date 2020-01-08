@@ -1,24 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { JhiAlertService } from 'ng-jhipster';
+
 import { IPeriodicitatSetmanal, PeriodicitatSetmanal } from 'app/shared/model/periodicitat-setmanal.model';
 import { PeriodicitatSetmanalService } from './periodicitat-setmanal.service';
-import { IPlantillaFeina } from 'app/shared/model/plantilla-feina.model';
-import { PlantillaFeinaService } from 'app/entities/plantilla-feina/plantilla-feina.service';
 
 @Component({
   selector: 'jhi-periodicitat-setmanal-update',
   templateUrl: './periodicitat-setmanal-update.component.html'
 })
 export class PeriodicitatSetmanalUpdateComponent implements OnInit {
-  isSaving: boolean;
-
-  plantillafeinas: IPlantillaFeina[];
+  isSaving = false;
 
   editForm = this.fb.group({
     id: [],
@@ -26,38 +21,29 @@ export class PeriodicitatSetmanalUpdateComponent implements OnInit {
   });
 
   constructor(
-    protected jhiAlertService: JhiAlertService,
     protected periodicitatSetmanalService: PeriodicitatSetmanalService,
-    protected plantillaFeinaService: PlantillaFeinaService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
 
-  ngOnInit() {
-    this.isSaving = false;
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ periodicitatSetmanal }) => {
       this.updateForm(periodicitatSetmanal);
     });
-    this.plantillaFeinaService
-      .query()
-      .subscribe(
-        (res: HttpResponse<IPlantillaFeina[]>) => (this.plantillafeinas = res.body),
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
   }
 
-  updateForm(periodicitatSetmanal: IPeriodicitatSetmanal) {
+  updateForm(periodicitatSetmanal: IPeriodicitatSetmanal): void {
     this.editForm.patchValue({
       id: periodicitatSetmanal.id,
       diaSetmana: periodicitatSetmanal.diaSetmana
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 
-  save() {
+  save(): void {
     this.isSaving = true;
     const periodicitatSetmanal = this.createFromForm();
     if (periodicitatSetmanal.id !== undefined) {
@@ -70,39 +56,24 @@ export class PeriodicitatSetmanalUpdateComponent implements OnInit {
   private createFromForm(): IPeriodicitatSetmanal {
     return {
       ...new PeriodicitatSetmanal(),
-      id: this.editForm.get(['id']).value,
-      diaSetmana: this.editForm.get(['diaSetmana']).value
+      id: this.editForm.get(['id'])!.value,
+      diaSetmana: this.editForm.get(['diaSetmana'])!.value
     };
   }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IPeriodicitatSetmanal>>) {
-    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IPeriodicitatSetmanal>>): void {
+    result.subscribe(
+      () => this.onSaveSuccess(),
+      () => this.onSaveError()
+    );
   }
 
-  protected onSaveSuccess() {
+  protected onSaveSuccess(): void {
     this.isSaving = false;
     this.previousState();
   }
 
-  protected onSaveError() {
+  protected onSaveError(): void {
     this.isSaving = false;
-  }
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
-  }
-
-  trackPlantillaFeinaById(index: number, item: IPlantillaFeina) {
-    return item.id;
-  }
-
-  getSelected(selectedVals: any[], option: any) {
-    if (selectedVals) {
-      for (let i = 0; i < selectedVals.length; i++) {
-        if (option.id === selectedVals[i].id) {
-          return selectedVals[i];
-        }
-      }
-    }
-    return option;
   }
 }

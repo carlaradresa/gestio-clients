@@ -4,7 +4,7 @@
             <h2 id="jhi-venedor-heading" jhiTranslate="gestioClientsApp.venedor.home.createOrEditLabel">Create or edit a Venedor</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!editForm.get('id').value">
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id"
                         readonly />
@@ -34,7 +34,7 @@
                     <label class="form-control-label" jhiTranslate="gestioClientsApp.venedor.ubicacio" for="field_ubicacio">Ubicacio</label>
                     <select class="form-control" id="field_ubicacio" name="ubicacio" formControlName="ubicacio">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="ubicacioOption.id === editForm.get('ubicacio').value?.id ? editForm.get('ubicacio').value : ubicacioOption" *ngFor="let ubicacioOption of ubicacios; trackBy: trackUbicacioById">{{ubicacioOption.ubicacio}}</option>
+                        <option [ngValue]="ubicacioOption.id === editForm.get('ubicacio')!.value?.id ? editForm.get('ubicacio')!.value : ubicacioOption" *ngFor="let ubicacioOption of ubicacios; trackBy: trackById">{{ubicacioOption.ubicacio}}</option>
                     </select>
                 </div>
             </div>

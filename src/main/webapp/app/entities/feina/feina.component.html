@@ -29,6 +29,8 @@
             <th scope="col" ><span jhiTranslate="gestioClientsApp.feina.facturacioAutomatica">Facturacio Automatica</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.feina.observacions">Observacions</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.feina.comentarisTreballador">Comentaris Treballador</span></th>
+            <th scope="col" ><span jhiTranslate="gestioClientsApp.feina.ubicacio">Ubicacio</span></th>
+            <th scope="col" ><span jhiTranslate="gestioClientsApp.feina.ubicacio">Ubicacio</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.feina.plantillaFeina">Plantilla Feina</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.feina.categoria">Categoria</span></th>
             <th scope="col" ><span jhiTranslate="gestioClientsApp.feina.client">Client</span></th>
@@ -49,6 +51,12 @@
                 <td>{{feina.facturacioAutomatica}}</td>
                 <td>{{feina.observacions}}</td>
                 <td>{{feina.comentarisTreballador}}</td>
+                <td>{{feina.ubicacio}}</td>
+                <td>
+                    <div *ngIf="feina.ubicacio">
+                        <a [routerLink]="['/ubicacio', feina.ubicacio?.id, 'view' ]" >{{feina.ubicacio?.ubicacio}}</a>
+                    </div>
+                </td>
                 <td>
                     <div *ngIf="feina.plantillaFeina">
                         <a [routerLink]="['/plantilla-feina', feina.plantillaFeina?.id, 'view' ]" >{{feina.plantillaFeina?.id}}</a>
