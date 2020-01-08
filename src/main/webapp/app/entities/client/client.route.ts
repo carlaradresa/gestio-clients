@@ -1,24 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
+import { Observable, of, EMPTY } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
+
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Client } from 'app/shared/model/client.model';
+import { IClient, Client } from 'app/shared/model/client.model';
 import { ClientService } from './client.service';
 import { ClientComponent } from './client.component';
 import { ClientDetailComponent } from './client-detail.component';
 import { ClientUpdateComponent } from './client-update.component';
-import { IClient } from 'app/shared/model/client.model';
 
 @Injectable({ providedIn: 'root' })
 export class ClientResolve implements Resolve<IClient> {
-  constructor(private service: ClientService) {}
+  constructor(private service: ClientService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<IClient> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IClient> | Observable<never> {
     const id = route.params['id'];
     if (id) {
-      return this.service.find(id).pipe(map((client: HttpResponse<Client>) => client.body));
+      return this.service.find(id).pipe(
+        flatMap((client: HttpResponse<Client>) => {
+          if (client.body) {
+            return of(client.body);
+          } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
     }
     return of(new Client());
   }

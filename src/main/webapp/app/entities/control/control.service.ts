@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import * as moment from 'moment';
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
-import { map } from 'rxjs/operators';
-
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IControl } from 'app/shared/model/control.model';
@@ -46,22 +46,22 @@ export class ControlService {
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
-  delete(id: number): Observable<HttpResponse<any>> {
-    return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  delete(id: number): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
   protected convertDateFromClient(control: IControl): IControl {
     const copy: IControl = Object.assign({}, control, {
-      setmana: control.setmana != null && control.setmana.isValid() ? control.setmana.format(DATE_FORMAT) : null,
-      dataRevisio: control.dataRevisio != null && control.dataRevisio.isValid() ? control.dataRevisio.toJSON() : null
+      setmana: control.setmana && control.setmana.isValid() ? control.setmana.format(DATE_FORMAT) : undefined,
+      dataRevisio: control.dataRevisio && control.dataRevisio.isValid() ? control.dataRevisio.toJSON() : undefined
     });
     return copy;
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.setmana = res.body.setmana != null ? moment(res.body.setmana) : null;
-      res.body.dataRevisio = res.body.dataRevisio != null ? moment(res.body.dataRevisio) : null;
+      res.body.setmana = res.body.setmana ? moment(res.body.setmana) : undefined;
+      res.body.dataRevisio = res.body.dataRevisio ? moment(res.body.dataRevisio) : undefined;
     }
     return res;
   }
@@ -69,8 +69,8 @@ export class ControlService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((control: IControl) => {
-        control.setmana = control.setmana != null ? moment(control.setmana) : null;
-        control.dataRevisio = control.dataRevisio != null ? moment(control.dataRevisio) : null;
+        control.setmana = control.setmana ? moment(control.setmana) : undefined;
+        control.dataRevisio = control.dataRevisio ? moment(control.dataRevisio) : undefined;
       });
     }
     return res;

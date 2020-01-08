@@ -8,17 +8,17 @@ import { ICategoria } from 'app/shared/model/categoria.model';
   templateUrl: './categoria-detail.component.html'
 })
 export class CategoriaDetailComponent implements OnInit {
-  categoria: ICategoria;
+  categoria: ICategoria | null = null;
 
   constructor(protected activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ categoria }) => {
       this.categoria = categoria;
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 }

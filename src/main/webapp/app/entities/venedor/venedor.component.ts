@@ -13,35 +13,38 @@ import { VenedorDeleteDialogComponent } from './venedor-delete-dialog.component'
   templateUrl: './venedor.component.html'
 })
 export class VenedorComponent implements OnInit, OnDestroy {
-  venedors: IVenedor[];
-  eventSubscriber: Subscription;
+  venedors?: IVenedor[];
+  eventSubscriber?: Subscription;
 
   constructor(protected venedorService: VenedorService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {}
 
-  loadAll() {
+  loadAll(): void {
     this.venedorService.query().subscribe((res: HttpResponse<IVenedor[]>) => {
-      this.venedors = res.body;
+      this.venedors = res.body ? res.body : [];
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadAll();
     this.registerChangeInVenedors();
   }
 
-  ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
+  ngOnDestroy(): void {
+    if (this.eventSubscriber) {
+      this.eventManager.destroy(this.eventSubscriber);
+    }
   }
 
-  trackId(index: number, item: IVenedor) {
-    return item.id;
+  trackId(index: number, item: IVenedor): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
   }
 
-  registerChangeInVenedors() {
+  registerChangeInVenedors(): void {
     this.eventSubscriber = this.eventManager.subscribe('venedorListModification', () => this.loadAll());
   }
 
-  delete(venedor: IVenedor) {
+  delete(venedor: IVenedor): void {
     const modalRef = this.modalService.open(VenedorDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.venedor = venedor;
   }

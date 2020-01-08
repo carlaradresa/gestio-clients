@@ -1,26 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
+import { Observable, of, EMPTY } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
+
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { PeriodicitatConfigurable } from 'app/shared/model/periodicitat-configurable.model';
+import { IPeriodicitatConfigurable, PeriodicitatConfigurable } from 'app/shared/model/periodicitat-configurable.model';
 import { PeriodicitatConfigurableService } from './periodicitat-configurable.service';
 import { PeriodicitatConfigurableComponent } from './periodicitat-configurable.component';
 import { PeriodicitatConfigurableDetailComponent } from './periodicitat-configurable-detail.component';
 import { PeriodicitatConfigurableUpdateComponent } from './periodicitat-configurable-update.component';
-import { IPeriodicitatConfigurable } from 'app/shared/model/periodicitat-configurable.model';
 
 @Injectable({ providedIn: 'root' })
 export class PeriodicitatConfigurableResolve implements Resolve<IPeriodicitatConfigurable> {
-  constructor(private service: PeriodicitatConfigurableService) {}
+  constructor(private service: PeriodicitatConfigurableService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<IPeriodicitatConfigurable> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IPeriodicitatConfigurable> | Observable<never> {
     const id = route.params['id'];
     if (id) {
-      return this.service
-        .find(id)
-        .pipe(map((periodicitatConfigurable: HttpResponse<PeriodicitatConfigurable>) => periodicitatConfigurable.body));
+      return this.service.find(id).pipe(
+        flatMap((periodicitatConfigurable: HttpResponse<PeriodicitatConfigurable>) => {
+          if (periodicitatConfigurable.body) {
+            return of(periodicitatConfigurable.body);
+          } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
     }
     return of(new PeriodicitatConfigurable());
   }

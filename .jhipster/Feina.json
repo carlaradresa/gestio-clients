@@ -40,9 +40,21 @@
         {
             "fieldName": "comentarisTreballador",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "ubicacio",
+            "fieldType": "String"
         }
     ],
     "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "ubicacio",
+            "otherEntityRelationshipName": "feina",
+            "relationshipName": "ubicacio",
+            "otherEntityField": "ubicacio",
+            "ownerSide": true
+        },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "plantillaFeina",

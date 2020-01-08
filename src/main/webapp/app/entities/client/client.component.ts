@@ -13,35 +13,38 @@ import { ClientDeleteDialogComponent } from './client-delete-dialog.component';
   templateUrl: './client.component.html'
 })
 export class ClientComponent implements OnInit, OnDestroy {
-  clients: IClient[];
-  eventSubscriber: Subscription;
+  clients?: IClient[];
+  eventSubscriber?: Subscription;
 
   constructor(protected clientService: ClientService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {}
 
-  loadAll() {
+  loadAll(): void {
     this.clientService.query().subscribe((res: HttpResponse<IClient[]>) => {
-      this.clients = res.body;
+      this.clients = res.body ? res.body : [];
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadAll();
     this.registerChangeInClients();
   }
 
-  ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
+  ngOnDestroy(): void {
+    if (this.eventSubscriber) {
+      this.eventManager.destroy(this.eventSubscriber);
+    }
   }
 
-  trackId(index: number, item: IClient) {
-    return item.id;
+  trackId(index: number, item: IClient): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
   }
 
-  registerChangeInClients() {
+  registerChangeInClients(): void {
     this.eventSubscriber = this.eventManager.subscribe('clientListModification', () => this.loadAll());
   }
 
-  delete(client: IClient) {
+  delete(client: IClient): void {
     const modalRef = this.modalService.open(ClientDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.client = client;
   }

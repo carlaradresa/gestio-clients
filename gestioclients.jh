@@ -59,7 +59,8 @@ entity Feina {
     intervalControl Integer,
     facturacioAutomatica Boolean,
     observacions String,
-    comentarisTreballador String
+    comentarisTreballador String,
+    ubicacio String
 }
 
 entity Control {
@@ -105,7 +106,8 @@ relationship OneToOne {
     Client{ubicacio(ubicacio)} to Ubicacio{client},
     Venedor{ubicacio(ubicacio)} to Ubicacio{venedor},
     Treballador{user(login)} to User,
-    PlantillaFeina{periodicitatConfigurable(observacions)} to PeriodicitatConfigurable{plantilla}
+    PlantillaFeina{periodicitatConfigurable(observacions)} to PeriodicitatConfigurable{plantilla},
+	Feina{ubicacio(ubicacio)} to Ubicacio
 }
 
 relationship ManyToMany {

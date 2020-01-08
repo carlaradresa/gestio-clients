@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import * as moment from 'moment';
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
-import { map } from 'rxjs/operators';
-
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IPlantillaFeina } from 'app/shared/model/plantilla-feina.model';
@@ -46,32 +46,30 @@ export class PlantillaFeinaService {
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
-  delete(id: number): Observable<HttpResponse<any>> {
-    return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  delete(id: number): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
   protected convertDateFromClient(plantillaFeina: IPlantillaFeina): IPlantillaFeina {
     const copy: IPlantillaFeina = Object.assign({}, plantillaFeina, {
-      horaInici: plantillaFeina.horaInici != null && plantillaFeina.horaInici.isValid() ? plantillaFeina.horaInici.toJSON() : null,
-      horaFinal: plantillaFeina.horaFinal != null && plantillaFeina.horaFinal.isValid() ? plantillaFeina.horaFinal.toJSON() : null,
+      horaInici: plantillaFeina.horaInici && plantillaFeina.horaInici.isValid() ? plantillaFeina.horaInici.toJSON() : undefined,
+      horaFinal: plantillaFeina.horaFinal && plantillaFeina.horaFinal.isValid() ? plantillaFeina.horaFinal.toJSON() : undefined,
       setmanaInicial:
-        plantillaFeina.setmanaInicial != null && plantillaFeina.setmanaInicial.isValid()
+        plantillaFeina.setmanaInicial && plantillaFeina.setmanaInicial.isValid()
           ? plantillaFeina.setmanaInicial.format(DATE_FORMAT)
-          : null,
+          : undefined,
       setmanaFinal:
-        plantillaFeina.setmanaFinal != null && plantillaFeina.setmanaFinal.isValid()
-          ? plantillaFeina.setmanaFinal.format(DATE_FORMAT)
-          : null
+        plantillaFeina.setmanaFinal && plantillaFeina.setmanaFinal.isValid() ? plantillaFeina.setmanaFinal.format(DATE_FORMAT) : undefined
     });
     return copy;
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.horaInici = res.body.horaInici != null ? moment(res.body.horaInici) : null;
-      res.body.horaFinal = res.body.horaFinal != null ? moment(res.body.horaFinal) : null;
-      res.body.setmanaInicial = res.body.setmanaInicial != null ? moment(res.body.setmanaInicial) : null;
-      res.body.setmanaFinal = res.body.setmanaFinal != null ? moment(res.body.setmanaFinal) : null;
+      res.body.horaInici = res.body.horaInici ? moment(res.body.horaInici) : undefined;
+      res.body.horaFinal = res.body.horaFinal ? moment(res.body.horaFinal) : undefined;
+      res.body.setmanaInicial = res.body.setmanaInicial ? moment(res.body.setmanaInicial) : undefined;
+      res.body.setmanaFinal = res.body.setmanaFinal ? moment(res.body.setmanaFinal) : undefined;
     }
     return res;
   }
@@ -79,10 +77,10 @@ export class PlantillaFeinaService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((plantillaFeina: IPlantillaFeina) => {
-        plantillaFeina.horaInici = plantillaFeina.horaInici != null ? moment(plantillaFeina.horaInici) : null;
-        plantillaFeina.horaFinal = plantillaFeina.horaFinal != null ? moment(plantillaFeina.horaFinal) : null;
-        plantillaFeina.setmanaInicial = plantillaFeina.setmanaInicial != null ? moment(plantillaFeina.setmanaInicial) : null;
-        plantillaFeina.setmanaFinal = plantillaFeina.setmanaFinal != null ? moment(plantillaFeina.setmanaFinal) : null;
+        plantillaFeina.horaInici = plantillaFeina.horaInici ? moment(plantillaFeina.horaInici) : undefined;
+        plantillaFeina.horaFinal = plantillaFeina.horaFinal ? moment(plantillaFeina.horaFinal) : undefined;
+        plantillaFeina.setmanaInicial = plantillaFeina.setmanaInicial ? moment(plantillaFeina.setmanaInicial) : undefined;
+        plantillaFeina.setmanaFinal = plantillaFeina.setmanaFinal ? moment(plantillaFeina.setmanaFinal) : undefined;
       });
     }
     return res;
