@@ -8,17 +8,17 @@ import { IUbicacio } from 'app/shared/model/ubicacio.model';
   templateUrl: './ubicacio-detail.component.html'
 })
 export class UbicacioDetailComponent implements OnInit {
-  ubicacio: IUbicacio;
+  ubicacio: IUbicacio | null = null;
 
   constructor(protected activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ ubicacio }) => {
       this.ubicacio = ubicacio;
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 }

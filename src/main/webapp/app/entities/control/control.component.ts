@@ -13,35 +13,38 @@ import { ControlDeleteDialogComponent } from './control-delete-dialog.component'
   templateUrl: './control.component.html'
 })
 export class ControlComponent implements OnInit, OnDestroy {
-  controls: IControl[];
-  eventSubscriber: Subscription;
+  controls?: IControl[];
+  eventSubscriber?: Subscription;
 
   constructor(protected controlService: ControlService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {}
 
-  loadAll() {
+  loadAll(): void {
     this.controlService.query().subscribe((res: HttpResponse<IControl[]>) => {
-      this.controls = res.body;
+      this.controls = res.body ? res.body : [];
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadAll();
     this.registerChangeInControls();
   }
 
-  ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
+  ngOnDestroy(): void {
+    if (this.eventSubscriber) {
+      this.eventManager.destroy(this.eventSubscriber);
+    }
   }
 
-  trackId(index: number, item: IControl) {
-    return item.id;
+  trackId(index: number, item: IControl): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
   }
 
-  registerChangeInControls() {
+  registerChangeInControls(): void {
     this.eventSubscriber = this.eventManager.subscribe('controlListModification', () => this.loadAll());
   }
 
-  delete(control: IControl) {
+  delete(control: IControl): void {
     const modalRef = this.modalService.open(ControlDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.control = control;
   }

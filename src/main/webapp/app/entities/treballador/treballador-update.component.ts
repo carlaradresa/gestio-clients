@@ -1,28 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { JhiAlertService } from 'ng-jhipster';
+import { map } from 'rxjs/operators';
+
 import { ITreballador, Treballador } from 'app/shared/model/treballador.model';
 import { TreballadorService } from './treballador.service';
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
-import { IFeina } from 'app/shared/model/feina.model';
-import { FeinaService } from 'app/entities/feina/feina.service';
 
 @Component({
   selector: 'jhi-treballador-update',
   templateUrl: './treballador-update.component.html'
 })
 export class TreballadorUpdateComponent implements OnInit {
-  isSaving: boolean;
+  isSaving = false;
 
-  users: IUser[];
-
-  feinas: IFeina[];
+  users: IUser[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -34,28 +30,28 @@ export class TreballadorUpdateComponent implements OnInit {
   });
 
   constructor(
-    protected jhiAlertService: JhiAlertService,
     protected treballadorService: TreballadorService,
     protected userService: UserService,
-    protected feinaService: FeinaService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
 
-  ngOnInit() {
-    this.isSaving = false;
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ treballador }) => {
       this.updateForm(treballador);
+
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) => (this.users = resBody));
     });
-    this.userService
-      .query()
-      .subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body), (res: HttpErrorResponse) => this.onError(res.message));
-    this.feinaService
-      .query()
-      .subscribe((res: HttpResponse<IFeina[]>) => (this.feinas = res.body), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
-  updateForm(treballador: ITreballador) {
+  updateForm(treballador: ITreballador): void {
     this.editForm.patchValue({
       id: treballador.id,
       nom: treballador.nom,
@@ -66,11 +62,11 @@ export class TreballadorUpdateComponent implements OnInit {
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 
-  save() {
+  save(): void {
     this.isSaving = true;
     const treballador = this.createFromForm();
     if (treballador.id !== undefined) {
@@ -83,47 +79,32 @@ export class TreballadorUpdateComponent implements OnInit {
   private createFromForm(): ITreballador {
     return {
       ...new Treballador(),
-      id: this.editForm.get(['id']).value,
-      nom: this.editForm.get(['nom']).value,
-      carregaHores: this.editForm.get(['carregaHores']).value,
-      actiu: this.editForm.get(['actiu']).value,
-      controlQualitat: this.editForm.get(['controlQualitat']).value,
-      user: this.editForm.get(['user']).value
+      id: this.editForm.get(['id'])!.value,
+      nom: this.editForm.get(['nom'])!.value,
+      carregaHores: this.editForm.get(['carregaHores'])!.value,
+      actiu: this.editForm.get(['actiu'])!.value,
+      controlQualitat: this.editForm.get(['controlQualitat'])!.value,
+      user: this.editForm.get(['user'])!.value
     };
   }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<ITreballador>>) {
-    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<ITreballador>>): void {
+    result.subscribe(
+      () => this.onSaveSuccess(),
+      () => this.onSaveError()
+    );
   }
 
-  protected onSaveSuccess() {
+  protected onSaveSuccess(): void {
     this.isSaving = false;
     this.previousState();
   }
 
-  protected onSaveError() {
+  protected onSaveError(): void {
     this.isSaving = false;
   }
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
-  }
 
-  trackUserById(index: number, item: IUser) {
+  trackById(index: number, item: IUser): any {
     return item.id;
-  }
-
-  trackFeinaById(index: number, item: IFeina) {
-    return item.id;
-  }
-
-  getSelected(selectedVals: any[], option: any) {
-    if (selectedVals) {
-      for (let i = 0; i < selectedVals.length; i++) {
-        if (option.id === selectedVals[i].id) {
-          return selectedVals[i];
-        }
-      }
-    }
-    return option;
   }
 }

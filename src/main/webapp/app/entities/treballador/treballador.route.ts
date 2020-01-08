@@ -1,24 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
+import { Observable, of, EMPTY } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
+
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Treballador } from 'app/shared/model/treballador.model';
+import { ITreballador, Treballador } from 'app/shared/model/treballador.model';
 import { TreballadorService } from './treballador.service';
 import { TreballadorComponent } from './treballador.component';
 import { TreballadorDetailComponent } from './treballador-detail.component';
 import { TreballadorUpdateComponent } from './treballador-update.component';
-import { ITreballador } from 'app/shared/model/treballador.model';
 
 @Injectable({ providedIn: 'root' })
 export class TreballadorResolve implements Resolve<ITreballador> {
-  constructor(private service: TreballadorService) {}
+  constructor(private service: TreballadorService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<ITreballador> {
+  resolve(route: ActivatedRouteSnapshot): Observable<ITreballador> | Observable<never> {
     const id = route.params['id'];
     if (id) {
-      return this.service.find(id).pipe(map((treballador: HttpResponse<Treballador>) => treballador.body));
+      return this.service.find(id).pipe(
+        flatMap((treballador: HttpResponse<Treballador>) => {
+          if (treballador.body) {
+            return of(treballador.body);
+          } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
     }
     return of(new Treballador());
   }

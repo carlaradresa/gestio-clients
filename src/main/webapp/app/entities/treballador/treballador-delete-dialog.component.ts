@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -10,7 +9,7 @@ import { TreballadorService } from './treballador.service';
   templateUrl: './treballador-delete-dialog.component.html'
 })
 export class TreballadorDeleteDialogComponent {
-  treballador: ITreballador;
+  treballador?: ITreballador;
 
   constructor(
     protected treballadorService: TreballadorService,
@@ -18,17 +17,14 @@ export class TreballadorDeleteDialogComponent {
     protected eventManager: JhiEventManager
   ) {}
 
-  clear() {
-    this.activeModal.dismiss('cancel');
+  clear(): void {
+    this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number) {
+  confirmDelete(id: number): void {
     this.treballadorService.delete(id).subscribe(() => {
-      this.eventManager.broadcast({
-        name: 'treballadorListModification',
-        content: 'Deleted an treballador'
-      });
-      this.activeModal.dismiss(true);
+      this.eventManager.broadcast('treballadorListModification');
+      this.activeModal.close();
     });
   }
 }

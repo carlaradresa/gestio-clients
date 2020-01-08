@@ -8,17 +8,17 @@ import { IPeriodicitatSetmanal } from 'app/shared/model/periodicitat-setmanal.mo
   templateUrl: './periodicitat-setmanal-detail.component.html'
 })
 export class PeriodicitatSetmanalDetailComponent implements OnInit {
-  periodicitatSetmanal: IPeriodicitatSetmanal;
+  periodicitatSetmanal: IPeriodicitatSetmanal | null = null;
 
   constructor(protected activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ periodicitatSetmanal }) => {
       this.periodicitatSetmanal = periodicitatSetmanal;
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 }

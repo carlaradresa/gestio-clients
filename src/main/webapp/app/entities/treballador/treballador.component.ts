@@ -13,8 +13,8 @@ import { TreballadorDeleteDialogComponent } from './treballador-delete-dialog.co
   templateUrl: './treballador.component.html'
 })
 export class TreballadorComponent implements OnInit, OnDestroy {
-  treballadors: ITreballador[];
-  eventSubscriber: Subscription;
+  treballadors?: ITreballador[];
+  eventSubscriber?: Subscription;
 
   constructor(
     protected treballadorService: TreballadorService,
@@ -22,30 +22,33 @@ export class TreballadorComponent implements OnInit, OnDestroy {
     protected modalService: NgbModal
   ) {}
 
-  loadAll() {
+  loadAll(): void {
     this.treballadorService.query().subscribe((res: HttpResponse<ITreballador[]>) => {
-      this.treballadors = res.body;
+      this.treballadors = res.body ? res.body : [];
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadAll();
     this.registerChangeInTreballadors();
   }
 
-  ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
+  ngOnDestroy(): void {
+    if (this.eventSubscriber) {
+      this.eventManager.destroy(this.eventSubscriber);
+    }
   }
 
-  trackId(index: number, item: ITreballador) {
-    return item.id;
+  trackId(index: number, item: ITreballador): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
   }
 
-  registerChangeInTreballadors() {
+  registerChangeInTreballadors(): void {
     this.eventSubscriber = this.eventManager.subscribe('treballadorListModification', () => this.loadAll());
   }
 
-  delete(treballador: ITreballador) {
+  delete(treballador: ITreballador): void {
     const modalRef = this.modalService.open(TreballadorDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.treballador = treballador;
   }

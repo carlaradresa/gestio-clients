@@ -8,17 +8,17 @@ import { ITreballador } from 'app/shared/model/treballador.model';
   templateUrl: './treballador-detail.component.html'
 })
 export class TreballadorDetailComponent implements OnInit {
-  treballador: ITreballador;
+  treballador: ITreballador | null = null;
 
   constructor(protected activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ treballador }) => {
       this.treballador = treballador;
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 }

@@ -8,17 +8,17 @@ import { IMarcatge } from 'app/shared/model/marcatge.model';
   templateUrl: './marcatge-detail.component.html'
 })
 export class MarcatgeDetailComponent implements OnInit {
-  marcatge: IMarcatge;
+  marcatge: IMarcatge | null = null;
 
   constructor(protected activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ marcatge }) => {
       this.marcatge = marcatge;
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 }
