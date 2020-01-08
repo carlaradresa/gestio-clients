@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -10,21 +9,18 @@ import { ClientService } from './client.service';
   templateUrl: './client-delete-dialog.component.html'
 })
 export class ClientDeleteDialogComponent {
-  client: IClient;
+  client?: IClient;
 
   constructor(protected clientService: ClientService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
-  clear() {
-    this.activeModal.dismiss('cancel');
+  clear(): void {
+    this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number) {
+  confirmDelete(id: number): void {
     this.clientService.delete(id).subscribe(() => {
-      this.eventManager.broadcast({
-        name: 'clientListModification',
-        content: 'Deleted an client'
-      });
-      this.activeModal.dismiss(true);
+      this.eventManager.broadcast('clientListModification');
+      this.activeModal.close();
     });
   }
 }

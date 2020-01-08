@@ -45,6 +45,16 @@
                 <dd>
                     <span>{{feina.comentarisTreballador}}</span>
                 </dd>
+                <dt><span jhiTranslate="gestioClientsApp.feina.ubicacio">Ubicacio</span></dt>
+                <dd>
+                    <span>{{feina.ubicacio}}</span>
+                </dd>
+                <dt><span jhiTranslate="gestioClientsApp.feina.ubicacio">Ubicacio</span></dt>
+                <dd>
+                    <div *ngIf="feina.ubicacio">
+                        <a [routerLink]="['/ubicacio', feina.ubicacio?.id, 'view']">{{feina.ubicacio?.ubicacio}}</a>
+                    </div>
+                </dd>
                 <dt><span jhiTranslate="gestioClientsApp.feina.plantillaFeina">Plantilla Feina</span></dt>
                 <dd>
                     <div *ngIf="feina.plantillaFeina">
