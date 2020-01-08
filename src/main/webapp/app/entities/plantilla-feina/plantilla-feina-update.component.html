@@ -4,7 +4,7 @@
             <h2 id="jhi-plantilla-feina-heading" jhiTranslate="gestioClientsApp.plantillaFeina.home.createOrEditLabel">Create or edit a Plantilla Feina</h2>
             <div>
                 <jhi-alert-error></jhi-alert-error>
-                <div class="form-group" [hidden]="!editForm.get('id').value">
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
                     <label for="id" jhiTranslate="global.field.id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id"
                         readonly />
@@ -64,13 +64,13 @@
                     <label class="form-control-label" jhiTranslate="gestioClientsApp.plantillaFeina.periodicitatConfigurable" for="field_periodicitatConfigurable">Periodicitat Configurable</label>
                     <select class="form-control" id="field_periodicitatConfigurable" name="periodicitatConfigurable" formControlName="periodicitatConfigurable">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="periodicitatConfigurableOption.id === editForm.get('periodicitatConfigurable').value?.id ? editForm.get('periodicitatConfigurable').value : periodicitatConfigurableOption" *ngFor="let periodicitatConfigurableOption of periodicitatconfigurables; trackBy: trackPeriodicitatConfigurableById">{{periodicitatConfigurableOption.observacions}}</option>
+                        <option [ngValue]="periodicitatConfigurableOption.id === editForm.get('periodicitatConfigurable')!.value?.id ? editForm.get('periodicitatConfigurable')!.value : periodicitatConfigurableOption" *ngFor="let periodicitatConfigurableOption of periodicitatconfigurables; trackBy: trackById">{{periodicitatConfigurableOption.observacions}}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label jhiTranslate="gestioClientsApp.plantillaFeina.periodicitatSetmanal" for="field_periodicitatSetmanals">Periodicitat Setmanal</label>
                     <select class="form-control" id="field_periodicitatSetmanals" multiple name="periodicitatSetmanals" formControlName="periodicitatSetmanals">
-                        <option [ngValue]="getSelected(editForm.get('periodicitatSetmanals').value, periodicitatSetmanalOption)" *ngFor="let periodicitatSetmanalOption of periodicitatsetmanals; trackBy: trackPeriodicitatSetmanalById">{{periodicitatSetmanalOption.diaSetmana}}</option>
+                        <option [ngValue]="getSelected(editForm.get('periodicitatSetmanals')!.value, periodicitatSetmanalOption)" *ngFor="let periodicitatSetmanalOption of periodicitatsetmanals; trackBy: trackById">{{periodicitatSetmanalOption.diaSetmana}}</option>
                     </select>
                 </div>
             </div>

@@ -13,35 +13,38 @@ import { UbicacioDeleteDialogComponent } from './ubicacio-delete-dialog.componen
   templateUrl: './ubicacio.component.html'
 })
 export class UbicacioComponent implements OnInit, OnDestroy {
-  ubicacios: IUbicacio[];
-  eventSubscriber: Subscription;
+  ubicacios?: IUbicacio[];
+  eventSubscriber?: Subscription;
 
   constructor(protected ubicacioService: UbicacioService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {}
 
-  loadAll() {
+  loadAll(): void {
     this.ubicacioService.query().subscribe((res: HttpResponse<IUbicacio[]>) => {
-      this.ubicacios = res.body;
+      this.ubicacios = res.body ? res.body : [];
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadAll();
     this.registerChangeInUbicacios();
   }
 
-  ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
+  ngOnDestroy(): void {
+    if (this.eventSubscriber) {
+      this.eventManager.destroy(this.eventSubscriber);
+    }
   }
 
-  trackId(index: number, item: IUbicacio) {
-    return item.id;
+  trackId(index: number, item: IUbicacio): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
   }
 
-  registerChangeInUbicacios() {
+  registerChangeInUbicacios(): void {
     this.eventSubscriber = this.eventManager.subscribe('ubicacioListModification', () => this.loadAll());
   }
 
-  delete(ubicacio: IUbicacio) {
+  delete(ubicacio: IUbicacio): void {
     const modalRef = this.modalService.open(UbicacioDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.ubicacio = ubicacio;
   }

@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Transactional; 
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -55,10 +55,6 @@ public class PeriodicitatConfigurableResource {
         if (periodicitatConfigurable.getId() != null) {
             throw new BadRequestAlertException("A new periodicitatConfigurable cannot already have an ID", ENTITY_NAME, "idexists");
         }
-
-        String observacions = "cada " + periodicitatConfigurable.getFrequencia() + " " + periodicitatConfigurable.getPeriodicitat();
-        periodicitatConfigurable.setObservacions(observacions);
-
         PeriodicitatConfigurable result = periodicitatConfigurableRepository.save(periodicitatConfigurable);
         return ResponseEntity.created(new URI("/api/periodicitat-configurables/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
