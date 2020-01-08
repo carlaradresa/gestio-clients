@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { JhiAlertService } from 'ng-jhipster';
+
 import { IPlantillaFeina, PlantillaFeina } from 'app/shared/model/plantilla-feina.model';
 import { PlantillaFeinaService } from './plantilla-feina.service';
 import { IPeriodicitatConfigurable } from 'app/shared/model/periodicitat-configurable.model';
@@ -15,16 +15,18 @@ import { PeriodicitatConfigurableService } from 'app/entities/periodicitat-confi
 import { IPeriodicitatSetmanal } from 'app/shared/model/periodicitat-setmanal.model';
 import { PeriodicitatSetmanalService } from 'app/entities/periodicitat-setmanal/periodicitat-setmanal.service';
 
+type SelectableEntity = IPeriodicitatConfigurable | IPeriodicitatSetmanal;
+
 @Component({
   selector: 'jhi-plantilla-feina-update',
   templateUrl: './plantilla-feina-update.component.html'
 })
 export class PlantillaFeinaUpdateComponent implements OnInit {
-  isSaving: boolean;
+  isSaving = false;
 
-  periodicitatconfigurables: IPeriodicitatConfigurable[];
+  periodicitatconfigurables: IPeriodicitatConfigurable[] = [];
 
-  periodicitatsetmanals: IPeriodicitatSetmanal[];
+  periodicitatsetmanals: IPeriodicitatSetmanal[] = [];
   setmanaInicialDp: any;
   setmanaFinalDp: any;
 
@@ -43,7 +45,6 @@ export class PlantillaFeinaUpdateComponent implements OnInit {
   });
 
   constructor(
-    protected jhiAlertService: JhiAlertService,
     protected plantillaFeinaService: PlantillaFeinaService,
     protected periodicitatConfigurableService: PeriodicitatConfigurableService,
     protected periodicitatSetmanalService: PeriodicitatSetmanalService,
@@ -51,35 +52,46 @@ export class PlantillaFeinaUpdateComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
-  ngOnInit() {
-    this.isSaving = false;
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ plantillaFeina }) => {
       this.updateForm(plantillaFeina);
+
+      this.periodicitatConfigurableService
+        .query({ filter: 'plantilla-is-null' })
+        .pipe(
+          map((res: HttpResponse<IPeriodicitatConfigurable[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IPeriodicitatConfigurable[]) => {
+          if (!plantillaFeina.periodicitatConfigurable || !plantillaFeina.periodicitatConfigurable.id) {
+            this.periodicitatconfigurables = resBody;
+          } else {
+            this.periodicitatConfigurableService
+              .find(plantillaFeina.periodicitatConfigurable.id)
+              .pipe(
+                map((subRes: HttpResponse<IPeriodicitatConfigurable>) => {
+                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
+                })
+              )
+              .subscribe((concatRes: IPeriodicitatConfigurable[]) => {
+                this.periodicitatconfigurables = concatRes;
+              });
+          }
+        });
+
+      this.periodicitatSetmanalService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IPeriodicitatSetmanal[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IPeriodicitatSetmanal[]) => (this.periodicitatsetmanals = resBody));
     });
-    this.periodicitatConfigurableService.query({ filter: 'plantilla-is-null' }).subscribe(
-      (res: HttpResponse<IPeriodicitatConfigurable[]>) => {
-        if (!this.editForm.get('periodicitatConfigurable').value || !this.editForm.get('periodicitatConfigurable').value.id) {
-          this.periodicitatconfigurables = res.body;
-        } else {
-          this.periodicitatConfigurableService
-            .find(this.editForm.get('periodicitatConfigurable').value.id)
-            .subscribe(
-              (subRes: HttpResponse<IPeriodicitatConfigurable>) => (this.periodicitatconfigurables = [subRes.body].concat(res.body)),
-              (subRes: HttpErrorResponse) => this.onError(subRes.message)
-            );
-        }
-      },
-      (res: HttpErrorResponse) => this.onError(res.message)
-    );
-    this.periodicitatSetmanalService
-      .query()
-      .subscribe(
-        (res: HttpResponse<IPeriodicitatSetmanal[]>) => (this.periodicitatsetmanals = res.body),
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
   }
 
-  updateForm(plantillaFeina: IPlantillaFeina) {
+  updateForm(plantillaFeina: IPlantillaFeina): void {
     this.editForm.patchValue({
       id: plantillaFeina.id,
       horaInici: plantillaFeina.horaInici != null ? plantillaFeina.horaInici.format(DATE_TIME_FORMAT) : null,
@@ -95,11 +107,11 @@ export class PlantillaFeinaUpdateComponent implements OnInit {
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 
-  save() {
+  save(): void {
     this.isSaving = true;
     const plantillaFeina = this.createFromForm();
     if (plantillaFeina.id !== undefined) {
@@ -112,47 +124,43 @@ export class PlantillaFeinaUpdateComponent implements OnInit {
   private createFromForm(): IPlantillaFeina {
     return {
       ...new PlantillaFeina(),
-      id: this.editForm.get(['id']).value,
+      id: this.editForm.get(['id'])!.value,
       horaInici:
-        this.editForm.get(['horaInici']).value != null ? moment(this.editForm.get(['horaInici']).value, DATE_TIME_FORMAT) : undefined,
+        this.editForm.get(['horaInici'])!.value != null ? moment(this.editForm.get(['horaInici'])!.value, DATE_TIME_FORMAT) : undefined,
       horaFinal:
-        this.editForm.get(['horaFinal']).value != null ? moment(this.editForm.get(['horaFinal']).value, DATE_TIME_FORMAT) : undefined,
-      tempsPrevist: this.editForm.get(['tempsPrevist']).value,
-      facturacioAutomatica: this.editForm.get(['facturacioAutomatica']).value,
-      observacions: this.editForm.get(['observacions']).value,
-      setmanaInicial: this.editForm.get(['setmanaInicial']).value,
-      setmanaFinal: this.editForm.get(['setmanaFinal']).value,
-      numeroControl: this.editForm.get(['numeroControl']).value,
-      periodicitatConfigurable: this.editForm.get(['periodicitatConfigurable']).value,
-      periodicitatSetmanals: this.editForm.get(['periodicitatSetmanals']).value
+        this.editForm.get(['horaFinal'])!.value != null ? moment(this.editForm.get(['horaFinal'])!.value, DATE_TIME_FORMAT) : undefined,
+      tempsPrevist: this.editForm.get(['tempsPrevist'])!.value,
+      facturacioAutomatica: this.editForm.get(['facturacioAutomatica'])!.value,
+      observacions: this.editForm.get(['observacions'])!.value,
+      setmanaInicial: this.editForm.get(['setmanaInicial'])!.value,
+      setmanaFinal: this.editForm.get(['setmanaFinal'])!.value,
+      numeroControl: this.editForm.get(['numeroControl'])!.value,
+      periodicitatConfigurable: this.editForm.get(['periodicitatConfigurable'])!.value,
+      periodicitatSetmanals: this.editForm.get(['periodicitatSetmanals'])!.value
     };
   }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IPlantillaFeina>>) {
-    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IPlantillaFeina>>): void {
+    result.subscribe(
+      () => this.onSaveSuccess(),
+      () => this.onSaveError()
+    );
   }
 
-  protected onSaveSuccess() {
+  protected onSaveSuccess(): void {
     this.isSaving = false;
     this.previousState();
   }
 
-  protected onSaveError() {
+  protected onSaveError(): void {
     this.isSaving = false;
   }
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
-  }
 
-  trackPeriodicitatConfigurableById(index: number, item: IPeriodicitatConfigurable) {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
   }
 
-  trackPeriodicitatSetmanalById(index: number, item: IPeriodicitatSetmanal) {
-    return item.id;
-  }
-
-  getSelected(selectedVals: any[], option: any) {
+  getSelected(selectedVals: IPeriodicitatSetmanal[], option: IPeriodicitatSetmanal): IPeriodicitatSetmanal {
     if (selectedVals) {
       for (let i = 0; i < selectedVals.length; i++) {
         if (option.id === selectedVals[i].id) {

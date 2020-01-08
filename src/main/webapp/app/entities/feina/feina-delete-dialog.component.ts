@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -10,21 +9,18 @@ import { FeinaService } from './feina.service';
   templateUrl: './feina-delete-dialog.component.html'
 })
 export class FeinaDeleteDialogComponent {
-  feina: IFeina;
+  feina?: IFeina;
 
   constructor(protected feinaService: FeinaService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
-  clear() {
-    this.activeModal.dismiss('cancel');
+  clear(): void {
+    this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number) {
+  confirmDelete(id: number): void {
     this.feinaService.delete(id).subscribe(() => {
-      this.eventManager.broadcast({
-        name: 'feinaListModification',
-        content: 'Deleted an feina'
-      });
-      this.activeModal.dismiss(true);
+      this.eventManager.broadcast('feinaListModification');
+      this.activeModal.close();
     });
   }
 }
