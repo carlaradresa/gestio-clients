@@ -13,35 +13,38 @@ import { CategoriaDeleteDialogComponent } from './categoria-delete-dialog.compon
   templateUrl: './categoria.component.html'
 })
 export class CategoriaComponent implements OnInit, OnDestroy {
-  categorias: ICategoria[];
-  eventSubscriber: Subscription;
+  categorias?: ICategoria[];
+  eventSubscriber?: Subscription;
 
   constructor(protected categoriaService: CategoriaService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {}
 
-  loadAll() {
+  loadAll(): void {
     this.categoriaService.query().subscribe((res: HttpResponse<ICategoria[]>) => {
-      this.categorias = res.body;
+      this.categorias = res.body ? res.body : [];
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadAll();
     this.registerChangeInCategorias();
   }
 
-  ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
+  ngOnDestroy(): void {
+    if (this.eventSubscriber) {
+      this.eventManager.destroy(this.eventSubscriber);
+    }
   }
 
-  trackId(index: number, item: ICategoria) {
-    return item.id;
+  trackId(index: number, item: ICategoria): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
   }
 
-  registerChangeInCategorias() {
+  registerChangeInCategorias(): void {
     this.eventSubscriber = this.eventManager.subscribe('categoriaListModification', () => this.loadAll());
   }
 
-  delete(categoria: ICategoria) {
+  delete(categoria: ICategoria): void {
     const modalRef = this.modalService.open(CategoriaDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.categoria = categoria;
   }

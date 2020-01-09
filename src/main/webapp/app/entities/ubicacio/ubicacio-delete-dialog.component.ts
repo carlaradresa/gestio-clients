@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -10,21 +9,18 @@ import { UbicacioService } from './ubicacio.service';
   templateUrl: './ubicacio-delete-dialog.component.html'
 })
 export class UbicacioDeleteDialogComponent {
-  ubicacio: IUbicacio;
+  ubicacio?: IUbicacio;
 
   constructor(protected ubicacioService: UbicacioService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
-  clear() {
-    this.activeModal.dismiss('cancel');
+  clear(): void {
+    this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number) {
+  confirmDelete(id: number): void {
     this.ubicacioService.delete(id).subscribe(() => {
-      this.eventManager.broadcast({
-        name: 'ubicacioListModification',
-        content: 'Deleted an ubicacio'
-      });
-      this.activeModal.dismiss(true);
+      this.eventManager.broadcast('ubicacioListModification');
+      this.activeModal.close();
     });
   }
 }
