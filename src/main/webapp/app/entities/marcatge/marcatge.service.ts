@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import * as moment from 'moment';
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
-import { map } from 'rxjs/operators';
-
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IMarcatge } from 'app/shared/model/marcatge.model';
@@ -46,22 +46,22 @@ export class MarcatgeService {
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
-  delete(id: number): Observable<HttpResponse<any>> {
-    return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  delete(id: number): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
   protected convertDateFromClient(marcatge: IMarcatge): IMarcatge {
     const copy: IMarcatge = Object.assign({}, marcatge, {
-      horaEntrada: marcatge.horaEntrada != null && marcatge.horaEntrada.isValid() ? marcatge.horaEntrada.toJSON() : null,
-      horaSortida: marcatge.horaSortida != null && marcatge.horaSortida.isValid() ? marcatge.horaSortida.toJSON() : null
+      horaEntrada: marcatge.horaEntrada && marcatge.horaEntrada.isValid() ? marcatge.horaEntrada.toJSON() : undefined,
+      horaSortida: marcatge.horaSortida && marcatge.horaSortida.isValid() ? marcatge.horaSortida.toJSON() : undefined
     });
     return copy;
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.horaEntrada = res.body.horaEntrada != null ? moment(res.body.horaEntrada) : null;
-      res.body.horaSortida = res.body.horaSortida != null ? moment(res.body.horaSortida) : null;
+      res.body.horaEntrada = res.body.horaEntrada ? moment(res.body.horaEntrada) : undefined;
+      res.body.horaSortida = res.body.horaSortida ? moment(res.body.horaSortida) : undefined;
     }
     return res;
   }
@@ -69,8 +69,8 @@ export class MarcatgeService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((marcatge: IMarcatge) => {
-        marcatge.horaEntrada = marcatge.horaEntrada != null ? moment(marcatge.horaEntrada) : null;
-        marcatge.horaSortida = marcatge.horaSortida != null ? moment(marcatge.horaSortida) : null;
+        marcatge.horaEntrada = marcatge.horaEntrada ? moment(marcatge.horaEntrada) : undefined;
+        marcatge.horaSortida = marcatge.horaSortida ? moment(marcatge.horaSortida) : undefined;
       });
     }
     return res;

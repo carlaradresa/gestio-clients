@@ -8,17 +8,17 @@ import { IVenedor } from 'app/shared/model/venedor.model';
   templateUrl: './venedor-detail.component.html'
 })
 export class VenedorDetailComponent implements OnInit {
-  venedor: IVenedor;
+  venedor: IVenedor | null = null;
 
   constructor(protected activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ venedor }) => {
       this.venedor = venedor;
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 }

@@ -28,6 +28,13 @@
             "otherEntityRelationshipName": "ubicacio",
             "relationshipName": "venedor",
             "ownerSide": false
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "feina",
+            "otherEntityRelationshipName": "ubicacio",
+            "relationshipName": "venedor",
+            "ownerSide": false
         }
     ],
     "changelogDate": "20191029182928",

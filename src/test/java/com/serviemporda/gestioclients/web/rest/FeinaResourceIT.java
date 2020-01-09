@@ -71,6 +71,9 @@ public class FeinaResourceIT {
     private static final String DEFAULT_COMENTARIS_TREBALLADOR = "AAAAAAAAAA";
     private static final String UPDATED_COMENTARIS_TREBALLADOR = "BBBBBBBBBB";
 
+    private static final String DEFAULT_UBICACIO = "AAAAAAAAAA";
+    private static final String UPDATED_UBICACIO = "BBBBBBBBBB";
+
     @Autowired
     private FeinaRepository feinaRepository;
 
@@ -125,7 +128,8 @@ public class FeinaResourceIT {
             .intervalControl(DEFAULT_INTERVAL_CONTROL)
             .facturacioAutomatica(DEFAULT_FACTURACIO_AUTOMATICA)
             .observacions(DEFAULT_OBSERVACIONS)
-            .comentarisTreballador(DEFAULT_COMENTARIS_TREBALLADOR);
+            .comentarisTreballador(DEFAULT_COMENTARIS_TREBALLADOR)
+            .ubicacio(DEFAULT_UBICACIO);
         return feina;
     }
     /**
@@ -145,7 +149,8 @@ public class FeinaResourceIT {
             .intervalControl(UPDATED_INTERVAL_CONTROL)
             .facturacioAutomatica(UPDATED_FACTURACIO_AUTOMATICA)
             .observacions(UPDATED_OBSERVACIONS)
-            .comentarisTreballador(UPDATED_COMENTARIS_TREBALLADOR);
+            .comentarisTreballador(UPDATED_COMENTARIS_TREBALLADOR)
+            .ubicacio(UPDATED_UBICACIO);
         return feina;
     }
 
@@ -179,6 +184,7 @@ public class FeinaResourceIT {
         assertThat(testFeina.isFacturacioAutomatica()).isEqualTo(DEFAULT_FACTURACIO_AUTOMATICA);
         assertThat(testFeina.getObservacions()).isEqualTo(DEFAULT_OBSERVACIONS);
         assertThat(testFeina.getComentarisTreballador()).isEqualTo(DEFAULT_COMENTARIS_TREBALLADOR);
+        assertThat(testFeina.getUbicacio()).isEqualTo(DEFAULT_UBICACIO);
     }
 
     @Test
@@ -221,7 +227,8 @@ public class FeinaResourceIT {
             .andExpect(jsonPath("$.[*].intervalControl").value(hasItem(DEFAULT_INTERVAL_CONTROL)))
             .andExpect(jsonPath("$.[*].facturacioAutomatica").value(hasItem(DEFAULT_FACTURACIO_AUTOMATICA.booleanValue())))
             .andExpect(jsonPath("$.[*].observacions").value(hasItem(DEFAULT_OBSERVACIONS)))
-            .andExpect(jsonPath("$.[*].comentarisTreballador").value(hasItem(DEFAULT_COMENTARIS_TREBALLADOR)));
+            .andExpect(jsonPath("$.[*].comentarisTreballador").value(hasItem(DEFAULT_COMENTARIS_TREBALLADOR)))
+            .andExpect(jsonPath("$.[*].ubicacio").value(hasItem(DEFAULT_UBICACIO)));
     }
     
     @SuppressWarnings({"unchecked"})
@@ -277,7 +284,8 @@ public class FeinaResourceIT {
             .andExpect(jsonPath("$.intervalControl").value(DEFAULT_INTERVAL_CONTROL))
             .andExpect(jsonPath("$.facturacioAutomatica").value(DEFAULT_FACTURACIO_AUTOMATICA.booleanValue()))
             .andExpect(jsonPath("$.observacions").value(DEFAULT_OBSERVACIONS))
-            .andExpect(jsonPath("$.comentarisTreballador").value(DEFAULT_COMENTARIS_TREBALLADOR));
+            .andExpect(jsonPath("$.comentarisTreballador").value(DEFAULT_COMENTARIS_TREBALLADOR))
+            .andExpect(jsonPath("$.ubicacio").value(DEFAULT_UBICACIO));
     }
 
     @Test
@@ -310,7 +318,8 @@ public class FeinaResourceIT {
             .intervalControl(UPDATED_INTERVAL_CONTROL)
             .facturacioAutomatica(UPDATED_FACTURACIO_AUTOMATICA)
             .observacions(UPDATED_OBSERVACIONS)
-            .comentarisTreballador(UPDATED_COMENTARIS_TREBALLADOR);
+            .comentarisTreballador(UPDATED_COMENTARIS_TREBALLADOR)
+            .ubicacio(UPDATED_UBICACIO);
 
         restFeinaMockMvc.perform(put("/api/feinas")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -331,6 +340,7 @@ public class FeinaResourceIT {
         assertThat(testFeina.isFacturacioAutomatica()).isEqualTo(UPDATED_FACTURACIO_AUTOMATICA);
         assertThat(testFeina.getObservacions()).isEqualTo(UPDATED_OBSERVACIONS);
         assertThat(testFeina.getComentarisTreballador()).isEqualTo(UPDATED_COMENTARIS_TREBALLADOR);
+        assertThat(testFeina.getUbicacio()).isEqualTo(UPDATED_UBICACIO);
     }
 
     @Test
