@@ -1,4 +1,5 @@
 package com.serviemporda.gestioclients.repository;
+
 import com.serviemporda.gestioclients.domain.Client;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;

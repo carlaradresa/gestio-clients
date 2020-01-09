@@ -8,17 +8,17 @@ import { IPlantillaFeina } from 'app/shared/model/plantilla-feina.model';
   templateUrl: './plantilla-feina-detail.component.html'
 })
 export class PlantillaFeinaDetailComponent implements OnInit {
-  plantillaFeina: IPlantillaFeina;
+  plantillaFeina: IPlantillaFeina | null = null;
 
   constructor(protected activatedRoute: ActivatedRoute) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ plantillaFeina }) => {
       this.plantillaFeina = plantillaFeina;
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 }

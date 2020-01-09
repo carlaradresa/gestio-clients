@@ -105,6 +105,13 @@ public class UbicacioResource {
                 .filter(ubicacio -> ubicacio.getVenedor() == null)
                 .collect(Collectors.toList());
         }
+        if ("venedor-is-null".equals(filter)) {
+            log.debug("REST request to get all Ubicacios where venedor is null");
+            return StreamSupport
+                .stream(ubicacioRepository.findAll().spliterator(), false)
+                .filter(ubicacio -> ubicacio.getVenedor() == null)
+                .collect(Collectors.toList());
+        }
         log.debug("REST request to get all Ubicacios");
         return ubicacioRepository.findAll();
     }

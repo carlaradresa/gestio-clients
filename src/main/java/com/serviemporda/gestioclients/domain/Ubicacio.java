@@ -38,6 +38,10 @@ public class Ubicacio implements Serializable {
     @JsonIgnore
     private Venedor venedor;
 
+    @OneToOne(mappedBy = "ubicacio")
+    @JsonIgnore
+    private Feina venedor;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -110,6 +114,19 @@ public class Ubicacio implements Serializable {
 
     public void setVenedor(Venedor venedor) {
         this.venedor = venedor;
+    }
+
+    public Feina getVenedor() {
+        return venedor;
+    }
+
+    public Ubicacio venedor(Feina feina) {
+        this.venedor = feina;
+        return this;
+    }
+
+    public void setVenedor(Feina feina) {
+        this.venedor = feina;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

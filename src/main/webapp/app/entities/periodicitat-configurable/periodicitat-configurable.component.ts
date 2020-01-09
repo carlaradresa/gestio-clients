@@ -13,8 +13,8 @@ import { PeriodicitatConfigurableDeleteDialogComponent } from './periodicitat-co
   templateUrl: './periodicitat-configurable.component.html'
 })
 export class PeriodicitatConfigurableComponent implements OnInit, OnDestroy {
-  periodicitatConfigurables: IPeriodicitatConfigurable[];
-  eventSubscriber: Subscription;
+  periodicitatConfigurables?: IPeriodicitatConfigurable[];
+  eventSubscriber?: Subscription;
 
   constructor(
     protected periodicitatConfigurableService: PeriodicitatConfigurableService,
@@ -22,30 +22,33 @@ export class PeriodicitatConfigurableComponent implements OnInit, OnDestroy {
     protected modalService: NgbModal
   ) {}
 
-  loadAll() {
+  loadAll(): void {
     this.periodicitatConfigurableService.query().subscribe((res: HttpResponse<IPeriodicitatConfigurable[]>) => {
-      this.periodicitatConfigurables = res.body;
+      this.periodicitatConfigurables = res.body ? res.body : [];
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadAll();
     this.registerChangeInPeriodicitatConfigurables();
   }
 
-  ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
+  ngOnDestroy(): void {
+    if (this.eventSubscriber) {
+      this.eventManager.destroy(this.eventSubscriber);
+    }
   }
 
-  trackId(index: number, item: IPeriodicitatConfigurable) {
-    return item.id;
+  trackId(index: number, item: IPeriodicitatConfigurable): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
   }
 
-  registerChangeInPeriodicitatConfigurables() {
+  registerChangeInPeriodicitatConfigurables(): void {
     this.eventSubscriber = this.eventManager.subscribe('periodicitatConfigurableListModification', () => this.loadAll());
   }
 
-  delete(periodicitatConfigurable: IPeriodicitatConfigurable) {
+  delete(periodicitatConfigurable: IPeriodicitatConfigurable): void {
     const modalRef = this.modalService.open(PeriodicitatConfigurableDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.periodicitatConfigurable = periodicitatConfigurable;
   }

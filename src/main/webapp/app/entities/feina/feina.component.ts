@@ -13,35 +13,38 @@ import { FeinaDeleteDialogComponent } from './feina-delete-dialog.component';
   templateUrl: './feina.component.html'
 })
 export class FeinaComponent implements OnInit, OnDestroy {
-  feinas: IFeina[];
-  eventSubscriber: Subscription;
+  feinas?: IFeina[];
+  eventSubscriber?: Subscription;
 
   constructor(protected feinaService: FeinaService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {}
 
-  loadAll() {
+  loadAll(): void {
     this.feinaService.query().subscribe((res: HttpResponse<IFeina[]>) => {
-      this.feinas = res.body;
+      this.feinas = res.body ? res.body : [];
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadAll();
     this.registerChangeInFeinas();
   }
 
-  ngOnDestroy() {
-    this.eventManager.destroy(this.eventSubscriber);
+  ngOnDestroy(): void {
+    if (this.eventSubscriber) {
+      this.eventManager.destroy(this.eventSubscriber);
+    }
   }
 
-  trackId(index: number, item: IFeina) {
-    return item.id;
+  trackId(index: number, item: IFeina): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
   }
 
-  registerChangeInFeinas() {
+  registerChangeInFeinas(): void {
     this.eventSubscriber = this.eventManager.subscribe('feinaListModification', () => this.loadAll());
   }
 
-  delete(feina: IFeina) {
+  delete(feina: IFeina): void {
     const modalRef = this.modalService.open(FeinaDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.feina = feina;
   }

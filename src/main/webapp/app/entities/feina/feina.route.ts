@@ -1,24 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
+import { Observable, of, EMPTY } from 'rxjs';
+import { flatMap } from 'rxjs/operators';
+
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Feina } from 'app/shared/model/feina.model';
+import { IFeina, Feina } from 'app/shared/model/feina.model';
 import { FeinaService } from './feina.service';
 import { FeinaComponent } from './feina.component';
 import { FeinaDetailComponent } from './feina-detail.component';
 import { FeinaUpdateComponent } from './feina-update.component';
-import { IFeina } from 'app/shared/model/feina.model';
 
 @Injectable({ providedIn: 'root' })
 export class FeinaResolve implements Resolve<IFeina> {
-  constructor(private service: FeinaService) {}
+  constructor(private service: FeinaService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<IFeina> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IFeina> | Observable<never> {
     const id = route.params['id'];
     if (id) {
-      return this.service.find(id).pipe(map((feina: HttpResponse<Feina>) => feina.body));
+      return this.service.find(id).pipe(
+        flatMap((feina: HttpResponse<Feina>) => {
+          if (feina.body) {
+            return of(feina.body);
+          } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
     }
     return of(new Feina());
   }
