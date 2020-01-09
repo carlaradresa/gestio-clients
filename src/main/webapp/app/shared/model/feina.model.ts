@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { IUbicacio } from 'app/shared/model/ubicacio.model';
 import { IPlantillaFeina } from 'app/shared/model/plantilla-feina.model';
 import { ICategoria } from 'app/shared/model/categoria.model';
 import { IClient } from 'app/shared/model/client.model';
@@ -16,6 +17,8 @@ export interface IFeina {
   facturacioAutomatica?: boolean;
   observacions?: string;
   comentarisTreballador?: string;
+  ubicacio?: string;
+  ubicacio?: IUbicacio;
   plantillaFeina?: IPlantillaFeina;
   categoria?: ICategoria;
   client?: IClient;
@@ -35,6 +38,8 @@ export class Feina implements IFeina {
     public facturacioAutomatica?: boolean,
     public observacions?: string,
     public comentarisTreballador?: string,
+    public ubicacio?: string,
+    public ubicacio?: IUbicacio,
     public plantillaFeina?: IPlantillaFeina,
     public categoria?: ICategoria,
     public client?: IClient,

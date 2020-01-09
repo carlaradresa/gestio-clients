@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
@@ -10,7 +9,7 @@ import { PlantillaFeinaService } from './plantilla-feina.service';
   templateUrl: './plantilla-feina-delete-dialog.component.html'
 })
 export class PlantillaFeinaDeleteDialogComponent {
-  plantillaFeina: IPlantillaFeina;
+  plantillaFeina?: IPlantillaFeina;
 
   constructor(
     protected plantillaFeinaService: PlantillaFeinaService,
@@ -18,17 +17,14 @@ export class PlantillaFeinaDeleteDialogComponent {
     protected eventManager: JhiEventManager
   ) {}
 
-  clear() {
-    this.activeModal.dismiss('cancel');
+  clear(): void {
+    this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number) {
+  confirmDelete(id: number): void {
     this.plantillaFeinaService.delete(id).subscribe(() => {
-      this.eventManager.broadcast({
-        name: 'plantillaFeinaListModification',
-        content: 'Deleted an plantillaFeina'
-      });
-      this.activeModal.dismiss(true);
+      this.eventManager.broadcast('plantillaFeinaListModification');
+      this.activeModal.close();
     });
   }
 }

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
-import { JhiAlertService } from 'ng-jhipster';
+
 import { IControl, Control } from 'app/shared/model/control.model';
 import { ControlService } from './control.service';
 import { ITreballador } from 'app/shared/model/treballador.model';
@@ -15,16 +15,18 @@ import { TreballadorService } from 'app/entities/treballador/treballador.service
 import { IFeina } from 'app/shared/model/feina.model';
 import { FeinaService } from 'app/entities/feina/feina.service';
 
+type SelectableEntity = ITreballador | IFeina;
+
 @Component({
   selector: 'jhi-control-update',
   templateUrl: './control-update.component.html'
 })
 export class ControlUpdateComponent implements OnInit {
-  isSaving: boolean;
+  isSaving = false;
 
-  treballadors: ITreballador[];
+  treballadors: ITreballador[] = [];
 
-  feinas: IFeina[];
+  feinas: IFeina[] = [];
   setmanaDp: any;
 
   editForm = this.fb.group({
@@ -39,7 +41,6 @@ export class ControlUpdateComponent implements OnInit {
   });
 
   constructor(
-    protected jhiAlertService: JhiAlertService,
     protected controlService: ControlService,
     protected treballadorService: TreballadorService,
     protected feinaService: FeinaService,
@@ -47,23 +48,31 @@ export class ControlUpdateComponent implements OnInit {
     private fb: FormBuilder
   ) {}
 
-  ngOnInit() {
-    this.isSaving = false;
+  ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ control }) => {
       this.updateForm(control);
+
+      this.treballadorService
+        .query()
+        .pipe(
+          map((res: HttpResponse<ITreballador[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: ITreballador[]) => (this.treballadors = resBody));
+
+      this.feinaService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IFeina[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IFeina[]) => (this.feinas = resBody));
     });
-    this.treballadorService
-      .query()
-      .subscribe(
-        (res: HttpResponse<ITreballador[]>) => (this.treballadors = res.body),
-        (res: HttpErrorResponse) => this.onError(res.message)
-      );
-    this.feinaService
-      .query()
-      .subscribe((res: HttpResponse<IFeina[]>) => (this.feinas = res.body), (res: HttpErrorResponse) => this.onError(res.message));
   }
 
-  updateForm(control: IControl) {
+  updateForm(control: IControl): void {
     this.editForm.patchValue({
       id: control.id,
       numero: control.numero,
@@ -76,11 +85,11 @@ export class ControlUpdateComponent implements OnInit {
     });
   }
 
-  previousState() {
+  previousState(): void {
     window.history.back();
   }
 
-  save() {
+  save(): void {
     this.isSaving = true;
     const control = this.createFromForm();
     if (control.id !== undefined) {
@@ -93,39 +102,35 @@ export class ControlUpdateComponent implements OnInit {
   private createFromForm(): IControl {
     return {
       ...new Control(),
-      id: this.editForm.get(['id']).value,
-      numero: this.editForm.get(['numero']).value,
-      setmana: this.editForm.get(['setmana']).value,
-      causa: this.editForm.get(['causa']).value,
+      id: this.editForm.get(['id'])!.value,
+      numero: this.editForm.get(['numero'])!.value,
+      setmana: this.editForm.get(['setmana'])!.value,
+      causa: this.editForm.get(['causa'])!.value,
       dataRevisio:
-        this.editForm.get(['dataRevisio']).value != null ? moment(this.editForm.get(['dataRevisio']).value, DATE_TIME_FORMAT) : undefined,
-      comentaris: this.editForm.get(['comentaris']).value,
-      revisor: this.editForm.get(['revisor']).value,
-      feina: this.editForm.get(['feina']).value
+        this.editForm.get(['dataRevisio'])!.value != null ? moment(this.editForm.get(['dataRevisio'])!.value, DATE_TIME_FORMAT) : undefined,
+      comentaris: this.editForm.get(['comentaris'])!.value,
+      revisor: this.editForm.get(['revisor'])!.value,
+      feina: this.editForm.get(['feina'])!.value
     };
   }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IControl>>) {
-    result.subscribe(() => this.onSaveSuccess(), () => this.onSaveError());
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IControl>>): void {
+    result.subscribe(
+      () => this.onSaveSuccess(),
+      () => this.onSaveError()
+    );
   }
 
-  protected onSaveSuccess() {
+  protected onSaveSuccess(): void {
     this.isSaving = false;
     this.previousState();
   }
 
-  protected onSaveError() {
+  protected onSaveError(): void {
     this.isSaving = false;
   }
-  protected onError(errorMessage: string) {
-    this.jhiAlertService.error(errorMessage, null, null);
-  }
 
-  trackTreballadorById(index: number, item: ITreballador) {
-    return item.id;
-  }
-
-  trackFeinaById(index: number, item: IFeina) {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
   }
 }

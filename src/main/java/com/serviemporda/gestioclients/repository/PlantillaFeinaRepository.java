@@ -1,4 +1,5 @@
 package com.serviemporda.gestioclients.repository;
+
 import com.serviemporda.gestioclients.domain.PlantillaFeina;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
