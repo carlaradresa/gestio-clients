@@ -94,7 +94,7 @@ entity Venedor {
 relationship ManyToOne {
     Client{venedor} to Venedor,
     Feina{plantillaFeina} to PlantillaFeina,
-    Feina{categoria} to Categoria,
+    Feina{categoria(nomCategoria)} to Categoria{feina},
     Marcatge{feina} to Feina,
     Marcatge{treballador} to Treballador,
     Feina{client} to Client,
