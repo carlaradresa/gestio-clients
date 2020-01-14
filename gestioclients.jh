@@ -94,20 +94,20 @@ entity Venedor {
 relationship ManyToOne {
     Client{venedor} to Venedor,
     Feina{plantillaFeina} to PlantillaFeina,
-    Feina{categoria} to Categoria,
+    Feina{categoria(nomCategoria)} to Categoria{feina},
     Marcatge{feina} to Feina,
     Marcatge{treballador} to Treballador,
     Feina{client} to Client,
     Control{revisor} to Treballador,
-    Control{feina} to Feina
+    Control{feina} to Feina,
+    Feina{ubicacio(ubicacio)} to Ubicacio{feina}
 }
 
 relationship OneToOne {
     Client{ubicacio(ubicacio)} to Ubicacio{client},
     Venedor{ubicacio(ubicacio)} to Ubicacio{venedor},
     Treballador{user(login)} to User,
-    PlantillaFeina{periodicitatConfigurable(observacions)} to PeriodicitatConfigurable{plantilla},
-	Feina{ubicacio(ubicacio)} to Ubicacio{feina}
+    PlantillaFeina{periodicitatConfigurable(observacions)} to PeriodicitatConfigurable{plantilla}
 }
 
 relationship ManyToMany {
