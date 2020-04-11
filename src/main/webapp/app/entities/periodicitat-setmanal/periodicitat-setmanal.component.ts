@@ -23,9 +23,9 @@ export class PeriodicitatSetmanalComponent implements OnInit, OnDestroy {
   ) {}
 
   loadAll(): void {
-    this.periodicitatSetmanalService.query().subscribe((res: HttpResponse<IPeriodicitatSetmanal[]>) => {
-      this.periodicitatSetmanals = res.body ? res.body : [];
-    });
+    this.periodicitatSetmanalService
+      .query()
+      .subscribe((res: HttpResponse<IPeriodicitatSetmanal[]>) => (this.periodicitatSetmanals = res.body || []));
   }
 
   ngOnInit(): void {

@@ -37,6 +37,7 @@
                     <th scope="col" ><span jhiTranslate="gestioClientsApp.feina.categoria">Categoria</span></th>
                     <th scope="col" ><span jhiTranslate="gestioClientsApp.feina.client">Client</span></th>
                     <th scope="col" ><span jhiTranslate="gestioClientsApp.feina.treballador">Treballador</span></th>
+                    <th scope="col" ><span jhiTranslate="gestioClientsApp.feina.ubicacio">Ubicacio</span></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -71,6 +72,11 @@
                     <td>
                         <span *ngFor="let treballador of feina.treballadors; let last = last">
                             <a class="form-control-static" [routerLink]="['/treballador', treballador?.id, 'view']">{{ treballador.nom }}</a>{{ last ? '' : ', ' }}
+                        </span>
+                    </td>
+                    <td>
+                        <span *ngFor="let ubicacio of feina.ubicacios; let last = last">
+                            <a class="form-control-static" [routerLink]="['/ubicacio', ubicacio?.id, 'view']">{{ ubicacio.ubicacio }}</a>{{ last ? '' : ', ' }}
                         </span>
                     </td>
                     <td class="text-right">

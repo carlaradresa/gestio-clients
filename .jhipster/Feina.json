@@ -24,7 +24,7 @@
         {
             "fieldName": "estat",
             "fieldType": "Estat",
-            "fieldValues": "ACTIU,PAUSAT,INACTIU,FINALITZAT"
+            "fieldValues": "ACTIU,PAUSAT,INACTIU"
         },
         {
             "fieldName": "intervalControl",
@@ -71,6 +71,14 @@
             "otherEntityRelationshipName": "feina",
             "relationshipName": "treballador",
             "otherEntityField": "nom",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "ubicacio",
+            "otherEntityRelationshipName": "feina",
+            "relationshipName": "ubicacio",
+            "otherEntityField": "ubicacio",
             "ownerSide": true
         }
     ],

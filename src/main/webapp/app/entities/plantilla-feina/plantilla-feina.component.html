@@ -24,18 +24,17 @@
                 <tr>
                     <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
                     <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.nom">Nom</span></th>
-                    <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.setmanaInicial">Setmana Inicial</span></th>
-                    <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.setmanaFinal">Setmana Final</span></th>
                     <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.horaInici">Hora Inici</span></th>
                     <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.horaFinal">Hora Final</span></th>
                     <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.tempsPrevist">Temps Previst</span></th>
-                    <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.intervalControl">Interval Control</span></th>
-                    <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.diaSetmana">Dia Setmana</span></th>
                     <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.facturacioAutomatica">Facturacio Automatica</span></th>
                     <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.observacions">Observacions</span></th>
+                    <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.setmanaInicial">Setmana Inicial</span></th>
+                    <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.setmanaFinal">Setmana Final</span></th>
+                    <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.numeroControl">Numero Control</span></th>
                     <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.periodicitatConfigurable">Periodicitat Configurable</span></th>
-                    <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.categoria">Categoria</span></th>
                     <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.client">Client</span></th>
+                    <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.periodicitatSetmanal">Periodicitat Setmanal</span></th>
                     <th scope="col" ><span jhiTranslate="gestioClientsApp.plantillaFeina.treballador">Treballador</span></th>
                     <th scope="col"></th>
                 </tr>
@@ -44,29 +43,28 @@
                 <tr *ngFor="let plantillaFeina of plantillaFeinas ;trackBy: trackId">
                     <td><a [routerLink]="['/plantilla-feina', plantillaFeina.id, 'view']">{{ plantillaFeina.id }}</a></td>
                     <td>{{ plantillaFeina.nom }}</td>
-                    <td>{{ plantillaFeina.setmanaInicial | date:'mediumDate' }}</td>
-                    <td>{{ plantillaFeina.setmanaFinal | date:'mediumDate' }}</td>
                     <td>{{ plantillaFeina.horaInici | date:'medium' }}</td>
                     <td>{{ plantillaFeina.horaFinal | date:'medium' }}</td>
                     <td>{{ plantillaFeina.tempsPrevist | date:'medium' }}</td>
-                    <td>{{ plantillaFeina.intervalControl }}</td>
-                    <td jhiTranslate="{{ 'gestioClientsApp.Dia.' + plantillaFeina.diaSetmana }}">{{ plantillaFeina.diaSetmana }}</td>
                     <td>{{ plantillaFeina.facturacioAutomatica }}</td>
                     <td>{{ plantillaFeina.observacions }}</td>
+                    <td>{{ plantillaFeina.setmanaInicial | date:'mediumDate' }}</td>
+                    <td>{{ plantillaFeina.setmanaFinal | date:'mediumDate' }}</td>
+                    <td>{{ plantillaFeina.numeroControl }}</td>
                     <td>
                         <div *ngIf="plantillaFeina.periodicitatConfigurable">
                             <a [routerLink]="['/periodicitat-configurable', plantillaFeina.periodicitatConfigurable?.id, 'view']" >{{ plantillaFeina.periodicitatConfigurable?.observacions }}</a>
                         </div>
                     </td>
                     <td>
-                        <div *ngIf="plantillaFeina.categoria">
-                            <a [routerLink]="['/categoria', plantillaFeina.categoria?.id, 'view']" >{{ plantillaFeina.categoria?.id }}</a>
-                        </div>
-                    </td>
-                    <td>
                         <div *ngIf="plantillaFeina.client">
                             <a [routerLink]="['/client', plantillaFeina.client?.id, 'view']" >{{ plantillaFeina.client?.id }}</a>
                         </div>
+                    </td>
+                    <td>
+                        <span *ngFor="let periodicitatSetmanal of plantillaFeina.periodicitatSetmanals; let last = last">
+                            <a class="form-control-static" [routerLink]="['/periodicitat-setmanal', periodicitatSetmanal?.id, 'view']">{{ periodicitatSetmanal.diaSetmana }}</a>{{ last ? '' : ', ' }}
+                        </span>
                     </td>
                     <td>
                         <span *ngFor="let treballador of plantillaFeina.treballadors; let last = last">

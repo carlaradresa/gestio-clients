@@ -38,5 +38,17 @@
                                  referencedColumnNames="id"
                                  referencedTableName="treballador"/>
         
+        <addForeignKeyConstraint baseColumnNames="feina_id"
+                                 baseTableName="feina_ubicacio"
+                                 constraintName="fk_feina_ubicacio_feina_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="feina"/>
+
+        <addForeignKeyConstraint baseColumnNames="ubicacio_id"
+                                 baseTableName="feina_ubicacio"
+                                 constraintName="fk_feina_ubicacio_ubicacio_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="ubicacio"/>
+        
     </changeSet>
 </databaseChangeLog>

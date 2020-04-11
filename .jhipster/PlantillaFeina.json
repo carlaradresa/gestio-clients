@@ -6,14 +6,6 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "setmanaInicial",
-            "fieldType": "LocalDate"
-        },
-        {
-            "fieldName": "setmanaFinal",
-            "fieldType": "LocalDate"
-        },
-        {
             "fieldName": "horaInici",
             "fieldType": "Instant"
         },
@@ -26,21 +18,24 @@
             "fieldType": "Instant"
         },
         {
-            "fieldName": "intervalControl",
-            "fieldType": "Integer"
-        },
-        {
-            "fieldName": "diaSetmana",
-            "fieldType": "Dia",
-            "fieldValues": "DILLUNS,DIMARTS,DIMECRES,DIJOUS,DIVENDRES,DISSABTE,DIUMENGE,QUALSEVOL"
-        },
-        {
             "fieldName": "facturacioAutomatica",
             "fieldType": "Boolean"
         },
         {
             "fieldName": "observacions",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "setmanaInicial",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "setmanaFinal",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "numeroControl",
+            "fieldType": "Integer"
         }
     ],
     "relationships": [
@@ -54,17 +49,18 @@
         },
         {
             "relationshipType": "many-to-one",
-            "otherEntityName": "categoria",
-            "otherEntityRelationshipName": "plantillaFeina",
-            "relationshipName": "categoria",
-            "otherEntityField": "id"
-        },
-        {
-            "relationshipType": "many-to-one",
             "otherEntityName": "client",
             "otherEntityRelationshipName": "plantillaFeina",
             "relationshipName": "client",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "periodicitatSetmanal",
+            "otherEntityRelationshipName": "plantilla",
+            "relationshipName": "periodicitatSetmanal",
+            "otherEntityField": "diaSetmana",
+            "ownerSide": true
         },
         {
             "relationshipType": "many-to-many",

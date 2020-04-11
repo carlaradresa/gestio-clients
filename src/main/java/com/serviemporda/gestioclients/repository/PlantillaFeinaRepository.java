@@ -17,13 +17,13 @@ import java.util.Optional;
 @Repository
 public interface PlantillaFeinaRepository extends JpaRepository<PlantillaFeina, Long> {
 
-    @Query(value = "select distinct plantillaFeina from PlantillaFeina plantillaFeina left join fetch plantillaFeina.treballadors",
+    @Query(value = "select distinct plantillaFeina from PlantillaFeina plantillaFeina left join fetch plantillaFeina.periodicitatSetmanals left join fetch plantillaFeina.treballadors",
         countQuery = "select count(distinct plantillaFeina) from PlantillaFeina plantillaFeina")
     Page<PlantillaFeina> findAllWithEagerRelationships(Pageable pageable);
 
-    @Query("select distinct plantillaFeina from PlantillaFeina plantillaFeina left join fetch plantillaFeina.treballadors")
+    @Query("select distinct plantillaFeina from PlantillaFeina plantillaFeina left join fetch plantillaFeina.periodicitatSetmanals left join fetch plantillaFeina.treballadors")
     List<PlantillaFeina> findAllWithEagerRelationships();
 
-    @Query("select plantillaFeina from PlantillaFeina plantillaFeina left join fetch plantillaFeina.treballadors where plantillaFeina.id =:id")
+    @Query("select plantillaFeina from PlantillaFeina plantillaFeina left join fetch plantillaFeina.periodicitatSetmanals left join fetch plantillaFeina.treballadors where plantillaFeina.id =:id")
     Optional<PlantillaFeina> findOneWithEagerRelationships(@Param("id") Long id);
 }

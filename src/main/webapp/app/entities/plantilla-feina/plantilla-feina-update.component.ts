@@ -12,14 +12,16 @@ import { IPlantillaFeina, PlantillaFeina } from 'app/shared/model/plantilla-fein
 import { PlantillaFeinaService } from './plantilla-feina.service';
 import { IPeriodicitatConfigurable } from 'app/shared/model/periodicitat-configurable.model';
 import { PeriodicitatConfigurableService } from 'app/entities/periodicitat-configurable/periodicitat-configurable.service';
-import { ICategoria } from 'app/shared/model/categoria.model';
-import { CategoriaService } from 'app/entities/categoria/categoria.service';
 import { IClient } from 'app/shared/model/client.model';
 import { ClientService } from 'app/entities/client/client.service';
+import { IPeriodicitatSetmanal } from 'app/shared/model/periodicitat-setmanal.model';
+import { PeriodicitatSetmanalService } from 'app/entities/periodicitat-setmanal/periodicitat-setmanal.service';
 import { ITreballador } from 'app/shared/model/treballador.model';
 import { TreballadorService } from 'app/entities/treballador/treballador.service';
 
-type SelectableEntity = IPeriodicitatConfigurable | ICategoria | IClient | ITreballador;
+type SelectableEntity = IPeriodicitatConfigurable | IClient | IPeriodicitatSetmanal | ITreballador;
+
+type SelectableManyToManyEntity = IPeriodicitatSetmanal | ITreballador;
 
 @Component({
   selector: 'jhi-plantilla-feina-update',
@@ -28,8 +30,8 @@ type SelectableEntity = IPeriodicitatConfigurable | ICategoria | IClient | ITreb
 export class PlantillaFeinaUpdateComponent implements OnInit {
   isSaving = false;
   periodicitatconfigurables: IPeriodicitatConfigurable[] = [];
-  categorias: ICategoria[] = [];
   clients: IClient[] = [];
+  periodicitatsetmanals: IPeriodicitatSetmanal[] = [];
   treballadors: ITreballador[] = [];
   setmanaInicialDp: any;
   setmanaFinalDp: any;
@@ -37,26 +39,25 @@ export class PlantillaFeinaUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     nom: [],
-    setmanaInicial: [],
-    setmanaFinal: [],
     horaInici: [],
     horaFinal: [],
     tempsPrevist: [],
-    intervalControl: [],
-    diaSetmana: [],
     facturacioAutomatica: [],
     observacions: [],
+    setmanaInicial: [],
+    setmanaFinal: [],
+    numeroControl: [],
     periodicitatConfigurable: [],
-    categoria: [],
     client: [],
+    periodicitatSetmanals: [],
     treballadors: []
   });
 
   constructor(
     protected plantillaFeinaService: PlantillaFeinaService,
     protected periodicitatConfigurableService: PeriodicitatConfigurableService,
-    protected categoriaService: CategoriaService,
     protected clientService: ClientService,
+    protected periodicitatSetmanalService: PeriodicitatSetmanalService,
     protected treballadorService: TreballadorService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -95,9 +96,11 @@ export class PlantillaFeinaUpdateComponent implements OnInit {
           }
         });
 
-      this.categoriaService.query().subscribe((res: HttpResponse<ICategoria[]>) => (this.categorias = res.body || []));
-
       this.clientService.query().subscribe((res: HttpResponse<IClient[]>) => (this.clients = res.body || []));
+
+      this.periodicitatSetmanalService
+        .query()
+        .subscribe((res: HttpResponse<IPeriodicitatSetmanal[]>) => (this.periodicitatsetmanals = res.body || []));
 
       this.treballadorService.query().subscribe((res: HttpResponse<ITreballador[]>) => (this.treballadors = res.body || []));
     });
@@ -107,18 +110,17 @@ export class PlantillaFeinaUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: plantillaFeina.id,
       nom: plantillaFeina.nom,
-      setmanaInicial: plantillaFeina.setmanaInicial,
-      setmanaFinal: plantillaFeina.setmanaFinal,
       horaInici: plantillaFeina.horaInici ? plantillaFeina.horaInici.format(DATE_TIME_FORMAT) : null,
       horaFinal: plantillaFeina.horaFinal ? plantillaFeina.horaFinal.format(DATE_TIME_FORMAT) : null,
       tempsPrevist: plantillaFeina.tempsPrevist ? plantillaFeina.tempsPrevist.format(DATE_TIME_FORMAT) : null,
-      intervalControl: plantillaFeina.intervalControl,
-      diaSetmana: plantillaFeina.diaSetmana,
       facturacioAutomatica: plantillaFeina.facturacioAutomatica,
       observacions: plantillaFeina.observacions,
+      setmanaInicial: plantillaFeina.setmanaInicial,
+      setmanaFinal: plantillaFeina.setmanaFinal,
+      numeroControl: plantillaFeina.numeroControl,
       periodicitatConfigurable: plantillaFeina.periodicitatConfigurable,
-      categoria: plantillaFeina.categoria,
       client: plantillaFeina.client,
+      periodicitatSetmanals: plantillaFeina.periodicitatSetmanals,
       treballadors: plantillaFeina.treballadors
     });
   }
@@ -142,20 +144,19 @@ export class PlantillaFeinaUpdateComponent implements OnInit {
       ...new PlantillaFeina(),
       id: this.editForm.get(['id'])!.value,
       nom: this.editForm.get(['nom'])!.value,
-      setmanaInicial: this.editForm.get(['setmanaInicial'])!.value,
-      setmanaFinal: this.editForm.get(['setmanaFinal'])!.value,
       horaInici: this.editForm.get(['horaInici'])!.value ? moment(this.editForm.get(['horaInici'])!.value, DATE_TIME_FORMAT) : undefined,
       horaFinal: this.editForm.get(['horaFinal'])!.value ? moment(this.editForm.get(['horaFinal'])!.value, DATE_TIME_FORMAT) : undefined,
       tempsPrevist: this.editForm.get(['tempsPrevist'])!.value
         ? moment(this.editForm.get(['tempsPrevist'])!.value, DATE_TIME_FORMAT)
         : undefined,
-      intervalControl: this.editForm.get(['intervalControl'])!.value,
-      diaSetmana: this.editForm.get(['diaSetmana'])!.value,
       facturacioAutomatica: this.editForm.get(['facturacioAutomatica'])!.value,
       observacions: this.editForm.get(['observacions'])!.value,
+      setmanaInicial: this.editForm.get(['setmanaInicial'])!.value,
+      setmanaFinal: this.editForm.get(['setmanaFinal'])!.value,
+      numeroControl: this.editForm.get(['numeroControl'])!.value,
       periodicitatConfigurable: this.editForm.get(['periodicitatConfigurable'])!.value,
-      categoria: this.editForm.get(['categoria'])!.value,
       client: this.editForm.get(['client'])!.value,
+      periodicitatSetmanals: this.editForm.get(['periodicitatSetmanals'])!.value,
       treballadors: this.editForm.get(['treballadors'])!.value
     };
   }
@@ -180,7 +181,7 @@ export class PlantillaFeinaUpdateComponent implements OnInit {
     return item.id;
   }
 
-  getSelected(selectedVals: ITreballador[], option: ITreballador): ITreballador {
+  getSelected(selectedVals: SelectableManyToManyEntity[], option: SelectableManyToManyEntity): SelectableManyToManyEntity {
     if (selectedVals) {
       for (let i = 0; i < selectedVals.length; i++) {
         if (option.id === selectedVals[i].id) {

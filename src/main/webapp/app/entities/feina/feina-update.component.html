@@ -53,7 +53,6 @@
                         <option value="ACTIU">{{ 'gestioClientsApp.Estat.ACTIU' | translate }}</option>
                         <option value="PAUSAT">{{ 'gestioClientsApp.Estat.PAUSAT' | translate }}</option>
                         <option value="INACTIU">{{ 'gestioClientsApp.Estat.INACTIU' | translate }}</option>
-                        <option value="FINALITZAT">{{ 'gestioClientsApp.Estat.FINALITZAT' | translate }}</option>
                     </select>
                 </div>
 
@@ -109,6 +108,13 @@
                     <label jhiTranslate="gestioClientsApp.feina.treballador" for="field_treballadors">Treballador</label>
                     <select class="form-control" id="field_treballadors" multiple name="treballadors" formControlName="treballadors">
                         <option [ngValue]="getSelected(editForm.get('treballadors')!.value, treballadorOption)" *ngFor="let treballadorOption of treballadors; trackBy: trackById">{{ treballadorOption.nom }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label jhiTranslate="gestioClientsApp.feina.ubicacio" for="field_ubicacios">Ubicacio</label>
+                    <select class="form-control" id="field_ubicacios" multiple name="ubicacios" formControlName="ubicacios">
+                        <option [ngValue]="getSelected(editForm.get('ubicacios')!.value, ubicacioOption)" *ngFor="let ubicacioOption of ubicacios; trackBy: trackById">{{ ubicacioOption.ubicacio }}</option>
                     </select>
                 </div>
             </div>

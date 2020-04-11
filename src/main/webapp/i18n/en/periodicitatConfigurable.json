@@ -16,8 +16,8 @@
       "detail": {
         "title": "Periodicitat Configurable"
       },
-      "periodicitat": "Periodicitat",
       "frequencia": "Frequencia",
+      "periodicitat": "Periodicitat",
       "observacions": "Observacions",
       "plantilla": "Plantilla"
     }

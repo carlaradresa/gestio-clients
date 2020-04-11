@@ -1,11 +1,11 @@
-id;nom;setmana_inicial;setmana_final;hora_inici;hora_final;temps_previst;interval_control;dia_setmana;facturacio_automatica;observacions
-1;Rubber;2019-10-29;2019-10-28;2019-10-29T08:25:06;2019-10-29T14:06:23;2019-10-29T00:27:51;38857;DISSABTE;false;Virtual Applications
-2;withdrawal Gloves portals;2019-10-29;2019-10-29;2019-10-29T03:11:07;2019-10-29T05:35:30;2019-10-29T04:25:08;44033;DIVENDRES;false;sensor withdrawal
-3;Trinidad and Tobago Dollar 1080p Belize;2019-10-29;2019-10-29;2019-10-29T06:59:56;2019-10-29T11:09:41;2019-10-29T11:26:15;81518;DIJOUS;false;Generic Product
-4;Outdoors Beauty;2019-10-29;2019-10-28;2019-10-28T19:45:11;2019-10-29T06:17:47;2019-10-29T06:26:54;89593;DISSABTE;true;Sleek haptic
-5;New Zealand Dollar;2019-10-29;2019-10-28;2019-10-29T08:39:21;2019-10-28T20:23:34;2019-10-28T19:45:04;60792;DIVENDRES;true;bluetooth Kyat New Israeli Sheqel
-6;sensor Optimization transmitting;2019-10-29;2019-10-29;2019-10-29T06:38:45;2019-10-28T19:37:13;2019-10-28T22:28:29;40738;DIMARTS;true;Hat backing up Berkshire
-7;Bike;2019-10-28;2019-10-29;2019-10-28T20:21:32;2019-10-28T19:20:04;2019-10-28T19:40:19;90246;DILLUNS;false;Handcrafted Concrete Bacon drive
-8;XML;2019-10-29;2019-10-28;2019-10-29T18:21:18;2019-10-29T02:00:06;2019-10-29T10:42:28;58565;DIMARTS;false;Georgia
-9;SQL online;2019-10-28;2019-10-28;2019-10-29T11:18:41;2019-10-29T10:49:05;2019-10-29T12:20:44;27457;DILLUNS;false;leverage Corners
-10;pink;2019-10-29;2019-10-29;2019-10-29T01:27:13;2019-10-29T14:40:25;2019-10-29T14:15:32;64281;DIMECRES;false;matrix Baby Small
+id;nom;hora_inici;hora_final;temps_previst;facturacio_automatica;observacions;setmana_inicial;setmana_final;numero_control
+1;Rubber;2019-10-29T14:42:38;2019-10-28T20:11:03;2019-10-29T08:25:06;false;repurpose copying Keyboard;2019-10-29;2019-10-29;67949
+2;Egypt;2019-10-28T19:02:17;2019-10-28T20:01:23;2019-10-29T06:54:29;true;e-business hardware;2019-10-29;2019-10-29;12902
+3;Mongolia infrastructures;2019-10-29T08:13:02;2019-10-29T17:51:57;2019-10-29T05:22:41;false;sensor withdrawal;2019-10-28;2019-10-29;80817
+4;hard drive Generic Health;2019-10-29T11:09:41;2019-10-29T11:26:15;2019-10-28T22:55:32;false;global harness Generic;2019-10-28;2019-10-29;64997
+5;Lead;2019-10-29T05:40:26;2019-10-29T06:10:48;2019-10-28T23:50:39;true;Cambridgeshire Checking Account;2019-10-28;2019-10-29;53370
+6;calculate Sleek haptic;2019-10-29T10:57:26;2019-10-29T02:26:57;2019-10-29T03:59:33;false;functionalities Communications Tasty Plastic Hat;2019-10-28;2019-10-29;78055
+7;Kyat New Israeli Sheqel;2019-10-28T23:22:08;2019-10-29T01:27:06;2019-10-29T07:23:10;true;transmitting Awesome;2019-10-29;2019-10-28;83397
+8;multi-byte visionary;2019-10-29T02:15:25;2019-10-29T04:41:32;2019-10-29T08:13:40;false;panel Svalbard & Jan Mayen Islands;2019-10-29;2019-10-29;40969
+9;Bike;2019-10-28T22:21:30;2019-10-29T03:38:30;2019-10-28T20:21:32;true;Principal District Practical Plastic Computer;2019-10-29;2019-10-29;5098
+10;Checking Account;2019-10-29T01:55:12;2019-10-29T14:02:20;2019-10-28T23:06:25;false;Salad Bedfordshire backing up;2019-10-29;2019-10-29;58565

@@ -74,6 +74,17 @@
 
         <addPrimaryKey columnNames="feina_id, treballador_id" tableName="feina_treballador"/>
         
+        <createTable tableName="feina_ubicacio">
+            <column name="ubicacio_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="feina_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="feina_id, ubicacio_id" tableName="feina_ubicacio"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 

@@ -1,0 +1,23 @@
+{
+  "gestioClientsApp": {
+    "periodicitatSetmanal": {
+      "home": {
+        "title": "Periodicitat Setmanals",
+        "createLabel": "Crear nuevo Periodicitat Setmanal",
+        "createOrEditLabel": "Crear o editar Periodicitat Setmanal",
+        "notFound": "Ningún Periodicitat Setmanals encontrado"
+      },
+      "created": "Un nuevo Periodicitat Setmanal ha sido creado con el identificador {{ param }}",
+      "updated": "Un Periodicitat Setmanal ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Periodicitat Setmanal ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Periodicitat Setmanal {{ id }}?"
+      },
+      "detail": {
+        "title": "Periodicitat Setmanal"
+      },
+      "diaSetmana": "Dia Setmana",
+      "plantilla": "Plantilla"
+    }
+  }
+}

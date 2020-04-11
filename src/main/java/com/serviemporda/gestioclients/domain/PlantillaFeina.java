@@ -13,8 +13,6 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.serviemporda.gestioclients.domain.enumeration.Dia;
-
 /**
  * A PlantillaFeina.
  */
@@ -32,12 +30,6 @@ public class PlantillaFeina implements Serializable {
     @Column(name = "nom")
     private String nom;
 
-    @Column(name = "setmana_inicial")
-    private LocalDate setmanaInicial;
-
-    @Column(name = "setmana_final")
-    private LocalDate setmanaFinal;
-
     @Column(name = "hora_inici")
     private Instant horaInici;
 
@@ -47,18 +39,20 @@ public class PlantillaFeina implements Serializable {
     @Column(name = "temps_previst")
     private Instant tempsPrevist;
 
-    @Column(name = "interval_control")
-    private Integer intervalControl;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "dia_setmana")
-    private Dia diaSetmana;
-
     @Column(name = "facturacio_automatica")
     private Boolean facturacioAutomatica;
 
     @Column(name = "observacions")
     private String observacions;
+
+    @Column(name = "setmana_inicial")
+    private LocalDate setmanaInicial;
+
+    @Column(name = "setmana_final")
+    private LocalDate setmanaFinal;
+
+    @Column(name = "numero_control")
+    private Integer numeroControl;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -66,11 +60,14 @@ public class PlantillaFeina implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("plantillaFeinas")
-    private Categoria categoria;
-
-    @ManyToOne
-    @JsonIgnoreProperties("plantillaFeinas")
     private Client client;
+
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "plantilla_feina_periodicitat_setmanal",
+               joinColumns = @JoinColumn(name = "plantilla_feina_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "periodicitat_setmanal_id", referencedColumnName = "id"))
+    private Set<PeriodicitatSetmanal> periodicitatSetmanals = new HashSet<>();
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -99,32 +96,6 @@ public class PlantillaFeina implements Serializable {
 
     public void setNom(String nom) {
         this.nom = nom;
-    }
-
-    public LocalDate getSetmanaInicial() {
-        return setmanaInicial;
-    }
-
-    public PlantillaFeina setmanaInicial(LocalDate setmanaInicial) {
-        this.setmanaInicial = setmanaInicial;
-        return this;
-    }
-
-    public void setSetmanaInicial(LocalDate setmanaInicial) {
-        this.setmanaInicial = setmanaInicial;
-    }
-
-    public LocalDate getSetmanaFinal() {
-        return setmanaFinal;
-    }
-
-    public PlantillaFeina setmanaFinal(LocalDate setmanaFinal) {
-        this.setmanaFinal = setmanaFinal;
-        return this;
-    }
-
-    public void setSetmanaFinal(LocalDate setmanaFinal) {
-        this.setmanaFinal = setmanaFinal;
     }
 
     public Instant getHoraInici() {
@@ -166,32 +137,6 @@ public class PlantillaFeina implements Serializable {
         this.tempsPrevist = tempsPrevist;
     }
 
-    public Integer getIntervalControl() {
-        return intervalControl;
-    }
-
-    public PlantillaFeina intervalControl(Integer intervalControl) {
-        this.intervalControl = intervalControl;
-        return this;
-    }
-
-    public void setIntervalControl(Integer intervalControl) {
-        this.intervalControl = intervalControl;
-    }
-
-    public Dia getDiaSetmana() {
-        return diaSetmana;
-    }
-
-    public PlantillaFeina diaSetmana(Dia diaSetmana) {
-        this.diaSetmana = diaSetmana;
-        return this;
-    }
-
-    public void setDiaSetmana(Dia diaSetmana) {
-        this.diaSetmana = diaSetmana;
-    }
-
     public Boolean isFacturacioAutomatica() {
         return facturacioAutomatica;
     }
@@ -218,6 +163,45 @@ public class PlantillaFeina implements Serializable {
         this.observacions = observacions;
     }
 
+    public LocalDate getSetmanaInicial() {
+        return setmanaInicial;
+    }
+
+    public PlantillaFeina setmanaInicial(LocalDate setmanaInicial) {
+        this.setmanaInicial = setmanaInicial;
+        return this;
+    }
+
+    public void setSetmanaInicial(LocalDate setmanaInicial) {
+        this.setmanaInicial = setmanaInicial;
+    }
+
+    public LocalDate getSetmanaFinal() {
+        return setmanaFinal;
+    }
+
+    public PlantillaFeina setmanaFinal(LocalDate setmanaFinal) {
+        this.setmanaFinal = setmanaFinal;
+        return this;
+    }
+
+    public void setSetmanaFinal(LocalDate setmanaFinal) {
+        this.setmanaFinal = setmanaFinal;
+    }
+
+    public Integer getNumeroControl() {
+        return numeroControl;
+    }
+
+    public PlantillaFeina numeroControl(Integer numeroControl) {
+        this.numeroControl = numeroControl;
+        return this;
+    }
+
+    public void setNumeroControl(Integer numeroControl) {
+        this.numeroControl = numeroControl;
+    }
+
     public PeriodicitatConfigurable getPeriodicitatConfigurable() {
         return periodicitatConfigurable;
     }
@@ -231,19 +215,6 @@ public class PlantillaFeina implements Serializable {
         this.periodicitatConfigurable = periodicitatConfigurable;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public PlantillaFeina categoria(Categoria categoria) {
-        this.categoria = categoria;
-        return this;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
-
     public Client getClient() {
         return client;
     }
@@ -255,6 +226,31 @@ public class PlantillaFeina implements Serializable {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Set<PeriodicitatSetmanal> getPeriodicitatSetmanals() {
+        return periodicitatSetmanals;
+    }
+
+    public PlantillaFeina periodicitatSetmanals(Set<PeriodicitatSetmanal> periodicitatSetmanals) {
+        this.periodicitatSetmanals = periodicitatSetmanals;
+        return this;
+    }
+
+    public PlantillaFeina addPeriodicitatSetmanal(PeriodicitatSetmanal periodicitatSetmanal) {
+        this.periodicitatSetmanals.add(periodicitatSetmanal);
+        periodicitatSetmanal.getPlantillas().add(this);
+        return this;
+    }
+
+    public PlantillaFeina removePeriodicitatSetmanal(PeriodicitatSetmanal periodicitatSetmanal) {
+        this.periodicitatSetmanals.remove(periodicitatSetmanal);
+        periodicitatSetmanal.getPlantillas().remove(this);
+        return this;
+    }
+
+    public void setPeriodicitatSetmanals(Set<PeriodicitatSetmanal> periodicitatSetmanals) {
+        this.periodicitatSetmanals = periodicitatSetmanals;
     }
 
     public Set<Treballador> getTreballadors() {
@@ -304,15 +300,14 @@ public class PlantillaFeina implements Serializable {
         return "PlantillaFeina{" +
             "id=" + getId() +
             ", nom='" + getNom() + "'" +
-            ", setmanaInicial='" + getSetmanaInicial() + "'" +
-            ", setmanaFinal='" + getSetmanaFinal() + "'" +
             ", horaInici='" + getHoraInici() + "'" +
             ", horaFinal='" + getHoraFinal() + "'" +
             ", tempsPrevist='" + getTempsPrevist() + "'" +
-            ", intervalControl=" + getIntervalControl() +
-            ", diaSetmana='" + getDiaSetmana() + "'" +
             ", facturacioAutomatica='" + isFacturacioAutomatica() + "'" +
             ", observacions='" + getObservacions() + "'" +
+            ", setmanaInicial='" + getSetmanaInicial() + "'" +
+            ", setmanaFinal='" + getSetmanaFinal() + "'" +
+            ", numeroControl=" + getNumeroControl() +
             "}";
     }
 }

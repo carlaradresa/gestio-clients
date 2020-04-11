@@ -17,18 +17,17 @@
         "title": "Plantilla Feina"
       },
       "nom": "Nom",
-      "setmanaInicial": "Setmana Inicial",
-      "setmanaFinal": "Setmana Final",
       "horaInici": "Hora Inici",
       "horaFinal": "Hora Final",
       "tempsPrevist": "Temps Previst",
-      "intervalControl": "Interval Control",
-      "diaSetmana": "Dia Setmana",
       "facturacioAutomatica": "Facturacio Automatica",
       "observacions": "Observacions",
+      "setmanaInicial": "Setmana Inicial",
+      "setmanaFinal": "Setmana Final",
+      "numeroControl": "Numero Control",
       "periodicitatConfigurable": "Periodicitat Configurable",
-      "categoria": "Categoria",
       "client": "Client",
+      "periodicitatSetmanal": "Periodicitat Setmanal",
       "treballador": "Treballador"
     }
   }

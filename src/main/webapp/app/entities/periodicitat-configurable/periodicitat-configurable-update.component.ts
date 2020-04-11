@@ -17,8 +17,8 @@ export class PeriodicitatConfigurableUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    periodicitat: [],
     frequencia: [],
+    periodicitat: [],
     observacions: []
   });
 
@@ -37,8 +37,8 @@ export class PeriodicitatConfigurableUpdateComponent implements OnInit {
   updateForm(periodicitatConfigurable: IPeriodicitatConfigurable): void {
     this.editForm.patchValue({
       id: periodicitatConfigurable.id,
-      periodicitat: periodicitatConfigurable.periodicitat,
       frequencia: periodicitatConfigurable.frequencia,
+      periodicitat: periodicitatConfigurable.periodicitat,
       observacions: periodicitatConfigurable.observacions
     });
   }
@@ -61,8 +61,8 @@ export class PeriodicitatConfigurableUpdateComponent implements OnInit {
     return {
       ...new PeriodicitatConfigurable(),
       id: this.editForm.get(['id'])!.value,
-      periodicitat: this.editForm.get(['periodicitat'])!.value,
       frequencia: this.editForm.get(['frequencia'])!.value,
+      periodicitat: this.editForm.get(['periodicitat'])!.value,
       observacions: this.editForm.get(['observacions'])!.value
     };
   }

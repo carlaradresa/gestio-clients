@@ -1,0 +1,31 @@
+{
+    "name": "PeriodicitatSetmanal",
+    "fields": [
+        {
+            "fieldName": "diaSetmana",
+            "fieldType": "Dia",
+            "fieldValues": "DILLUNS,DIMARTS,DIMECRES,DIJOUS,DIVENDRES,DISSABTE,DIUMENGE,QUALSEVOL"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "plantillaFeina",
+            "otherEntityRelationshipName": "periodicitatSetmanal",
+            "relationshipName": "plantilla",
+            "otherEntityField": "id",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20200411184300",
+    "entityTableName": "periodicitat_setmanal",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}
