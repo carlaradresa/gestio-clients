@@ -12,14 +12,6 @@
                 <dd>
                     <span>{{ plantillaFeina.nom }}</span>
                 </dd>
-                <dt><span jhiTranslate="gestioClientsApp.plantillaFeina.setmanaInicial">Setmana Inicial</span></dt>
-                <dd>
-                    <span>{{ plantillaFeina.setmanaInicial }}</span>
-                </dd>
-                <dt><span jhiTranslate="gestioClientsApp.plantillaFeina.setmanaFinal">Setmana Final</span></dt>
-                <dd>
-                    <span>{{ plantillaFeina.setmanaFinal }}</span>
-                </dd>
                 <dt><span jhiTranslate="gestioClientsApp.plantillaFeina.horaInici">Hora Inici</span></dt>
                 <dd>
                     <span>{{ plantillaFeina.horaInici }}</span>
@@ -32,14 +24,6 @@
                 <dd>
                     <span>{{ plantillaFeina.tempsPrevist }}</span>
                 </dd>
-                <dt><span jhiTranslate="gestioClientsApp.plantillaFeina.intervalControl">Interval Control</span></dt>
-                <dd>
-                    <span>{{ plantillaFeina.intervalControl }}</span>
-                </dd>
-                <dt><span jhiTranslate="gestioClientsApp.plantillaFeina.diaSetmana">Dia Setmana</span></dt>
-                <dd>
-                    <span jhiTranslate="{{ 'gestioClientsApp.Dia.' + plantillaFeina.diaSetmana }}">{{ plantillaFeina.diaSetmana }}</span>
-                </dd>
                 <dt><span jhiTranslate="gestioClientsApp.plantillaFeina.facturacioAutomatica">Facturacio Automatica</span></dt>
                 <dd>
                     <span>{{ plantillaFeina.facturacioAutomatica }}</span>
@@ -48,16 +32,22 @@
                 <dd>
                     <span>{{ plantillaFeina.observacions }}</span>
                 </dd>
+                <dt><span jhiTranslate="gestioClientsApp.plantillaFeina.setmanaInicial">Setmana Inicial</span></dt>
+                <dd>
+                    <span>{{ plantillaFeina.setmanaInicial }}</span>
+                </dd>
+                <dt><span jhiTranslate="gestioClientsApp.plantillaFeina.setmanaFinal">Setmana Final</span></dt>
+                <dd>
+                    <span>{{ plantillaFeina.setmanaFinal }}</span>
+                </dd>
+                <dt><span jhiTranslate="gestioClientsApp.plantillaFeina.numeroControl">Numero Control</span></dt>
+                <dd>
+                    <span>{{ plantillaFeina.numeroControl }}</span>
+                </dd>
                 <dt><span jhiTranslate="gestioClientsApp.plantillaFeina.periodicitatConfigurable">Periodicitat Configurable</span></dt>
                 <dd>
                     <div *ngIf="plantillaFeina.periodicitatConfigurable">
                         <a [routerLink]="['/periodicitat-configurable', plantillaFeina.periodicitatConfigurable?.id, 'view']">{{ plantillaFeina.periodicitatConfigurable?.observacions }}</a>
-                    </div>
-                </dd>
-                <dt><span jhiTranslate="gestioClientsApp.plantillaFeina.categoria">Categoria</span></dt>
-                <dd>
-                    <div *ngIf="plantillaFeina.categoria">
-                        <a [routerLink]="['/categoria', plantillaFeina.categoria?.id, 'view']">{{ plantillaFeina.categoria?.id }}</a>
                     </div>
                 </dd>
                 <dt><span jhiTranslate="gestioClientsApp.plantillaFeina.client">Client</span></dt>
@@ -65,6 +55,12 @@
                     <div *ngIf="plantillaFeina.client">
                         <a [routerLink]="['/client', plantillaFeina.client?.id, 'view']">{{ plantillaFeina.client?.id }}</a>
                     </div>
+                </dd>
+                <dt><span jhiTranslate="gestioClientsApp.plantillaFeina.periodicitatSetmanal">Periodicitat Setmanal</span></dt>
+                <dd>
+                    <span *ngFor="let periodicitatSetmanal of plantillaFeina.periodicitatSetmanals; let last = last">
+                        <a [routerLink]="['/periodicitat-setmanal', periodicitatSetmanal?.id, 'view']">{{ periodicitatSetmanal.diaSetmana }}</a>{{ last ? '' : ', ' }}
+                    </span>
                 </dd>
                 <dt><span jhiTranslate="gestioClientsApp.plantillaFeina.treballador">Treballador</span></dt>
                 <dd>

@@ -72,6 +72,12 @@
                         <a [routerLink]="['/treballador', treballador?.id, 'view']">{{ treballador.nom }}</a>{{ last ? '' : ', ' }}
                     </span>
                 </dd>
+                <dt><span jhiTranslate="gestioClientsApp.feina.ubicacio">Ubicacio</span></dt>
+                <dd>
+                    <span *ngFor="let ubicacio of feina.ubicacios; let last = last">
+                        <a [routerLink]="['/ubicacio', ubicacio?.id, 'view']">{{ ubicacio.ubicacio }}</a>{{ last ? '' : ', ' }}
+                    </span>
+                </dd>
             </dl>
 
             <button type="submit"

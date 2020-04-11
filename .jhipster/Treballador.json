@@ -12,7 +12,7 @@
         {
             "fieldName": "estat",
             "fieldType": "Estat",
-            "fieldValues": "ACTIU,PAUSAT,INACTIU,FINALITZAT"
+            "fieldValues": "ACTIU,PAUSAT,INACTIU"
         },
         {
             "fieldName": "controlQualitat",

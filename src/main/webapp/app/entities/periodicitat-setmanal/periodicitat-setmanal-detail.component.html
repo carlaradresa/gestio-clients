@@ -1,26 +1,29 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="periodicitatSetmanal">
-            <h2><span jhiTranslate="gestioClientsApp.periodicitatSetmanal.detail.title">Periodicitat Setmanal</span> {{periodicitatSetmanal.id}}</h2>
+            <h2><span jhiTranslate="gestioClientsApp.periodicitatSetmanal.detail.title">Periodicitat Setmanal</span> {{ periodicitatSetmanal.id }}</h2>
+
             <hr>
+
             <jhi-alert-error></jhi-alert-error>
+
             <dl class="row-md jh-entity-details">
                 <dt><span jhiTranslate="gestioClientsApp.periodicitatSetmanal.diaSetmana">Dia Setmana</span></dt>
                 <dd>
-                    <span jhiTranslate="{{'gestioClientsApp.Dia.' + periodicitatSetmanal.diaSetmana}}">{{periodicitatSetmanal.diaSetmana}}</span>
+                    <span jhiTranslate="{{ 'gestioClientsApp.Dia.' + periodicitatSetmanal.diaSetmana }}">{{ periodicitatSetmanal.diaSetmana }}</span>
                 </dd>
             </dl>
 
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
             </button>
 
             <button type="button"
                     [routerLink]="['/periodicitat-setmanal', periodicitatSetmanal.id, 'edit']"
                     class="btn btn-primary">
-                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
             </button>
         </div>
     </div>

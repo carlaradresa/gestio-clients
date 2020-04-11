@@ -69,6 +69,8 @@ public class CacheConfiguration {
             createCache(cm, com.serviemporda.gestioclients.domain.Ubicacio.class.getName() + ".feinas");
             createCache(cm, com.serviemporda.gestioclients.domain.PlantillaFeina.class.getName() + ".treballadors");
             createCache(cm, com.serviemporda.gestioclients.domain.Treballador.class.getName() + ".plantillafeinas");
+            createCache(cm, com.serviemporda.gestioclients.domain.PeriodicitatSetmanal.class.getName());
+            createCache(cm, com.serviemporda.gestioclients.domain.PeriodicitatSetmanal.class.getName() + ".plantillas");
             // jhipster-needle-ehcache-add-entry
         };
     }

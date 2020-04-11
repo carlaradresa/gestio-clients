@@ -23,8 +23,8 @@
             <thead>
                 <tr>
                     <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
-                    <th scope="col" ><span jhiTranslate="gestioClientsApp.periodicitatConfigurable.periodicitat">Periodicitat</span></th>
                     <th scope="col" ><span jhiTranslate="gestioClientsApp.periodicitatConfigurable.frequencia">Frequencia</span></th>
+                    <th scope="col" ><span jhiTranslate="gestioClientsApp.periodicitatConfigurable.periodicitat">Periodicitat</span></th>
                     <th scope="col" ><span jhiTranslate="gestioClientsApp.periodicitatConfigurable.observacions">Observacions</span></th>
                     <th scope="col"></th>
                 </tr>
@@ -32,8 +32,8 @@
             <tbody>
                 <tr *ngFor="let periodicitatConfigurable of periodicitatConfigurables ;trackBy: trackId">
                     <td><a [routerLink]="['/periodicitat-configurable', periodicitatConfigurable.id, 'view']">{{ periodicitatConfigurable.id }}</a></td>
-                    <td jhiTranslate="{{ 'gestioClientsApp.Periodicitat.' + periodicitatConfigurable.periodicitat }}">{{ periodicitatConfigurable.periodicitat }}</td>
                     <td>{{ periodicitatConfigurable.frequencia }}</td>
+                    <td jhiTranslate="{{ 'gestioClientsApp.Periodicitat.' + periodicitatConfigurable.periodicitat }}">{{ periodicitatConfigurable.periodicitat }}</td>
                     <td>{{ periodicitatConfigurable.observacions }}</td>
                     <td class="text-right">
                         <div class="btn-group">

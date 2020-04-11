@@ -12,6 +12,12 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="gestioClientsApp.periodicitatConfigurable.frequencia" for="field_frequencia">Frequencia</label>
+                    <input type="number" class="form-control" name="frequencia" id="field_frequencia"
+                           formControlName="frequencia"/>
+                </div>
+
+                <div class="form-group">
                     <label class="form-control-label" jhiTranslate="gestioClientsApp.periodicitatConfigurable.periodicitat" for="field_periodicitat">Periodicitat</label>
                     <select class="form-control" name="periodicitat" formControlName="periodicitat" id="field_periodicitat">
                         <option value="DIA">{{ 'gestioClientsApp.Periodicitat.DIA' | translate }}</option>
@@ -20,12 +26,6 @@
                         <option value="MES">{{ 'gestioClientsApp.Periodicitat.MES' | translate }}</option>
                         <option value="ANY">{{ 'gestioClientsApp.Periodicitat.ANY' | translate }}</option>
                     </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="gestioClientsApp.periodicitatConfigurable.frequencia" for="field_frequencia">Frequencia</label>
-                    <input type="number" class="form-control" name="frequencia" id="field_frequencia"
-                           formControlName="frequencia"/>
                 </div>
 
                 <div class="form-group">

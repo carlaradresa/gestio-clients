@@ -20,7 +20,8 @@
       "latitud": "Latitud",
       "ubicacio": "Ubicacio",
       "client": "Client",
-      "venedor": "Venedor"
+      "venedor": "Venedor",
+      "feina": "Feina"
     }
   }
 }

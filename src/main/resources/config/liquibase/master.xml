@@ -26,6 +26,7 @@
     <include file="config/liquibase/changelog/20191029182934_added_entity_Venedor.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191128171258_added_entity_PeriodicitatSetmanal.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191128171259_added_entity_PeriodicitatConfigurable.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200411184300_added_entity_PeriodicitatSetmanal.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20191029182927_added_entity_constraints_RepeticioTascaSetmanal.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20191029182929_added_entity_constraints_Client.xml" relativeToChangelogFile="false"/>

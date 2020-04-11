@@ -2,13 +2,13 @@
     "name": "PeriodicitatConfigurable",
     "fields": [
         {
+            "fieldName": "frequencia",
+            "fieldType": "Integer"
+        },
+        {
             "fieldName": "periodicitat",
             "fieldType": "Periodicitat",
             "fieldValues": "DIA,SETMANA,QUINZENAL,MES,ANY"
-        },
-        {
-            "fieldName": "frequencia",
-            "fieldType": "Integer"
         },
         {
             "fieldName": "observacions",

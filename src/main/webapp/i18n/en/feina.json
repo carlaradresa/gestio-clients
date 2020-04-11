@@ -29,7 +29,8 @@
       "plantillaFeina": "Plantilla Feina",
       "categoria": "Categoria",
       "client": "Client",
-      "treballador": "Treballador"
+      "treballador": "Treballador",
+      "ubicacio": "Ubicacio"
     }
   }
 }

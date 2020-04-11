@@ -16,10 +16,10 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="periodicitat" type="varchar(255)">
+            <column name="frequencia" type="integer">
                 <constraints nullable="true" />
             </column>
-            <column name="frequencia" type="integer">
+            <column name="periodicitat" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="observacions" type="varchar(255)">
@@ -48,8 +48,8 @@
                   separator=";"
                   tableName="periodicitat_configurable">
             <column name="id" type="numeric"/>
-            <column name="periodicitat" type="string"/>
             <column name="frequencia" type="numeric"/>
+            <column name="periodicitat" type="string"/>
             <column name="observacions" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>

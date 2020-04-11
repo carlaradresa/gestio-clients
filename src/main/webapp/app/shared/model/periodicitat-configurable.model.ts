@@ -3,8 +3,8 @@ import { Periodicitat } from 'app/shared/model/enumerations/periodicitat.model';
 
 export interface IPeriodicitatConfigurable {
   id?: number;
-  periodicitat?: Periodicitat;
   frequencia?: number;
+  periodicitat?: Periodicitat;
   observacions?: string;
   plantilla?: IPlantillaFeina;
 }
@@ -12,8 +12,8 @@ export interface IPeriodicitatConfigurable {
 export class PeriodicitatConfigurable implements IPeriodicitatConfigurable {
   constructor(
     public id?: number,
-    public periodicitat?: Periodicitat,
     public frequencia?: number,
+    public periodicitat?: Periodicitat,
     public observacions?: string,
     public plantilla?: IPlantillaFeina
   ) {}

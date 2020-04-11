@@ -1,11 +1,11 @@
-id;periodicitat;frequencia;observacions
-1;ANY;28903;Regional SAS
-2;MES;30586;background discrete deliverables
-3;QUINZENAL;3983;Assurance payment
-4;ANY;49582;local
-5;MES;95049;Kids
-6;ANY;84335;bricks-and-clicks Congo
-7;QUINZENAL;62733;payment auxiliary
-8;ANY;32836;Stand-alone application
-9;DIA;50184;dedicated parsing
-10;MES;86796;Re-engineered National Marketing
+id;frequencia;periodicitat;observacions
+1;29852;ANY;payment French Southern Territories Investor
+2;30586;ANY;Bedfordshire
+3;53221;DIA;Assurance payment
+4;49159;QUINZENAL;local
+5;38980;ANY;Kids
+6;98729;SETMANA;Stream
+7;84335;MES;Electronics
+8;20905;MES;payment auxiliary
+9;5648;MES;Music Associate Borders
+10;29472;SETMANA;wireless SCSI

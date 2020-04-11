@@ -19,12 +19,6 @@
             <column name="nom" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="setmana_inicial" type="date">
-                <constraints nullable="true" />
-            </column>
-            <column name="setmana_final" type="date">
-                <constraints nullable="true" />
-            </column>
             <column name="hora_inici" type="datetime">
                 <constraints nullable="true" />
             </column>
@@ -34,23 +28,23 @@
             <column name="temps_previst" type="datetime">
                 <constraints nullable="true" />
             </column>
-            <column name="interval_control" type="integer">
-                <constraints nullable="true" />
-            </column>
-            <column name="dia_setmana" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
             <column name="facturacio_automatica" type="boolean">
                 <constraints nullable="true" />
             </column>
             <column name="observacions" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="setmana_inicial" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="setmana_final" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="numero_control" type="integer">
+                <constraints nullable="true" />
+            </column>
             <column name="periodicitat_configurable_id" type="bigint">
                 <constraints unique="true" nullable="true" uniqueConstraintName="ux_plantilla_feina_periodicitat_configurable_id" />
-            </column>
-            <column name="categoria_id" type="bigint">
-                <constraints nullable="true" />
             </column>
             <column name="client_id" type="bigint">
                 <constraints nullable="true" />
@@ -64,6 +58,17 @@
 
     <changeSet id="20191029182925-1-relations" author="jhipster">
 
+        <createTable tableName="plantilla_feina_periodicitat_setmanal">
+            <column name="periodicitat_setmanal_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="plantilla_feina_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="plantilla_feina_id, periodicitat_setmanal_id" tableName="plantilla_feina_periodicitat_setmanal"/>
+        
         <createTable tableName="plantilla_feina_treballador">
             <column name="treballador_id" type="bigint">
                 <constraints nullable="false"/>
@@ -93,15 +98,14 @@
                   tableName="plantilla_feina">
             <column name="id" type="numeric"/>
             <column name="nom" type="string"/>
-            <column name="setmana_inicial" type="date"/>
-            <column name="setmana_final" type="date"/>
             <column name="hora_inici" type="datetime"/>
             <column name="hora_final" type="datetime"/>
             <column name="temps_previst" type="datetime"/>
-            <column name="interval_control" type="numeric"/>
-            <column name="dia_setmana" type="string"/>
             <column name="facturacio_automatica" type="boolean"/>
             <column name="observacions" type="string"/>
+            <column name="setmana_inicial" type="date"/>
+            <column name="setmana_final" type="date"/>
+            <column name="numero_control" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>
