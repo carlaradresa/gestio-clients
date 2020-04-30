@@ -5,6 +5,7 @@ import com.serviemporda.gestioclients.domain.PlantillaFeina;
 import com.serviemporda.gestioclients.repository.FeinaRepository;
 import com.serviemporda.gestioclients.repository.PlantillaFeinaRepository;
 import com.serviemporda.gestioclients.service.FeinaService;
+import com.serviemporda.gestioclients.service.PlantillaFeinaService;
 import com.serviemporda.gestioclients.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -71,6 +72,9 @@ public class PlantillaFeinaResourceIT {
     private FeinaService feinaService;
 
     @Autowired
+    private PlantillaFeinaService plantillaFeinaService;
+
+    @Autowired
     private FeinaRepository feinaRepository;
 
     @Mock
@@ -98,7 +102,7 @@ public class PlantillaFeinaResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final PlantillaFeinaResource plantillaFeinaResource = new PlantillaFeinaResource(feinaService, feinaRepository, plantillaFeinaRepository);
+        final PlantillaFeinaResource plantillaFeinaResource = new PlantillaFeinaResource(feinaService, plantillaFeinaService, feinaRepository, plantillaFeinaRepository);
         this.restPlantillaFeinaMockMvc = MockMvcBuilders.standaloneSetup(plantillaFeinaResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -217,7 +221,7 @@ public class PlantillaFeinaResourceIT {
 
     @SuppressWarnings({"unchecked"})
     public void getAllPlantillaFeinasWithEagerRelationshipsIsEnabled() throws Exception {
-        PlantillaFeinaResource plantillaFeinaResource = new PlantillaFeinaResource(feinaService, feinaRepository, plantillaFeinaRepositoryMock);
+        PlantillaFeinaResource plantillaFeinaResource = new PlantillaFeinaResource(feinaService, plantillaFeinaService, feinaRepository, plantillaFeinaRepositoryMock);
         when(plantillaFeinaRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
 
         MockMvc restPlantillaFeinaMockMvc = MockMvcBuilders.standaloneSetup(plantillaFeinaResource)
@@ -234,7 +238,7 @@ public class PlantillaFeinaResourceIT {
 
     @SuppressWarnings({"unchecked"})
     public void getAllPlantillaFeinasWithEagerRelationshipsIsNotEnabled() throws Exception {
-        PlantillaFeinaResource plantillaFeinaResource = new PlantillaFeinaResource(feinaService, feinaRepository, plantillaFeinaRepositoryMock);
+        PlantillaFeinaResource plantillaFeinaResource = new PlantillaFeinaResource(feinaService, plantillaFeinaService, feinaRepository, plantillaFeinaRepositoryMock);
             when(plantillaFeinaRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
             MockMvc restPlantillaFeinaMockMvc = MockMvcBuilders.standaloneSetup(plantillaFeinaResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)

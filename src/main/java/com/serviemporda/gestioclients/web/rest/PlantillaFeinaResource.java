@@ -4,6 +4,7 @@ import com.serviemporda.gestioclients.domain.*;
 import com.serviemporda.gestioclients.repository.FeinaRepository;
 import com.serviemporda.gestioclients.repository.PlantillaFeinaRepository;
 import com.serviemporda.gestioclients.service.FeinaService;
+import com.serviemporda.gestioclients.service.PlantillaFeinaService;
 import com.serviemporda.gestioclients.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -36,6 +36,7 @@ public class PlantillaFeinaResource {
     private static final String ENTITY_NAME = "plantillaFeina";
 
     private final FeinaService feinaService;
+    private final PlantillaFeinaService plantillaFeinaService;
 
     private final FeinaRepository feinaRepository;
 
@@ -43,8 +44,9 @@ public class PlantillaFeinaResource {
     private String applicationName;
     private final PlantillaFeinaRepository plantillaFeinaRepository;
 
-    public PlantillaFeinaResource(FeinaService feinaService, FeinaRepository feinaRepository, PlantillaFeinaRepository plantillaFeinaRepository) {
+    public PlantillaFeinaResource(FeinaService feinaService, PlantillaFeinaService plantillaFeinaService, FeinaRepository feinaRepository, PlantillaFeinaRepository plantillaFeinaRepository) {
         this.feinaService = feinaService;
+        this.plantillaFeinaService = plantillaFeinaService;
         this.feinaRepository = feinaRepository;
         this.plantillaFeinaRepository = plantillaFeinaRepository;
     }
@@ -63,7 +65,7 @@ public class PlantillaFeinaResource {
             throw new BadRequestAlertException("A new plantillaFeina cannot already have an ID", ENTITY_NAME, "idexists");
         }
         PlantillaFeina result = plantillaFeinaRepository.save(plantillaFeina);
-        ArrayList<Feina> feines = feinaService.createFeina(result);
+        feinaService.createFeina(result);
 
              return ResponseEntity.created(new URI("/api/plantilla-feinas/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -124,6 +126,10 @@ public class PlantillaFeinaResource {
     @DeleteMapping("/plantilla-feinas/{id}")
     public ResponseEntity<Void> deletePlantillaFeina(@PathVariable Long id) {
         log.debug("REST request to delete PlantillaFeina : {}", id);
+
+        //plantillaFeinaService.deleteFeinesFromPf(id);
+        feinaService.deleteFeinesFromPf(id);
+
         plantillaFeinaRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }

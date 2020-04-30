@@ -30,7 +30,7 @@
     ],
     "clientFramework": "angularX",
     "jhiPrefix": "jhi",
-    "jhipsterVersion": "6.4.1",
+    "jhipsterVersion": "6.3.1",
     "jwtSecretKey": "ZGUxYzQ3YWI0Yzk4YTc5NjgwYTI0Y2MxNDEyZDNhZjNjN2Y0MzczMmNmNDJlOTdhMzRhZTE2NWY0MWI3ODZhNmI3ODk1ZDUzY2YxZmNlMjlhNDY2M2I5MTg5NzRmNmI5NTNiODQ1ZTJjMDQ2MTBjZWFhODljNDY0MjMzMWQzYTk=",
     "embeddableLaunchScript": false,
     "clientTheme": "none",

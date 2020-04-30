@@ -1,12 +1,12 @@
 package com.serviemporda.gestioclients.service;
 
-import com.serviemporda.gestioclients.config.Constants;
 import com.serviemporda.gestioclients.domain.Feina;
 import com.serviemporda.gestioclients.domain.PeriodicitatSetmanal;
 import com.serviemporda.gestioclients.domain.PlantillaFeina;
 import com.serviemporda.gestioclients.domain.enumeration.Estat;
 import com.serviemporda.gestioclients.repository.AuthorityRepository;
 import com.serviemporda.gestioclients.repository.FeinaRepository;
+import com.serviemporda.gestioclients.repository.PlantillaFeinaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -16,10 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.time.temporal.WeekFields;
+import java.util.*;
 
 /**
  * Service class for managing users.
@@ -32,6 +30,8 @@ public class FeinaService {
 
     private final FeinaRepository feinaRepository;
 
+    private final PlantillaFeinaRepository plantillaFeinaRepository;
+
     private final CacheManager cacheManager;
 
     private final AuthorityRepository authorityRepository;
@@ -40,10 +40,24 @@ public class FeinaService {
 
     Duration duration;
 
-    public FeinaService(FeinaRepository feinaRepository, CacheManager cacheManager, AuthorityRepository authorityRepository) {
+    public FeinaService(FeinaRepository feinaRepository, PlantillaFeinaRepository plantillaFeinaRepository, CacheManager cacheManager, AuthorityRepository authorityRepository) {
         this.feinaRepository = feinaRepository;
+        this.plantillaFeinaRepository = plantillaFeinaRepository;
         this.cacheManager = cacheManager;
         this.authorityRepository = authorityRepository;
+    }
+
+    public void deleteFeinesFromPf(Long id_plantillaFeina){
+
+        List<Feina> feines;
+
+        feines = feinaRepository.findAllWithEagerRelationships();
+
+        for (int i = 0; i < feines.size(); i ++){
+            if ((feines.get(i).getPlantillaFeina().getId().equals(id_plantillaFeina)) && !(feines.get(i).getEstat().equals("FINALITZAT"))){
+                feinaRepository.delete(feines.get(i));
+            }
+        }
     }
 
     public ArrayList<Feina> createFeina(PlantillaFeina result) {
@@ -61,24 +75,29 @@ public class FeinaService {
         LocalTime hora_final = result.getHoraFinal();
 
         //Temps previst per la feina
+
         duration = Duration.between(hora_inici, hora_final);
 
         //Comprovem si només es 1 feina o més
         if (start.compareTo(end) == 0){
-
             saveFeina(result.getSetmanaInicial(),result,duration);
-
         }else{
 
             ArrayList<String> diesSetmana = new ArrayList<>();
+            boolean isQualsevol = false;
 
             Set<PeriodicitatSetmanal> periodSet = result.getPeriodicitatSetmanals();
             Iterator<PeriodicitatSetmanal> it = periodSet.iterator();
             while (it.hasNext()){
-                String diaAdd = convertCatalaInEnglish(it.next().getDiaSetmana().toString());
-                diesSetmana.add(diaAdd);
+                if (it.next().getDiaSetmana().toString().equalsIgnoreCase("QUALSEVOL")){
+                    isQualsevol = true;
+                }else{
+                    String diaAdd = convertCatalaInEnglish(it.next().getDiaSetmana().toString());
+                    diesSetmana.add(diaAdd);
+                }
             }
-            if (diesSetmana.size() == 1){
+
+            if ((diesSetmana.size() == 1) || isQualsevol) {
             //Només ha seleccionat 1 dia, per tant mirem periodconfiguracio
 
                 boolean trobat = false;
@@ -87,13 +106,22 @@ public class FeinaService {
                 while (!trobat){
                     dateToCompare = start;
 
+                    //Mirem si ha escollit qualsevol dia
+                    if (isQualsevol){
+/*
+                    //CREA FEINES AMB QUALSEVOL DIA
+                        creaFeinesDiaQualsevol(dateToCompare,result,duration);
+                        saveFeina(dateToCompare,result,duration);
+                        if (period.equalsIgnoreCase("SETMANA")){
+                            dateToCompare = dateToCompare.plusDays(freqPeriod);
+
+                        }
+*/
+                    }
                     if (dateToCompare.getDayOfWeek().toString().equals(diesSetmana.get(0))){
                         //mirem la periodicitat configurable i creem les feines
                         saveFeina(dateToCompare,result,duration);
-
-
                         if (period.equalsIgnoreCase("DIA")){
-                            dateToCompare = dateToCompare.plusDays(freqPeriod);
                             while ((dateToCompare.isBefore(end)) || (dateToCompare.compareTo(end) == 0)){
                                 saveFeina(dateToCompare,result,duration);
                                 dateToCompare = dateToCompare.plusDays(freqPeriod);
@@ -139,6 +167,11 @@ public class FeinaService {
 
                 LocalDate dateToCompare = start;
 
+                //Mirem si ha escollit SETMANA si ha escollit 1 o més per sumar-lis.
+                WeekFields weekFields = WeekFields.of(Locale.getDefault());
+                int weekNumber = dateToCompare.get(weekFields.weekOfWeekBasedYear());
+                int weekNumber2 = 0;
+
                 while ((dateToCompare.isBefore(end)) || (dateToCompare.compareTo(end) == 0)){
                     for (String dayOfWeek : diesSetmana) {
                         if (dateToCompare.getDayOfWeek().toString().equals(dayOfWeek)){
@@ -146,10 +179,19 @@ public class FeinaService {
                         }
                     }
                     dateToCompare = dateToCompare.plusDays(1);
+                    weekFields = WeekFields.of(Locale.getDefault());
+                    weekNumber2 = dateToCompare.get(weekFields.weekOfWeekBasedYear());
+
+                    if (weekNumber<weekNumber2 && period.equalsIgnoreCase("SETMANA")){
+                        dateToCompare = dateToCompare.plusWeeks(freqPeriod-1);
+                        weekFields = WeekFields.of(Locale.getDefault());
+                        weekNumber = dateToCompare.get(weekFields.weekOfWeekBasedYear());
+                        weekNumber2 = weekNumber;
+                    }
+
                 }
             }
         }
-
        // this.clearUserCaches(user);
         log.debug("Created Information for Feina: {}", feinaNova);
         return feinesNoves;
@@ -194,8 +236,7 @@ public class FeinaService {
         feinaNova.setNom(result.getObservacions());
         feinaNova.setDescripcio("");
         feinaNova.setSetmana(start);
-        //feinaNova.setTempsPrevist((result.setTempsPrevist((int)duration.toMinutes())));
-        feinaNova.setTempsPrevist((int)duration.toMinutes());
+        feinaNova.setTempsPrevist((int)duration.toHours());
         feinaNova.setIntervalControl(result.getNumeroControl());
         feinaNova.setFacturacioAutomatica(result.isFacturacioAutomatica());
         feinaNova.setPlantillaFeina(result);
